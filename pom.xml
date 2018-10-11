@@ -10,10 +10,10 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <modules>
-        <module>macula-spring-boot-samples</module>
-        <module>macula-spring-boot-starters</module>
-        <module>macula-spring-boot-tests</module>
-        <module>macula-spring-boot-project</module>
+        <module>macula-boot-samples</module>
+        <module>macula-boot-starters</module>
+        <module>macula-boot-tests</module>
+        <module>macula-boot-project</module>
     </modules>
 
 

@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.macula.boot</groupId>
-        <artifactId>macula-boot</artifactId>
+        <artifactId>macula-boot-starters</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>macula-spring-boot-tests</artifactId>
+    <artifactId>macula-boot-starter-security</artifactId>
 
 
 </project>
