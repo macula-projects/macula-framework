@@ -1,3 +1,9 @@
-#macula-spring-boot-starter
+#macula-boot-starter
 
-基于spring-boot，综合自动配置、aop、jpa、hibernate等，开发基于数据库的service的starter
+macula boot基础starter，提供以下功能配置
+
+aop
+jpa
+cache
+exception
+i18n

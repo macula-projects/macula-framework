@@ -7,7 +7,11 @@
     <groupId>org.macula.boot</groupId>
     <artifactId>macula-boot</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${revision}</version>
+
+    <properties>
+        <revision>1.0.0-SNAPSHOT</revision>
+    </properties>
 
     <modules>
         <module>macula-boot-samples</module>

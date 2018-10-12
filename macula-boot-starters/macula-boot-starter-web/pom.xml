@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.macula.boot</groupId>
         <artifactId>macula-boot-starters</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>macula-boot-starter-web</artifactId>
