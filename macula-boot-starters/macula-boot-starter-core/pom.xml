@@ -5,19 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.macula.boot</groupId>
-        <artifactId>macula-boot-parent</artifactId>
+        <artifactId>macula-boot-starters</artifactId>
         <version>${revision}</version>
-        <relativePath>../macula-boot-parent</relativePath>
     </parent>
 
-    <artifactId>macula-boot-samples</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>macula-boot-starter-core</artifactId>
 
-    <modules>
-        <module>macula-boot-sample-core</module>
-        <module>macula-boot-sample-dubbo</module>
-        <module>macula-boot-sample-security</module>
-        <module>macula-boot-sample-web</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

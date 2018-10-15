@@ -10,14 +10,7 @@
         <relativePath>../macula-boot-parent</relativePath>
     </parent>
 
-    <artifactId>macula-boot-samples</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>macula-boot-actuator</artifactId>
 
-    <modules>
-        <module>macula-boot-sample-core</module>
-        <module>macula-boot-sample-dubbo</module>
-        <module>macula-boot-sample-security</module>
-        <module>macula-boot-sample-web</module>
-    </modules>
 
 </project>

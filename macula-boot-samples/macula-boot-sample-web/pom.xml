@@ -11,5 +11,12 @@
 
     <artifactId>macula-boot-sample-web</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.macula.boot</groupId>
+            <artifactId>macula-boot-starter-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

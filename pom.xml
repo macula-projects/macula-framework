@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.macula.boot</groupId>
-    <artifactId>macula-boot</artifactId>
+    <artifactId>macula-boot-build</artifactId>
     <packaging>pom</packaging>
     <version>${revision}</version>
 
@@ -14,10 +14,11 @@
     </properties>
 
     <modules>
+        <module>macula-boot-actuator</module>
+        <module>macula-boot-autoconfigure</module>
+        <module>macula-boot-parent</module>
         <module>macula-boot-samples</module>
         <module>macula-boot-starters</module>
-        <module>macula-boot-tests</module>
-        <module>macula-boot-project</module>
     </modules>
 
 
