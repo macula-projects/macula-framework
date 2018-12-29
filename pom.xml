@@ -10,15 +10,16 @@
     <version>${revision}</version>
 
     <properties>
-        <revision>1.0.0-SNAPSHOT</revision>
+        <revision>4.0.0-SNAPSHOT</revision>
     </properties>
 
     <modules>
-        <module>macula-boot-actuator</module>
-        <module>macula-boot-autoconfigure</module>
         <module>macula-boot-parent</module>
+        <module>macula-boot-framework</module>
+        <module>macula-boot-plugins</module>
+        <module>macula-boot-docs</module>
         <module>macula-boot-samples</module>
-        <module>macula-boot-starters</module>
+        <module>macula-boot-tests</module>
     </modules>
 
 
