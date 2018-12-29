@@ -15,6 +15,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>macula-boot-api</module>
+        <module>macula-boot-jpa</module>
+        <module>macula-boot-web</module>
+        <module>macula-boot-dubbo</module>
+        <module>macula-boot-security</module>
+        <module>macula-boot-utils</module>
     </modules>
 
 </project>
