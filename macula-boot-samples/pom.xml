@@ -5,19 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.macula.boot</groupId>
-        <artifactId>macula-boot-parent</artifactId>
+        <artifactId>macula-boot-build</artifactId>
         <version>${revision}</version>
-        <relativePath>../macula-boot-parent</relativePath>
+        <relativePath>../</relativePath>
     </parent>
 
     <artifactId>macula-boot-samples</artifactId>
     <packaging>pom</packaging>
-
-    <modules>
-        <module>macula-boot-sample-core</module>
-        <module>macula-boot-sample-dubbo</module>
-        <module>macula-boot-sample-security</module>
-        <module>macula-boot-sample-web</module>
-    </modules>
 
 </project>
