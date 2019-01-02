@@ -3,21 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>macula-boot-build</artifactId>
+        <artifactId>macula-boot-framework</artifactId>
         <groupId>org.macula.boot</groupId>
-<<<<<<< HEAD
-        <relativePath>../</relativePath>
-        <version>${revision}</version>
-    </parent>
-=======
-        <version>${revision}</version>
+        <version>4.0.0-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
-
->>>>>>> origin/master
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>macula-boot-parent</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>macula-boot-web</artifactId>
+
 
 </project>
