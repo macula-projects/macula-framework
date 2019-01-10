@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.macula</groupId>
+        <artifactId>macula-parent</artifactId>
+        <relativePath>../macula-parent</relativePath>
+        <version>${revision}</version>
+    </parent>
+
+    <groupId>org.macula.boot</groupId>
+    <artifactId>macula-boot</artifactId>
+    <packaging>pom</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <modules>
+        <module>macula-boot-api</module>
+        <module>macula-boot-core</module>
+        <module>macula-boot-web</module>
+        <module>macula-boot-dubbo</module>
+        <module>macula-boot-utils</module>
+    </modules>
+
+</project>

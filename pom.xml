@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.macula.boot</groupId>
-    <artifactId>macula-boot-build</artifactId>
+    <groupId>org.macula</groupId>
+    <artifactId>macula-build</artifactId>
     <packaging>pom</packaging>
     <version>${revision}</version>
 
@@ -14,13 +14,14 @@
     </properties>
 
     <modules>
-        <module>macula-boot-parent</module>
-        <module>macula-boot-framework</module>
-        <module>macula-boot-plugins</module>
-        <module>macula-boot-docs</module>
-        <module>macula-boot-samples</module>
-        <module>macula-boot-tests</module>
-        <module>macula-boot-parent</module>
+        <module>macula-parent</module>
+        <module>macula-boot</module>
+        <module>macula-plugins</module>
+        <module>macula-docs</module>
+        <module>macula-samples</module>
+        <module>macula-tests</module>
+        <module>macula-admin</module>
+        <module>macula-cloud</module>
     </modules>
 
 
