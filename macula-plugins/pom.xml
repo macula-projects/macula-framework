@@ -20,6 +20,7 @@
         <module>macula-plugins-mda</module>
         <module>macula-plugins-rules</module>
         <module>macula-plugins-report</module>
+        <module>macula-plugins-lock</module>
     </modules>
 
 </project>

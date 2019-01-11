@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>org.macula</groupId>
-        <artifactId>macula-build</artifactId>
+        <artifactId>macula-framework-build</artifactId>
         <version>${revision}</version>
         <relativePath>../</relativePath>
     </parent>

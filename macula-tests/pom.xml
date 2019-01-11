@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.macula</groupId>
-        <artifactId>macula-build</artifactId>
+        <artifactId>macula-framework-build</artifactId>
         <relativePath>../</relativePath>
         <version>${revision}</version>
     </parent>

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.macula</groupId>
-    <artifactId>macula-build</artifactId>
+    <artifactId>macula-framework-build</artifactId>
     <packaging>pom</packaging>
     <version>${revision}</version>
 
@@ -14,14 +14,14 @@
     </properties>
 
     <modules>
-        <module>macula-parent</module>
+        <module>macula-admin</module>
         <module>macula-boot</module>
-        <module>macula-plugins</module>
+        <module>macula-cloud</module>
         <module>macula-docs</module>
+        <module>macula-parent</module>
+        <module>macula-plugins</module>
         <module>macula-samples</module>
         <module>macula-tests</module>
-        <module>macula-admin</module>
-        <module>macula-cloud</module>
     </modules>
 
 
