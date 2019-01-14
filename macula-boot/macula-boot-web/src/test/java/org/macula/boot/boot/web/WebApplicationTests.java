@@ -1,4 +1,4 @@
-package org.macula.boot.web;
+package org.macula.boot.boot.web;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

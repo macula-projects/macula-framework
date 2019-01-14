@@ -1,4 +1,4 @@
-package org.macula.boot.web;
+package org.macula.boot.boot.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
