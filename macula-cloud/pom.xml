@@ -22,6 +22,7 @@
         <module>macula-cloud-sentinel</module>
         <module>macula-cloud-stream</module>
         <module>macula-cloud-tx</module>
+        <module>macula-cloud-msg</module>
     </modules>
 
 </project>

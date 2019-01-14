@@ -21,6 +21,7 @@
         <module>macula-plugins-rules</module>
         <module>macula-plugins-report</module>
         <module>macula-plugins-lock</module>
+        <module>macula-plugins-flow</module>
     </modules>
 
 </project>
