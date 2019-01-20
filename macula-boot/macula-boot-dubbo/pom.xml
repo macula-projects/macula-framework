@@ -12,4 +12,12 @@
 
     <artifactId>macula-boot-dubbo</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.macula.boot</groupId>
+            <artifactId>macula-boot-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

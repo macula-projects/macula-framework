@@ -11,6 +11,8 @@
 
     <properties>
         <revision>4.0.0-SNAPSHOT</revision>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdkLevel>1.8</jdkLevel>
     </properties>
 
     <modules>
