@@ -1,8 +1,9 @@
-package org.macula.boot.core.cache.serializer;
+package org.macula.boot.core.redis;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import org.macula.boot.core.cache.serializer.SerializationUtils;
 import org.macula.boot.core.cache.support.NullValue;
 import org.macula.boot.core.cache.support.SerializationException;
 import org.macula.boot.core.utils.JSONUtils;

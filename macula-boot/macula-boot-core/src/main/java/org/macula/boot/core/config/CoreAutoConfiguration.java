@@ -6,6 +6,8 @@ import org.macula.boot.core.cache.manager.LayeringCacheManager;
 import org.macula.boot.core.config.redis.CacheRedisProperties;
 import org.macula.boot.core.config.redis.DataRedisProperties;
 import org.macula.boot.core.config.redis.JedisConnectionConfiguration;
+import org.macula.boot.core.redis.KryoRedisSerializer;
+import org.macula.boot.core.redis.StringRedisSerializer;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -49,8 +51,16 @@ public class CoreAutoConfiguration {
     @Bean(name = "cacheRedisTemplate")
     @ConditionalOnMissingBean(name = "cacheRedisTemplate")
     public RedisTemplate<Object, Object> cacheRedisTemplate(@Qualifier("cacheRedisConnectionFactory") RedisConnectionFactory cacheRedisConnectionFactory) {
+        KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(Object.class);
+
         RedisTemplate<Object, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(cacheRedisConnectionFactory);
+        // 设置值（value）的序列化采用FastJsonRedisSerializer。
+        template.setValueSerializer(kryoRedisSerializer);
+        template.setHashValueSerializer(kryoRedisSerializer);
+        // 设置键（key）的序列化采用StringRedisSerializer。
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setHashKeySerializer(new StringRedisSerializer());
         return template;
     }
 
@@ -79,8 +89,17 @@ public class CoreAutoConfiguration {
     @Bean(name = "redisTemplate")
     @ConditionalOnMissingBean(name = "redisTemplate")
     public RedisTemplate<Object, Object> dataRedisTemplate(@Qualifier("dataRedisConnectionFactory") RedisConnectionFactory dataRedisConnectionFactory) {
+        KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(Object.class);
+
         RedisTemplate<Object, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(dataRedisConnectionFactory);
+
+        // 设置值（value）的序列化采用FastJsonRedisSerializer。
+        template.setValueSerializer(kryoRedisSerializer);
+        template.setHashValueSerializer(kryoRedisSerializer);
+        // 设置键（key）的序列化采用StringRedisSerializer。
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setHashKeySerializer(new StringRedisSerializer());
         return template;
     }
 

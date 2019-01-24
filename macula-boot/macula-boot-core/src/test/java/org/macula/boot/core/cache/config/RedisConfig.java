@@ -2,8 +2,8 @@ package org.macula.boot.core.cache.config;
 
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
-import org.macula.boot.core.cache.serializer.KryoRedisSerializer;
-import org.macula.boot.core.cache.serializer.StringRedisSerializer;
+import org.macula.boot.core.redis.KryoRedisSerializer;
+import org.macula.boot.core.redis.StringRedisSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package org.macula.boot.core.cache.serializer;
+package org.macula.boot.core.redis;
 
 import org.macula.boot.core.utils.JSONUtils;
 import org.springframework.data.redis.serializer.RedisSerializer;
