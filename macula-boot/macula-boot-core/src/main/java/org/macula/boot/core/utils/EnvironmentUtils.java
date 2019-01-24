@@ -42,6 +42,11 @@ public final class EnvironmentUtils {
 		return Instant.ofEpochMilli(System.currentTimeMillis() + TIME_DIFF);
 	}
 
+	/**
+	 * TODO 有什么用待定
+	 * @param mids
+	 * @return
+	 */
 	public static Collection<Long> toIdCollection(String mids) {
 		Collection<Long> idCollection = new ArrayList<Long>();
 		if (mids != null && mids.length() > 0) {

@@ -15,7 +15,6 @@
  */
 package org.macula.boot.core.exception;
 
-import org.macula.boot.ApiConstants;
 import org.macula.boot.exception.MaculaException;
 
 /**
@@ -41,11 +40,6 @@ public class HibernateDataAccessException extends MaculaException {
 
 	public HibernateDataAccessException(String message, Object[] args, Throwable cause) {
 		super(message, args, cause);
-	}
-
-	@Override
-	public String getParentCode() {
-		return ApiConstants.MACULA_DATA_HIBERNATE_ERROR_CODE;
 	}
 
 }

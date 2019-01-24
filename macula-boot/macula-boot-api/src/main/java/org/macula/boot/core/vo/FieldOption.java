@@ -15,6 +15,8 @@
  */
 package org.macula.boot.core.vo;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +28,8 @@ import java.util.Map;
  * @author Wilson Luo
  * @version $Id: FieldOption.java 5926 2015-11-03 07:37:42Z arron.lin $
  */
+
+@Data
 public class FieldOption {
 
 	public static final String CODE = "code";
@@ -37,9 +41,6 @@ public class FieldOption {
 	private BigDecimal id; //Arron20151028
 	private final Map<String, Object> extra = new HashMap<String, Object>();
 
-	public FieldOption() {
-	}
-
 	public FieldOption(Object code, String label) {
 		this.code = code;
 		this.label = label;
@@ -50,52 +51,4 @@ public class FieldOption {
 		this.label = label;
 		this.id = id;
 	}
-
-	/**
-	 * @return the code
-	 */
-	public Object getCode() {
-		return code;
-	}
-
-	/**
-	 * @param code
-	 *            the code to set
-	 */
-	public void setCode(Object code) {
-		this.code = code;
-	}
-
-	/**
-	 * @return the label
-	 */
-	public String getLabel() {
-		return label;
-	}
-
-	/**
-	 * @param label
-	 *            the label to set
-	 */
-	public void setLabel(String label) {
-		this.label = label;
-	}
-	
-	
-
-	public BigDecimal getId() {
-		return id;
-	}
-
-	public void setId(BigDecimal id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the extra
-	 */
-	public Map<String, Object> getExtra() {
-		return extra;
-	}
-
 }

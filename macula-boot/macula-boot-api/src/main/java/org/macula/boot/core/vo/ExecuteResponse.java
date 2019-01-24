@@ -15,6 +15,8 @@
  */
 package org.macula.boot.core.vo;
 
+import lombok.Data;
+
 /**
  * <p> <b>SimpleResult</b> 是简单数据类型返回结果. </p>
  * 
@@ -22,6 +24,8 @@ package org.macula.boot.core.vo;
  * @author Wilson Luo
  * @version $Id: ExecuteResponse.java 5735 2015-08-17 08:31:52Z wzp $
  */
+
+@Data
 public class ExecuteResponse<T> extends Response {
 
 	private static final long serialVersionUID = 1L;
@@ -29,24 +33,7 @@ public class ExecuteResponse<T> extends Response {
 	/** 结果信息 */
 	private T returnObject;
 	
-	public ExecuteResponse() {
-	}
-	
 	public ExecuteResponse(T result) {
 		this.returnObject = result;
-	}
-
-	/**
-	 * @param returnObject the returnObject to set
-	 */
-	public void setReturnObject(T returnObject) {
-		this.returnObject = returnObject;
-	}
-
-	/**
-	 * @return the result
-	 */
-	public T getReturnObject() {
-		return returnObject;
 	}
 }

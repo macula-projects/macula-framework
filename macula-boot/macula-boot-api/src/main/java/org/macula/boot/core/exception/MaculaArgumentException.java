@@ -15,7 +15,6 @@
  */
 package org.macula.boot.core.exception;
 
-import org.macula.boot.ApiConstants;
 import org.macula.boot.exception.MaculaException;
 
 /**
@@ -42,11 +41,6 @@ public class MaculaArgumentException extends MaculaException {
 	 */
 	public MaculaArgumentException(String code, Object... args) {
 		super(code, args);
-	}
-
-	@Override
-	public String getParentCode() {
-		return ApiConstants.MACULA_CORE_ARGS_CODE;
 	}
 
 }

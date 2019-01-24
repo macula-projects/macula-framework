@@ -52,9 +52,4 @@ public abstract class MaculaException extends I18nException {
         return sw.getBuffer().toString();
 	}
 
-	/**
-	 * 父错误码
-	 */
-	abstract public String getParentCode();
-
 }

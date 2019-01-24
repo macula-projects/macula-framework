@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.macula.boot.core;
+package org.macula.boot;
 
 /**
  * <p> <b>MaculaConstants</b> 是所有常量定义类 </p>
@@ -29,30 +29,20 @@ public class MaculaConstants {
 
 	/* 后台默认用户 */
 	public final static String BACKGROUND_USER = "*SYSADM";
-
-	/* Jdbc Template Name */
-	public final static String JDBC_TEMPLATE_NAME = "jdbcTemplate_macula";
-
-	/** macula admin模块的父错误码 */
-	public final static String MACULA_ADMIN_ERROR_CODE = "macula.admin";
-
-	/** macula core模块的父错误码 */
-	public final static String MACULA_CORE_ERROR_CODE = "macula.core";
-
-	/** macula base模块的父错误码 */
-	public final static String MACULA_BASE_ERROR_CODE = "macula.base";
 	
 	/** Email發送和接收錯誤碼 */
-	public final static String MACULA_CODE_MAIL = "mail";
+	public final static String EXCEPTION_CODE_MAIL = "mail";
 
 	/** 微信收发错误码 */
-	public final static String MACULA_CODE_WECHAT = "wechat";
+	public final static String EXCEPTION_CODE_WECHAT = "wechat";
 
 	/** 请求参数错误码 */
-	public final static String MACULA_BASE_PARAM_CODE = "param";
+	public final static String EXCEPTION_CODE_PARAM = "param";
 
 	/** HTTP异常 */
-	public final static String MACULA_BASE_HTTP_CODE = "http";
+	public final static String EXCEPTION_CODE_HTTP = "http";
+
+	public final static String EXCEPTION_CODE_DATABASE = "database";
 	
 	/** 事件广播方式 */
 	public final static String BROAD_CAST_TYPE_NONE = "none";
@@ -109,7 +99,7 @@ public class MaculaConstants {
 		RELAXED("RELAXED");
 		
 		private String value;
-		private ESCAPE_XSS_LEVEL(String value) {
+		ESCAPE_XSS_LEVEL(String value) {
 			this.value = value;
 		}
 		

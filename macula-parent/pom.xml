@@ -19,6 +19,7 @@
         <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
         <lombok.version>1.18.4</lombok.version>
         <fasterxml.version>2.9.6</fasterxml.version>
+        <jsoup.version>1.11.3</jsoup.version>
     </properties>
 
     <dependencyManagement>
@@ -30,23 +31,28 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- lombok -->
+
+            <!-- jsoup HTML parser library @ https://jsoup.org/ -->
             <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
             </dependency>
-            <!-- FastXML -->
+
+            <!-- commons -->
             <dependency>
-                <groupId>com.fasterxml.jackson.dataformat</groupId>
-                <artifactId>jackson-dataformat-xml</artifactId>
-                <version>${fasterxml.version}</version>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>1.6</version>
             </dependency>
+
+            <!-- kryo -->
             <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-joda</artifactId>
-                <version>${fasterxml.version}</version>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>4.0.2</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 

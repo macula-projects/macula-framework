@@ -1,6 +1,6 @@
 package org.macula.boot.core.domain.support;
 
-import org.macula.boot.core.MaculaConstants;
+import org.macula.boot.MaculaConstants;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,11 +15,7 @@ import java.util.Optional;
  */
 public class AuditorAwareStub implements AuditorAware<String> {
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.data.domain.AuditorAware#getCurrentAuditor()
-     */
+    @Override
     public Optional<String> getCurrentAuditor() {
         // 获取当前用户登录名
         return Optional.of(getCurrentUser());

@@ -34,9 +34,7 @@ import org.springframework.lang.Nullable;
  * @author Oliver Gierke
  */
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractPersistable<PK extends Serializable> implements Persistable<PK> {
-
 
     @Id
     @Column(name = "ID", length = 15)
@@ -53,6 +51,7 @@ public abstract class AbstractPersistable<PK extends Serializable> implements Pe
      * @see org.springframework.data.domain.Persistable#getId()
      */
     @Nullable
+    @Override
     public PK getId() {
         return id;
     }
@@ -72,6 +71,7 @@ public abstract class AbstractPersistable<PK extends Serializable> implements Pe
      * @see org.springframework.data.domain.Persistable#isNew()
      */
     @Transient // DATAJPA-622
+    @Override
     public boolean isNew() {
         return null == getId();
     }

@@ -20,9 +20,11 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 
 import org.springframework.data.domain.Auditable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  * Abstract base class for auditable entities. Stores the audition values in
@@ -32,10 +34,10 @@ import org.springframework.data.domain.Auditable;
  * @author Oliver Gierke
  */
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractAuditable<PK extends Serializable> extends AbstractPersistable<PK> implements
         Auditable<String, PK, LocalDateTime> {
 
-    private static final long serialVersionUID = 1L;
 
     @Column(name = "CREATED_BY", nullable = false, length = 50)
     private String createdBy;
@@ -49,34 +51,42 @@ public abstract class AbstractAuditable<PK extends Serializable> extends Abstrac
     @Column(name = "LAST_UPDATED_TIME", nullable = false)
     private LocalDateTime lastModifiedDate;
 
+    @Override
     public Optional<String> getCreatedBy() {
         return Optional.of(createdBy);
     }
 
+    @Override
     public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
+    @Override
     public Optional<LocalDateTime> getCreatedDate() {
         return Optional.of(createdDate);
     }
 
+    @Override
     public void setCreatedDate(final LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
+    @Override
     public Optional<String> getLastModifiedBy() {
         return Optional.of(lastModifiedBy);
     }
 
+    @Override
     public void setLastModifiedBy(final String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 
+    @Override
     public Optional<LocalDateTime> getLastModifiedDate() {
         return Optional.of(lastModifiedDate);
     }
 
+    @Override
     public void setLastModifiedDate(final LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }

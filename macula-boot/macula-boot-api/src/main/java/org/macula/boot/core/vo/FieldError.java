@@ -15,6 +15,8 @@
  */
 package org.macula.boot.core.vo;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -26,6 +28,8 @@ import java.io.Serializable;
  * @author Rain
  * @version $Id: FieldError.java 5734 2015-08-17 08:29:11Z wzp $
  */
+
+@Data
 public class FieldError implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -40,21 +44,4 @@ public class FieldError implements Serializable {
 		this.element = element;
 		this.message = message;
 	}
-
-	public String getElement() {
-		return element;
-	}
-
-	public void setElement(String element) {
-		this.element = element;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
 }

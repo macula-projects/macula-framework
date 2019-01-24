@@ -3,7 +3,6 @@
  */
 package org.macula.boot.core.exception;
 
-import org.macula.boot.ApiConstants;
 import org.macula.boot.exception.MaculaException;
 
 /**
@@ -22,10 +21,4 @@ public class ConvertException extends MaculaException {
 	public ConvertException(Throwable e) {
 		super("Convert Error", e);
 	}
-
-	@Override
-	public String getParentCode() {
-		return ApiConstants.MACULA_CORE_CONVERT_CODE;
-	}
-
 }

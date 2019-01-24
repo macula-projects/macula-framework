@@ -15,7 +15,6 @@
  */
 package org.macula.boot.core.exception;
 
-import org.macula.boot.ApiConstants;
 import org.macula.boot.exception.MaculaException;
 
 /**
@@ -42,10 +41,4 @@ public class JpaDataAccessException extends MaculaException {
 	public JpaDataAccessException(String message, Object[] args, Throwable cause) {
 		super(message, args, cause);
 	}
-
-	@Override
-	public String getParentCode() {
-		return ApiConstants.MACULA_DATA_JPA_ERROR_CODE;
-	}
-
 }
