@@ -1,9 +1,9 @@
-package org.macula.boot.core.cache.config;
+package org.macula.boot.core.cache.support.config;
 
 import org.macula.boot.core.cache.aspect.LayeringAspect;
 import org.macula.boot.core.cache.manager.CacheManager;
 import org.macula.boot.core.cache.manager.LayeringCacheManager;
-import org.macula.boot.core.cache.test.TestService;
+import org.macula.boot.core.cache.support.test.TestService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

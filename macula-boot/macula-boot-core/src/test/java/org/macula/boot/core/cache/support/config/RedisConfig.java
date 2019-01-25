@@ -1,4 +1,4 @@
-package org.macula.boot.core.cache.config;
+package org.macula.boot.core.cache.support.config;
 
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;

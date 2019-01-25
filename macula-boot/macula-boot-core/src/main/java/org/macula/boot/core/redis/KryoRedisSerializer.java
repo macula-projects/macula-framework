@@ -3,12 +3,9 @@ package org.macula.boot.core.redis;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import org.macula.boot.core.cache.serializer.SerializationUtils;
 import org.macula.boot.core.cache.support.NullValue;
 import org.macula.boot.core.cache.support.SerializationException;
 import org.macula.boot.core.utils.JSONUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.io.ByteArrayOutputStream;
@@ -18,9 +15,8 @@ import java.io.ByteArrayOutputStream;
  * @author yuhao.wang
  */
 public class KryoRedisSerializer<T> implements RedisSerializer<T> {
-    Logger logger = LoggerFactory.getLogger(KryoRedisSerializer.class);
+    public static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
     private static final ThreadLocal<Kryo> kryos = ThreadLocal.withInitial(Kryo::new);
-
     private Class<T> clazz;
 
     public KryoRedisSerializer(Class<T> clazz) {
@@ -31,7 +27,7 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
     @Override
     public byte[] serialize(T t) throws SerializationException {
         if (t == null) {
-            return SerializationUtils.EMPTY_ARRAY;
+            return EMPTY_BYTE_ARRAY;
         }
 
         Kryo kryo = kryos.get();
@@ -45,8 +41,7 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
             output.flush();
             return baos.toByteArray();
         } catch (Exception e) {
-            throw new SerializationException(String.format("KryoRedisSerializer 序列化异常: %s, 【JSON：%s】",
-                    e.getMessage(), JSONUtils.objectToJson(t)), e);
+            throw new SerializationException(String.format("KryoRedisSerializer 序列化异常: %s, 【JSON：%s】", e.getMessage(), JSONUtils.objectToJson(t)), e);
         } finally {
             kryos.remove();
         }
@@ -54,7 +49,7 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
 
     @Override
     public T deserialize(byte[] bytes) throws SerializationException {
-        if (SerializationUtils.isEmpty(bytes)) {
+        if (bytes == null || bytes.length == 0) {
             return null;
         }
 
@@ -71,8 +66,7 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
             }
             return (T) result;
         } catch (Exception e) {
-            throw new SerializationException(String.format("FastJsonRedisSerializer 反序列化异常: %s, 【JSON：%s】",
-                    e.getMessage(), JSONUtils.objectToJson(bytes)), e);
+            throw new SerializationException(String.format("FastJsonRedisSerializer 反序列化异常: %s, 【JSON：%s】", e.getMessage(), JSONUtils.objectToJson(bytes)), e);
         } finally {
             kryos.remove();
         }

@@ -1,4 +1,4 @@
-package org.macula.boot.core.cache.domain;
+package org.macula.boot.core.cache.support.domain;
 
 import java.math.BigDecimal;
 import java.util.*;

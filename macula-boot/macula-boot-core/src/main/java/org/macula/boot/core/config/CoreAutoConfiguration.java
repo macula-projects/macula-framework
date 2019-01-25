@@ -87,7 +87,7 @@ public class CoreAutoConfiguration {
     }
 
     @Bean(name = "redisTemplate")
-    @ConditionalOnMissingBean(name = "redisTemplate")
+    @ConditionalOnMissingBean(name = "dataRedisTemplate")
     public RedisTemplate<Object, Object> dataRedisTemplate(@Qualifier("dataRedisConnectionFactory") RedisConnectionFactory dataRedisConnectionFactory) {
         KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(Object.class);
 
@@ -103,8 +103,8 @@ public class CoreAutoConfiguration {
         return template;
     }
 
-    @Bean(name = "stringRedisTemplate")
-    @ConditionalOnMissingBean(name = "stringRedisTemplate")
+    @Bean(name = "stringDataRedisTemplate")
+    @ConditionalOnMissingBean(name = "stringDataRedisTemplate")
     public StringRedisTemplate dataStringRedisTemplate(@Qualifier("dataRedisConnectionFactory") RedisConnectionFactory dataRedisConnectionFactory) {
         StringRedisTemplate template = new StringRedisTemplate();
         template.setConnectionFactory(dataRedisConnectionFactory);
