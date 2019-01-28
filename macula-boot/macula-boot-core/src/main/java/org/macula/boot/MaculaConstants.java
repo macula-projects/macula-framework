@@ -29,67 +29,10 @@ public class MaculaConstants {
 
 	/* 后台默认用户 */
 	public final static String BACKGROUND_USER = "*SYSADM";
-	
-	/** Email發送和接收錯誤碼 */
-	public final static String EXCEPTION_CODE_MAIL = "mail";
-
-	/** 微信收发错误码 */
-	public final static String EXCEPTION_CODE_WECHAT = "wechat";
-
-	/** 请求参数错误码 */
-	public final static String EXCEPTION_CODE_PARAM = "param";
-
-	/** HTTP异常 */
-	public final static String EXCEPTION_CODE_HTTP = "http";
 
 	public final static String EXCEPTION_CODE_DATABASE = "database";
-	
-	/** 事件广播方式 */
-	public final static String BROAD_CAST_TYPE_NONE = "none";
-	
-	public final static String BROAD_CAST_TYPE_REDIS = "redis";
-	
-	public final static String BROAD_CAST_TYPE_INTEGRATION = "integration";
 
-	/** 存放旧密码次数 */
-	public static final int PASSWORD_HISTORY_NUM = 5;
-
-	/** 系统运行模式 */
-	public final static String RUN_MODE_DEV = "dev";
-
-	public final static String RUN_MODE_TEST = "test";
-
-	public final static String RUN_MODE_PRD = "prd";
-	
-	// 终端类型
-	public static final String TERMINAL_PC = "PC";// PC
-	public static final String TERMINAL_MOBILE = "MOBILE"; // 手机 
-	public static final String TERMINAL_KIOSK = "KIOSK"; // 自助终端
-
-	// 密码验证方式
-	public static final String AUTH_TYPE_PASSWORD = "password";// password
-	public static final String AUTH_TYPE_REMEMBERME = "rememberme"; // remember me
-	public static final String AUTH_TYPE_DYNAMIC_CODE = "dyna_code";// dynamic code
-	public static final String AUTH_TYPE_SERVICE_PASSWORD = "service_pass";// business password
-	public static final String AUTH_TYPE_UNKNOWN = "unknown";
-	
-	// Mower UI
-	public static final String UI_MOWER = "mower";
-
-	public static final String UI_DEFAULT = "default";
-	
-	public static final String DATABASE_ORACLE = "ORACLE";
-	
-	public static final String DATABASE_MYSQL = "MYSQL";
-	
-	public static final String VARIABLE_ADMIN = "admin";
-	public static final String VARIABLE_FRONT = "front";
-	public static final String VARIABLE_MOBILE = "mobile";
-	
-	public static final String PROFILE_LOCAL = "local";
-	public static final String PROFILE_DEV = "dev";
-	
-	public static final String MACULA_CURATOR_FRAMEWORK_BEAN_NAME = "maculaCuratorFramework";
+	public final static String JDBC_TEMPLATE_NAME = "jdbcTemplate";
 	
 	public enum ESCAPE_XSS_LEVEL{
 

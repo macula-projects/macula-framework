@@ -1,20 +1,14 @@
 package org.macula.boot.core.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.Data;
-import lombok.val;
-import net.bytebuddy.asm.Advice;
 import org.junit.Assert;
 import org.junit.Test;
+import org.macula.boot.core.utils.support.User;
 
 import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class JSONUtilsTest {
 

@@ -10,6 +10,9 @@ import java.io.Serializable;
  * @author yuhao.wang
  */
 public class LayeringCacheSetting implements Serializable {
+
+    private static final long serialVersionUID = 3462254862999802337L;
+
     private static final String SPLIT = "-";
     /**
      * 是否使用一级缓存

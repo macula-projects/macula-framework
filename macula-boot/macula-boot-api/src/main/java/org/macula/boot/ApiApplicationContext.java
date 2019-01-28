@@ -126,6 +126,10 @@ public class ApiApplicationContext implements ApplicationContextAware {
         return container;
     }
 
+    public static void setContainer(org.springframework.context.ApplicationContext applicationContext) {
+        container = applicationContext;
+    }
+
     @Override
     public void setApplicationContext(org.springframework.context.ApplicationContext applicationContext) throws BeansException {
         container = applicationContext; // NOSONAR

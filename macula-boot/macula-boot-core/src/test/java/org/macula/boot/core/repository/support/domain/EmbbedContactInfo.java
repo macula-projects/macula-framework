@@ -15,36 +15,31 @@
  */
 
 /**
- * NamedTemplateResolver.java 2017年11月17日
+ * EmbbedContactInfo.java 2014年9月1日
  */
-package org.macula.boot.core.repository.templatequery.template;
+package org.macula.boot.core.repository.support.domain;
 
-import org.springframework.core.io.Resource;
+import lombok.Data;
 
-import java.util.Iterator;
+import javax.persistence.Embeddable;
 
 /**
  * <p>
- * <b>NamedTemplateResolver</b> TemplateQuery模板解析接口
+ * <b>EmbbedContactInfo</b> is
  * </p>
  *
- * @since 2017年11月17日
+ * @since 2014年9月1日
  * @author Rain
- * @version $Id$
+ * @version $Id: EmbbedContactInfo.java 5354 2014-09-01 03:21:07Z wzp $
  */
-public interface NamedTemplateResolver {
-	
-	/**
-	 * 模板后缀
-	 * @return String
-	 */
-	String getSuffix();
 
-	/**
-	 * 解析模板中的SQL并回调
-	 * @param resource 模板资源
-	 * @param callback 回调函数，对应一个SQL
-	 * @throws Exception
-	 */
-	Iterator<Void> doInTemplateResource(Resource resource, final NamedTemplateCallback callback) throws Exception;
+@Data
+@Embeddable
+public class EmbbedContactInfo {
+	
+	private String homeTel;
+	
+	private String mobile;
+	
+	private String officeTel;
 }

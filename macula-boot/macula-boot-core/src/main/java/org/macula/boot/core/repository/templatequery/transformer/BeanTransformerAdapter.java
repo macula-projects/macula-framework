@@ -17,6 +17,8 @@
 package org.macula.boot.core.repository.templatequery.transformer;
 
 import java.beans.PropertyDescriptor;
+import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -29,6 +31,8 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.transform.ResultTransformer;
+import org.hibernate.type.BlobType;
+import org.hibernate.type.descriptor.java.DataHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.NotWritablePropertyException;
@@ -52,52 +56,50 @@ import org.springframework.util.StringUtils;
  */
 public class BeanTransformerAdapter<T> implements ResultTransformer {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -7081423491986799204L;
 
-	private static DefaultConversionService conversionService;
+    private static DefaultConversionService conversionService;
 
     static {
         BeanTransformerAdapter.conversionService = new DefaultConversionService();
         Collection<Converter<?, ?>> convertersToRegister = JodaTimeConverters.getConvertersToRegister();
+
         for (Converter<?, ?> converter : convertersToRegister) {
             BeanTransformerAdapter.conversionService.addConverter(converter);
         }
+        BeanTransformerAdapter.conversionService.addConverter(ClobToStringConverter.INSTANCE);
+        BeanTransformerAdapter.conversionService.addConverter(BlobToStringConverter.INSTANCE);
     }
 
     /**
      * Logger available to subclasses
      */
     protected final Log logger = LogFactory.getLog(getClass());
+
     /**
      * The class we are mapping to
      */
     private Class<T> mappedClass;
+
     /**
      * Whether we're strictly validating
      */
     private boolean checkFullyPopulated = false;
+
     /**
      * Whether we're defaulting primitives when mapping a null value
      */
     private boolean primitivesDefaultedForNullValue = false;
+
     /**
      * Map of the fields we provide mapping for
      */
     private Map<String, PropertyDescriptor> mappedFields;
+
     /**
      * Set of bean properties we provide mapping for
      */
     private Set<String> mappedProperties;
-
-    /**
-     * Create a new BeanPropertyRowMapper for bean-style configuration.
-     *
-     * @see #setMappedClass
-     * @see #setCheckFullyPopulated
-     */
-    public BeanTransformerAdapter() {
-
-    }
 
     /**
      * Create a new BeanPropertyRowMapper, accepting unpopulated properties
@@ -128,6 +130,8 @@ public class BeanTransformerAdapter<T> implements ResultTransformer {
      * (with the mapped class specified only once).
      *
      * @param mappedClass the class that each row should be mapped to
+     * @param <T> class type
+     * @return instance
      */
     public static <T> BeanPropertyRowMapper<T> newInstance(Class<T> mappedClass) {
         BeanPropertyRowMapper<T> newInstance = new BeanPropertyRowMapper<T>();
@@ -146,14 +150,12 @@ public class BeanTransformerAdapter<T> implements ResultTransformer {
         this.mappedProperties = new HashSet<String>();
         PropertyDescriptor[] pds = BeanUtils.getPropertyDescriptors(mappedClass);
         for (PropertyDescriptor pd : pds) {
-            if (pd.getWriteMethod() != null) {
-                this.mappedFields.put(pd.getName().toLowerCase(), pd);
-                String underscoredName = underscoreName(pd.getName());
-                if (!pd.getName().toLowerCase().equals(underscoredName)) {
-                    this.mappedFields.put(underscoredName, pd);
-                }
-                this.mappedProperties.add(pd.getName());
+            this.mappedFields.put(pd.getName().toLowerCase(), pd);
+            String underscoredName = underscoreName(pd.getName());
+            if (!pd.getName().toLowerCase().equals(underscoredName)) {
+                this.mappedFields.put(underscoredName, pd);
             }
+            this.mappedProperties.add(pd.getName());
         }
     }
 
@@ -184,6 +186,7 @@ public class BeanTransformerAdapter<T> implements ResultTransformer {
 
     /**
      * Get the class that we are mapping to.
+     * @return mapped class
      */
     public final Class<T> getMappedClass() {
         return this.mappedClass;
@@ -191,6 +194,7 @@ public class BeanTransformerAdapter<T> implements ResultTransformer {
 
     /**
      * Set the class that each row should be mapped to.
+     * @param mappedClass mapped class
      */
     public void setMappedClass(Class<T> mappedClass) {
         if (this.mappedClass == null) {
@@ -206,6 +210,7 @@ public class BeanTransformerAdapter<T> implements ResultTransformer {
     /**
      * Return whether we're strictly validating that all bean properties have been
      * mapped from corresponding database fields.
+     * @return flag
      */
     public boolean isCheckFullyPopulated() {
         return this.checkFullyPopulated;
@@ -252,7 +257,7 @@ public class BeanTransformerAdapter<T> implements ResultTransformer {
     /**
      * Retrieve a JDBC object value for the specified column.
      * <p>The default implementation calls
-     * {@link JdbcUtils#getResultSetValue(ResultSet, int, Class)}.
+     * {@link JdbcUtils#getResultSetValue(java.sql.ResultSet, int, Class)}.
      * Subclasses may override this to check specific value types upfront,
      * or to post-process values return from {@code getResultSetValue}.
      *
@@ -262,7 +267,7 @@ public class BeanTransformerAdapter<T> implements ResultTransformer {
      *              (or {@code null} if none specified)
      * @return the Object value
      * @throws SQLException in case of extraction failure
-     * @see JdbcUtils#getResultSetValue(ResultSet, int, Class)
+     * @see org.springframework.jdbc.support.JdbcUtils#getResultSetValue(java.sql.ResultSet, int, Class)
      */
     protected Object getColumnValue(ResultSet rs, int index, PropertyDescriptor pd) throws SQLException {
         return JdbcUtils.getResultSetValue(rs, index, pd.getPropertyType());
@@ -286,7 +291,8 @@ public class BeanTransformerAdapter<T> implements ResultTransformer {
                     } catch (TypeMismatchException e) {
                         if (value == null && primitivesDefaultedForNullValue) {
                             logger.debug("Intercepted TypeMismatchException for column " + column + " and column '"
-                                    + column + "' with value " + value + " when setting property '" + pd.getName() + "' of type " + pd.getPropertyType()
+                                    + column + "' with value " + value + " when setting property '" + pd.getName() +
+                                    "' of type " + pd.getPropertyType()
                                     + " on object: " + mappedObject);
                         } else {
                             throw e;
@@ -310,9 +316,29 @@ public class BeanTransformerAdapter<T> implements ResultTransformer {
         return mappedObject;
     }
 
-    @SuppressWarnings("rawtypes")
-	@Override
+    @Override
     public List transformList(List list) {
         return list;
+    }
+
+
+    enum ClobToStringConverter implements Converter<Clob, String> {
+
+        INSTANCE;
+
+        @Override
+        public String convert(Clob source) {
+            return DataHelper.extractString(source);
+        }
+    }
+
+    enum BlobToStringConverter implements Converter<Blob, String> {
+
+        INSTANCE;
+
+        @Override
+        public String convert(Blob source) {
+            return BlobType.INSTANCE.toString(source);
+        }
     }
 }

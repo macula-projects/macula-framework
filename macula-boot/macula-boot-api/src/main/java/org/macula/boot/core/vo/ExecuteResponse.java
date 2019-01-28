@@ -16,6 +16,7 @@
 package org.macula.boot.core.vo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p> <b>SimpleResult</b> 是简单数据类型返回结果. </p>
@@ -26,6 +27,7 @@ import lombok.Data;
  */
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class ExecuteResponse<T> extends Response {
 
 	private static final long serialVersionUID = 1L;

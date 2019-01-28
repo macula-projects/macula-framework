@@ -19,11 +19,11 @@ package org.macula.boot.core.cache;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.macula.boot.core.cache.support.config.CacheConfig;
-import org.macula.boot.core.cache.support.domain.User;
 import org.macula.boot.core.cache.manager.CacheManager;
 import org.macula.boot.core.cache.manager.LayeringCacheManager;
 import org.macula.boot.core.cache.support.CacheMode;
+import org.macula.boot.core.cache.support.config.CacheConfig;
+import org.macula.boot.core.cache.support.domain.User;
 import org.macula.boot.core.cache.support.test.TestService;
 import org.macula.boot.core.utils.JSONUtils;
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -39,8 +39,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-// SpringJUnit4ClassRunner再Junit环境下提供Spring TestContext Framework的功能。
-@RunWith(SpringJUnit4ClassRunner.class)
+// SpringRunner再Junit环境下提供Spring TestContext Framework的功能。
+@RunWith(SpringRunner.class)
 // @ContextConfiguration用来加载配置ApplicationContext，其中classes用来加载配置类
 @ContextConfiguration(classes = {CacheConfig.class})
 public class LayeringAspectTests {

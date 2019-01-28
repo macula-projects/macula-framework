@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
  * @author yuhao.wang
  */
 public class SecondaryCacheSetting implements Serializable {
+
+    private static final long serialVersionUID = -1175686689131970205L;
     /**
      * 缓存有效时间
      */

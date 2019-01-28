@@ -15,41 +15,36 @@
  */
 package org.macula.boot.core.validation;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.CONSTRUCTOR;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
+import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * <p> <b>Length2</b> 是非英文字符算2个长度的annotation. </p>
- * 
- * @since 2011-11-25
+ *
  * @author Wilson Luo
  * @version $Id: Length2.java 3807 2012-11-21 07:31:51Z wilson $
+ * @since 2011-11-25
  */
 
 @Documented
 @Constraint(validatedBy = Length2Validator.class)
-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 public @interface Length2 {
-	int min() default 0;
+    int min() default 0;
 
-	int max() default Integer.MAX_VALUE;
+    int max() default Integer.MAX_VALUE;
 
-	String message() default "{org.hibernate.validator.constraints.Length.message}";
+    String message() default "{org.hibernate.validator.constraints.Length.message}";
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 
 }

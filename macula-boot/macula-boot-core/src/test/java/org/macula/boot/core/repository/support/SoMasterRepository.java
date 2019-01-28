@@ -15,36 +15,22 @@
  */
 
 /**
- * NamedTemplateResolver.java 2017年11月17日
+ * SoMasterRepository.java 2016年11月10日
  */
-package org.macula.boot.core.repository.templatequery.template;
+package org.macula.boot.core.repository.support;
 
-import org.springframework.core.io.Resource;
-
-import java.util.Iterator;
+import org.macula.boot.core.repository.MaculaJpaRepository;
+import org.macula.boot.core.repository.support.domain.SoMaster;
 
 /**
  * <p>
- * <b>NamedTemplateResolver</b> TemplateQuery模板解析接口
+ * <b>SoMasterRepository</b> is
  * </p>
  *
- * @since 2017年11月17日
  * @author Rain
  * @version $Id$
+ * @since 2016年11月10日
  */
-public interface NamedTemplateResolver {
-	
-	/**
-	 * 模板后缀
-	 * @return String
-	 */
-	String getSuffix();
-
-	/**
-	 * 解析模板中的SQL并回调
-	 * @param resource 模板资源
-	 * @param callback 回调函数，对应一个SQL
-	 * @throws Exception
-	 */
-	Iterator<Void> doInTemplateResource(Resource resource, final NamedTemplateCallback callback) throws Exception;
+public interface SoMasterRepository extends MaculaJpaRepository<SoMaster, Long> {
+    public SoMaster findBySoNo(String soNo);
 }

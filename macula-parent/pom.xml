@@ -18,7 +18,10 @@
         <jdkLevel>1.8</jdkLevel>
         <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
         <lombok.version>1.18.4</lombok.version>
-        <fasterxml.version>2.9.6</fasterxml.version>
+        <commons-text.version>1.6</commons-text.version>
+        <commons-beanutils.version>1.9.3</commons-beanutils.version>
+        <commons-io.version>2.6</commons-io.version>
+        <kryo.version>4.0.2</kryo.version>
         <jsoup.version>1.11.3</jsoup.version>
     </properties>
 
@@ -43,14 +46,25 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-text</artifactId>
-                <version>1.6</version>
+                <version>${commons-text.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${commons-beanutils.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
             <!-- kryo -->
             <dependency>
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>kryo</artifactId>
-                <version>4.0.2</version>
+                <version>${kryo.version}</version>
             </dependency>
 
         </dependencies>

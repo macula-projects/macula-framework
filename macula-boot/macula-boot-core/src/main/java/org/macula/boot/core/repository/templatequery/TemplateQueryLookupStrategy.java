@@ -18,11 +18,12 @@ package org.macula.boot.core.repository.templatequery;
 
 import org.springframework.data.jpa.provider.QueryExtractor;
 import org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy;
+import org.springframework.data.jpa.repository.query.JpaQueryMethod;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.repository.core.NamedQueries;
 import org.springframework.data.repository.core.RepositoryMetadata;
-import org.springframework.data.repository.query.EvaluationContextProvider;
 import org.springframework.data.repository.query.QueryLookupStrategy;
+import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider;
 import org.springframework.data.repository.query.RepositoryQuery;
 
 import javax.persistence.EntityManager;
@@ -43,13 +44,13 @@ public class TemplateQueryLookupStrategy implements QueryLookupStrategy {
 
     private QueryExtractor extractor;
 
-    public TemplateQueryLookupStrategy(EntityManager entityManager, Key key, QueryExtractor extractor, EvaluationContextProvider evaluationContextProvider) {
+    public TemplateQueryLookupStrategy(EntityManager entityManager, Key key, QueryExtractor extractor, QueryMethodEvaluationContextProvider evaluationContextProvider) {
         this.jpaQueryLookupStrategy = JpaQueryLookupStrategy.create(entityManager, key, extractor, evaluationContextProvider);
         this.extractor = extractor;
         this.entityManager = entityManager;
     }
 
-    public static QueryLookupStrategy create(EntityManager entityManager, Key key, QueryExtractor extractor, EvaluationContextProvider evaluationContextProvider) {
+    public static QueryLookupStrategy create(EntityManager entityManager, Key key, QueryExtractor extractor, QueryMethodEvaluationContextProvider evaluationContextProvider) {
         return new TemplateQueryLookupStrategy(entityManager, key, extractor, evaluationContextProvider);
     }
 
@@ -58,7 +59,7 @@ public class TemplateQueryLookupStrategy implements QueryLookupStrategy {
         if (method.getAnnotation(org.macula.boot.core.repository.TemplateQuery.class) == null) {
             return jpaQueryLookupStrategy.resolveQuery(method, metadata, factory, namedQueries);
         } else {
-            return new TemplateQuery(new TemplateQueryMethod(method, metadata, factory, extractor), entityManager);
+            return new TemplateQuery(new JpaQueryMethod(method, metadata, factory, extractor), entityManager);
         }
     }
 

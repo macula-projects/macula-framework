@@ -18,6 +18,7 @@ package org.macula.boot.core.vo;
 import java.util.List;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.domain.Page;
 
 /**
@@ -29,6 +30,7 @@ import org.springframework.data.domain.Page;
  */
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class PageResponse<T> extends Response {
 
 	private static final long serialVersionUID = 1L;

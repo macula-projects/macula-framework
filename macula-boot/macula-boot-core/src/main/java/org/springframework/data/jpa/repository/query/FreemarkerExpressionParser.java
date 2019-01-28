@@ -14,37 +14,25 @@
  *  limitations under the License.
  */
 
-/**
- * NamedTemplateResolver.java 2017年11月17日
- */
-package org.macula.boot.core.repository.templatequery.template;
+package org.springframework.data.jpa.repository.query;
 
-import org.springframework.core.io.Resource;
-
-import java.util.Iterator;
+import com.mongodb.lang.Nullable;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ParseException;
+import org.springframework.expression.ParserContext;
+import org.springframework.expression.common.TemplateAwareExpressionParser;
 
 /**
  * <p>
- * <b>NamedTemplateResolver</b> TemplateQuery模板解析接口
+ * <b>FreemarkerExpressionParser</b> Freemaker表达式解析器
  * </p>
  *
- * @since 2017年11月17日
  * @author Rain
- * @version $Id$
+ * @since 2019-01-27
  */
-public interface NamedTemplateResolver {
-	
-	/**
-	 * 模板后缀
-	 * @return String
-	 */
-	String getSuffix();
-
-	/**
-	 * 解析模板中的SQL并回调
-	 * @param resource 模板资源
-	 * @param callback 回调函数，对应一个SQL
-	 * @throws Exception
-	 */
-	Iterator<Void> doInTemplateResource(Resource resource, final NamedTemplateCallback callback) throws Exception;
+public class FreemarkerExpressionParser extends TemplateAwareExpressionParser {
+    @Override
+    protected Expression doParseExpression(String s, @Nullable ParserContext parserContext) throws ParseException {
+        return null;
+    }
 }

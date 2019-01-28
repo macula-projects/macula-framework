@@ -13,38 +13,21 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package org.macula.boot.core.repository.support;
 
-/**
- * NamedTemplateResolver.java 2017年11月17日
- */
-package org.macula.boot.core.repository.templatequery.template;
-
-import org.springframework.core.io.Resource;
-
-import java.util.Iterator;
+import org.macula.boot.core.repository.support.domain.UserMongo;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
  * <p>
- * <b>NamedTemplateResolver</b> TemplateQuery模板解析接口
+ * <b>UserRepository</b> 是用户存取接口定义.
  * </p>
  *
- * @since 2017年11月17日
  * @author Rain
- * @version $Id$
+ * @version $Id: UserMongoRepository.java 3807 2012-11-21 07:31:51Z wilson $
+ * @since 2010-12-30
  */
-public interface NamedTemplateResolver {
-	
-	/**
-	 * 模板后缀
-	 * @return String
-	 */
-	String getSuffix();
+public interface UserMongoRepository extends JpaRepository<UserMongo, Long>, JpaSpecificationExecutor<UserMongo>, UserMongoRepositoryCustom {
 
-	/**
-	 * 解析模板中的SQL并回调
-	 * @param resource 模板资源
-	 * @param callback 回调函数，对应一个SQL
-	 * @throws Exception
-	 */
-	Iterator<Void> doInTemplateResource(Resource resource, final NamedTemplateCallback callback) throws Exception;
 }

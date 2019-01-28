@@ -16,30 +16,26 @@
 
 package org.macula.boot.core.repository.templatequery.template;
 
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
-
+import freemarker.cache.StringTemplateLoader;
+import freemarker.template.Configuration;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.macula.core.configuration.reloadable.PropertiesReloadable;
-import org.macula.core.repository.TemplateQuery;
-import org.macula.core.repository.templatequery.TemplateQueryMethod;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ResourceLoaderAware;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.data.jpa.repository.query.JpaQueryMethod;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.ClassUtils;
 
-import freemarker.cache.StringTemplateLoader;
-import freemarker.template.Configuration;
+import javax.persistence.EntityManager;
+import javax.persistence.metamodel.EntityType;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 基于FreeMarker的SQL语句解析
@@ -47,161 +43,176 @@ import freemarker.template.Configuration;
  * @author <a href="mailto:stormning@163.com">stormning</a>
  * @version V1.0, 2015/8/10.
  */
-public class FreemarkerSqlTemplates implements ResourceLoaderAware, InitializingBean, PropertiesReloadable {
+public class FreemarkerSqlTemplates implements ResourceLoaderAware, InitializingBean {
 
-	public static final String TEMPLATE_QUERY_PREFIX = "macula.templateQuery";
+    private static Configuration cfg = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 
-	private static Configuration cfg = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
+    private static StringTemplateLoader sqlTemplateLoader = new StringTemplateLoader();
 
-	private static StringTemplateLoader sqlTemplateLoader = new StringTemplateLoader();
+    static {
+        cfg.setTemplateLoader(sqlTemplateLoader);
+    }
 
-	static {
-		cfg.setTemplateLoader(sqlTemplateLoader);
-	}
+    private final Log logger = LogFactory.getLog(getClass());
 
-	protected final Log logger = LogFactory.getLog(getClass());
+    private String encoding = "UTF-8";
 
-	private String encoding = "UTF-8";
+    // TODO
+    private EntityManager em;
 
-	private Map<String, Boolean> modifiedCache = new ConcurrentHashMap<String, Boolean>();
-	
-	private Map<String, String> fixSqlCache = new ConcurrentHashMap<String, String>();
-	
-	private PathMatchingResourcePatternResolver resourcePatternResolver;
+    private Map<String, Long> lastModifiedCache = new ConcurrentHashMap<>();
 
-	private ResourceLoader resourceLoader;
+    private Map<String, List<Resource>> sqlResources = new ConcurrentHashMap<>();
 
-	private List<NamedTemplateResolver> templateResolvers = new ArrayList<NamedTemplateResolver>();
+    private String templateLocation = "classpath:/sqls";
 
-	/**
-	 * 处理查询方法的TemplateQuery注解，寻找SQL模板，按照Freemarker语法解析
-	 * @param queryMethod JPA Method
-	 * @param model 参数集
-	 * @return SQL语句
-	 */
-	public String process(JpaQueryMethod queryMethod, Map<String, Object> model) {
-		
-		TemplateQueryMethod tqMethod = (TemplateQueryMethod) queryMethod;
-		String repositoryName = tqMethod.getMethod().getDeclaringClass().getName();
-		String methodName = tqMethod.getName();
-		
-		try {
-			// 如果需要，加载SQL模板
-			loadSqltoTemplateIfNeed(tqMethod);
+    private String templateBasePackage = "**";
 
-			// 提取Freemarker模板，解析SQL
-			StringWriter writer = new StringWriter();
-			cfg.getTemplate(getTemplateKey(repositoryName, methodName), encoding).process(model, writer);
+    private ResourceLoader resourceLoader;
 
-			return writer.toString();
-		} catch (Exception e) {
-			logger.error("process template error. Repository name: " + repositoryName + " methodName:" + methodName, e);
-			return StringUtils.EMPTY;
-		}
-	}
+    private String suffix = ".xml";
 
-	// 如果需要加载SQL模板
-	private void loadSqltoTemplateIfNeed(TemplateQueryMethod tqMethod) throws Exception {
-		String repositoryName = tqMethod.getMethod().getDeclaringClass().getName();
-		String entityName = tqMethod.getEntityInformation().getJavaType().getName();
-		String methodName = tqMethod.getName();
+    private Map<String, NamedTemplateResolver> suffixResolvers = new HashMap<>();
 
-		Boolean modified = modifiedCache.get(getTemplateKey(repositoryName, methodName));
-		if (modified == null || modified) {
-			// 配置中心的优先级最高，注解中的次之，文件中的优先级最低，通过Map层层覆盖替换
-			// 1、====先加载文件中的SQL配置
-			// 先按照repository路劲寻找SQL模板文件（和包含TemplateQuery的Repository类在一起并同名，后缀是xml或者sftl）
-			String pattern = "classpath:/" + ClassUtils.convertClassNameToResourcePath(repositoryName);
-			loadResource(repositoryName, pattern);
-			if (sqlTemplateLoader.findTemplateSource(getTemplateKey(repositoryName, methodName)) == null) {
-				// 找不到，则寻找旧版路劲，在src/resources/sqls/**下面，使用的是EntityName
-				pattern = "classpath:/sqls/**/" + entityName;
-				loadResource(repositoryName, pattern);
-			}
-			
-			// 2、====再加载Annotaion中的配置
-			TemplateQuery templateQueryAnnontation = AnnotationUtils.findAnnotation(tqMethod.getMethod(), org.macula.core.repository.TemplateQuery.class);
-			if (null != templateQueryAnnontation) {
-				String sqlT = templateQueryAnnontation.value();
-				if (StringUtils.isNotEmpty(sqlT)) {
-					sqlTemplateLoader.putTemplate(getTemplateKey(repositoryName, methodName), sqlT);
-					modifiedCache.put(getTemplateKey(repositoryName, methodName), Boolean.FALSE);
-				}
-			}
+    {
+        suffixResolvers.put(".sftl", new SftlNamedTemplateResolver());
+    }
 
-			// 3、====加载配置中心的SQL，用于快速修复线上SQL问题
-			String sqlT = org.macula.Configuration.getProperty(TEMPLATE_QUERY_PREFIX + "." + getTemplateKey(repositoryName, methodName));
-			if (StringUtils.isNotEmpty(sqlT)) {
-				sqlTemplateLoader.putTemplate(getTemplateKey(repositoryName, methodName), sqlT);
-				modifiedCache.put(getTemplateKey(repositoryName, methodName), Boolean.FALSE);
-				fixSqlCache.put(getTemplateKey(repositoryName, methodName), sqlT);
-			}
-		}
-	}
+    public String process(String entityName, String methodName, Map<String, Object> model) {
+        reloadIfPossible(entityName);
+        try {
+            StringWriter writer = new StringWriter();
+            cfg.getTemplate(getTemplateKey(entityName, methodName), encoding).process(model, writer);
+            return writer.toString();
+        } catch (Exception e) {
+            logger.error("process template error. Entity name: " + entityName + " methodName:" + methodName, e);
+            return StringUtils.EMPTY;
+        }
+    }
 
-	// 根据Pattern寻找SQL模板文件
-	private void loadResource(final String repositoryName, String pattern) {
-		try {
-			for (NamedTemplateResolver resolver : templateResolvers) {
-				Resource[] resources = resourcePatternResolver.getResources(pattern + "." + resolver.getSuffix());
-				if (resources != null && resources.length > 0) {
-					for (Resource resource : resources) {
-						if (resource.exists()) {
-							// 找到对应SQL模板文件后，把里面的所有SQL都一次性加载
-							resolver.doInTemplateResource(resource, new NamedTemplateCallback() {
-								@Override
-								public void process(String methodName, String content) {
-									sqlTemplateLoader.putTemplate(getTemplateKey(repositoryName, methodName), content);
-									modifiedCache.put(getTemplateKey(repositoryName, methodName), Boolean.FALSE);
-								}
-							});
-						}
-					}
-				}
-			}
-		} catch (Exception ex) {
-			logger.error("Load sql template file error:", ex);
-		}
-	}
+    private String getTemplateKey(String entityName, String methodName) {
+        return entityName + ":" + methodName;
+    }
 
-	// 模板KEY
-	private String getTemplateKey(String repositoryName, String methodName) {
-		return repositoryName + "." + methodName;
-	}
+    private void reloadIfPossible(final String entityName) {
+        try {
+            Long lastModified = lastModifiedCache.get(entityName);
+            List<Resource> resourceList = sqlResources.get(entityName);
 
-	@Override
-	public void beforePropertiesReloaded() {
-		// zookeeper中配置的属性发生变化会调用该方法，
-		// 如果发现配置了TEMPLATE_QUERY_PREFIX开头的属性，则清除缓存
-		// 让该配置有机会覆盖之前定义的SQL模板。属性KEY的规则是：macula.templateQuery.{repository}.{methodName}
-		for (Entry<String, Boolean> entry : modifiedCache.entrySet()) {
-			String propertyKey = TEMPLATE_QUERY_PREFIX + "." + entry.getKey();
-			String cfgSql = org.macula.Configuration.getProperty(propertyKey);
-			String fixSql = fixSqlCache.get(entry.getKey());
-			if ( !StringUtils.equals(cfgSql, fixSql)) {
-				fixSqlCache.put(entry.getKey(), cfgSql);
-				modifiedCache.put(entry.getKey(), Boolean.TRUE);
-			}
-		}
-	}
+            long newLastModified = 0;
+            for (Resource resource : resourceList) {
+                if (newLastModified == 0) {
+                    newLastModified = resource.lastModified();
+                } else {
+                    //get the last modified.
+                    newLastModified = newLastModified > resource.lastModified() ?
+                            newLastModified : resource.lastModified();
+                }
+            }
 
-	@Override
-	public void afterPropertiesReloaded() {
-	}
-	
-	@Override
-	public void setResourceLoader(ResourceLoader resourceLoader) {
-		this.resourceLoader = resourceLoader;
-	}
+            //check modified for cache.
+            if (lastModified == null || newLastModified > lastModified) {
+                lastModifiedCache.put(entityName, newLastModified);
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		resourcePatternResolver = new PathMatchingResourcePatternResolver(resourceLoader);
-		templateResolvers.add(new XmlNamedTemplateResolver(encoding, resourceLoader));
-		templateResolvers.add(new SftlNamedTemplateResolver(encoding));
-	}
+                //process template.
+                for (Resource resource : resourceList) {
+                    Iterator<Void> iterator = suffixResolvers.get(suffix)
+                            .doInTemplateResource(resource, (templateName, content) -> {
+                                String key = getTemplateKey(entityName, templateName);
+                                Object src = sqlTemplateLoader.findTemplateSource(key);
+                                if (src != null) {
+                                    logger.warn("found duplicate template key, will replace the value, key:" + key);
+                                }
+                                sqlTemplateLoader
+                                        .putTemplate(getTemplateKey(entityName, templateName), content);
+                            });
+                    while (iterator.hasNext()) {
+                        iterator.next();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e);
+        }
+    }
 
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
-	}
+    @Override
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+        XmlNamedTemplateResolver xmlNamedTemplateResolver = new XmlNamedTemplateResolver(resourceLoader);
+        xmlNamedTemplateResolver.setEncoding(encoding);
+        this.suffixResolvers.put(".xml", xmlNamedTemplateResolver);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Set<String> names = new HashSet<>();
+        Set<EntityType<?>> entities = em.getMetamodel().getEntities();
+        for (EntityType<?> entity : entities) {
+            names.add(entity.getName());
+        }
+
+        String suffixPattern = "/**/*" + suffix;
+
+        if (!names.isEmpty()) {
+            String pattern;
+            if (StringUtils.isNotBlank(templateBasePackage)) {
+                pattern = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +
+                        ClassUtils.convertClassNameToResourcePath(templateBasePackage) + suffixPattern;
+
+                loadPatternResource(names, pattern);
+            }
+            if (StringUtils.isNotBlank(templateLocation)) {
+                pattern = templateLocation.contains(suffix) ? templateLocation : templateLocation + suffixPattern;
+                try {
+                    loadPatternResource(names, pattern);
+                } catch (FileNotFoundException e) {
+                    if ("classpath:/sqls".equals(templateLocation)) {
+                        //warn: default value
+                        logger.warn("templateLocation[" + templateLocation + "] not exist!");
+                        logger.warn(e.getMessage());
+                    } else {
+                        //throw: custom value.
+                        throw e;
+                    }
+                }
+            }
+        }
+    }
+
+    private void loadPatternResource(Set<String> names, String pattern) throws IOException {
+        PathMatchingResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver(
+                resourceLoader);
+        Resource[] resources = resourcePatternResolver.getResources(pattern);
+        for (Resource resource : resources) {
+            String resourceName = resource.getFilename().replace(suffix, "");
+            if (names.contains(resourceName)) {
+                //allow multi resource.
+                List<Resource> resourceList;
+                if (sqlResources.containsKey(resourceName)) {
+                    resourceList = sqlResources.get(resourceName);
+                } else {
+                    resourceList = new LinkedList<>();
+                    sqlResources.put(resourceName, resourceList);
+                }
+                resourceList.add(resource);
+            }
+        }
+    }
+
+    public void setTemplateLocation(String templateLocation) {
+        this.templateLocation = templateLocation;
+    }
+
+    public void setTemplateBasePackage(String templateBasePackage) {
+        this.templateBasePackage = templateBasePackage;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
 }

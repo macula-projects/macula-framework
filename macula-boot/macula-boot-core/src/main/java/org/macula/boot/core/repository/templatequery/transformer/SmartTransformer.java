@@ -30,12 +30,13 @@ import java.util.List;
  */
 public class SmartTransformer extends BasicTransformerAdapter {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -6916576469017073306L;
 
     private static DefaultConversionService conversionService = new DefaultConversionService();
+
     private final Class<?> clazz;
 
-    public SmartTransformer(Class<?> clazz) {
+    public SmartTransformer(Class clazz) {
         this.clazz = clazz;
     }
 
@@ -47,7 +48,6 @@ public class SmartTransformer extends BasicTransformerAdapter {
         return null;
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public List transformList(List list) {
         return super.transformList(list);

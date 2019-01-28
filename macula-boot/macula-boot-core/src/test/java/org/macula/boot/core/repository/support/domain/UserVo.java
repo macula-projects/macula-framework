@@ -15,36 +15,35 @@
  */
 
 /**
- * NamedTemplateResolver.java 2017年11月17日
+ * UserVo.java 2014年8月27日
  */
-package org.macula.boot.core.repository.templatequery.template;
+package org.macula.boot.core.repository.support.domain;
 
-import org.springframework.core.io.Resource;
-
-import java.util.Iterator;
+import lombok.Data;
 
 /**
  * <p>
- * <b>NamedTemplateResolver</b> TemplateQuery模板解析接口
+ * <b>UserVo</b> is
  * </p>
  *
- * @since 2017年11月17日
+ * @since 2014年8月27日
  * @author Rain
- * @version $Id$
+ * @version $Id: UserVo.java 5351 2014-08-27 09:19:53Z wzp $
  */
-public interface NamedTemplateResolver {
-	
-	/**
-	 * 模板后缀
-	 * @return String
-	 */
-	String getSuffix();
 
-	/**
-	 * 解析模板中的SQL并回调
-	 * @param resource 模板资源
-	 * @param callback 回调函数，对应一个SQL
-	 * @throws Exception
-	 */
-	Iterator<Void> doInTemplateResource(Resource resource, final NamedTemplateCallback callback) throws Exception;
+@Data
+public class UserVo {
+	
+	private String firstName;
+	
+	private String lastName;
+
+	public UserVo() {
+		
+	}
+	
+	public UserVo(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
 }

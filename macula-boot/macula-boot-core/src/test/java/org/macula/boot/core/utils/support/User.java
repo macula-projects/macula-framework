@@ -14,37 +14,32 @@
  *  limitations under the License.
  */
 
-/**
- * NamedTemplateResolver.java 2017年11月17日
- */
-package org.macula.boot.core.repository.templatequery.template;
+package org.macula.boot.core.utils.support;
 
-import org.springframework.core.io.Resource;
+import lombok.Data;
 
-import java.util.Iterator;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.Date;
 
 /**
  * <p>
- * <b>NamedTemplateResolver</b> TemplateQuery模板解析接口
+ * <b>User</b> 测试POJO
  * </p>
  *
- * @since 2017年11月17日
  * @author Rain
- * @version $Id$
+ * @since 2019-01-24
  */
-public interface NamedTemplateResolver {
-	
-	/**
-	 * 模板后缀
-	 * @return String
-	 */
-	String getSuffix();
+@Data
+public class User {
+    private String username;
+    private String password;
+    private Instant instant;
+    private LocalDateTime localDateTime;
+    private OffsetDateTime offsetDateTime;
+    private LocalDate localDate;
+    private Date date;
 
-	/**
-	 * 解析模板中的SQL并回调
-	 * @param resource 模板资源
-	 * @param callback 回调函数，对应一个SQL
-	 * @throws Exception
-	 */
-	Iterator<Void> doInTemplateResource(Resource resource, final NamedTemplateCallback callback) throws Exception;
 }

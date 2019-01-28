@@ -19,75 +19,99 @@
  */
 package org.macula.boot.core.repository.templatequery.template;
 
-import java.io.InputStream;
-import java.util.List;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.Resource;
+
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * <p>
  * <b>SftlNamedTemplateResolver</b> SFTL模板加载
  * </p>
  *
- * @since 2017年11月17日
  * @author Rain
  * @version $Id$
+ * @since 2017年11月17日
  */
 public class SftlNamedTemplateResolver implements NamedTemplateResolver {
-	private String encoding = "UTF-8";
-	private String suffix = "sftl";
 
-	public SftlNamedTemplateResolver(String encoding) {
-		this.encoding = encoding;
-	}
+    private String encoding = "UTF-8";
 
-	@Override
-	public String getSuffix() {
-		return this.suffix;
-	}
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
 
-	@Override
-	public void doInTemplateResource(Resource resource, final NamedTemplateCallback callback) throws Exception {
-		InputStream inputStream = resource.getInputStream();
-		final List<String> lines = IOUtils.readLines(inputStream, encoding);
+    /**
+     * 模板后缀
+     *
+     * @return String
+     */
+    @Override
+    public String getSuffix() {
+        return "sftl";
+    }
 
-		String name = null;
-		StringBuilder content = new StringBuilder();
+    @Override
+    public Iterator<Void> doInTemplateResource(Resource resource, final NamedTemplateCallback callback)
+            throws Exception {
+        InputStream inputStream = resource.getInputStream();
+        final List<String> lines = IOUtils.readLines(inputStream, encoding);
+        return new Iterator<Void>() {
+            String name;
 
-		for (int index = 0; index < lines.size(); index++) {
-			String line = lines.get(index);
-			
-			if (isNameLine(line)) {
-				name = StringUtils.trim(StringUtils.remove(line, "--"));
-			} else {
-				line = StringUtils.trimToNull(line);
-				if (line != null) {
-					content.append(line).append(" ");
-				}
-			}
+            StringBuilder content = new StringBuilder();
 
-			// 碰到最后一行或者下一行是SQL Name时回调
-			if (isNextNameLineOrEnd(lines, index)) {
-				callback.process(name, content.toString());
-				name = null;
-				content = new StringBuilder();
-			}
-		}
+            int index = 0;
 
-	}
+            int total = lines.size();
 
-	private boolean isNameLine(String line) {
-		return StringUtils.contains(line, "--");
-	}
-	
-	// 判断是否是最后一行或者下一行是--sqlname
-	private boolean isNextNameLineOrEnd(List<String> lines, int index) {
-		return (index + 1) == lines.size() || isNameLine(lines.get(index + 1));
-	}
+            @Override
+            public boolean hasNext() {
+                return index < total;
+            }
 
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
-	}
+            @Override
+            public Void next() {
+                do {
+                    String line = lines.get(index);
+                    if (isNameLine(line)) {
+                        name = StringUtils.trim(StringUtils.remove(line, "--"));
+                    } else {
+                        line = StringUtils.trimToNull(line);
+                        if (line != null) {
+                            content.append(line).append(" ");
+                        }
+                    }
+                    index++;
+                } while (!isLastLine() && !isNextNameLine());
+
+                //next template
+                callback.process(name, content.toString());
+                name = null;
+                content = new StringBuilder();
+                return null;
+            }
+
+            @Override
+            public void remove() {
+                //ignore
+            }
+
+            private boolean isNameLine(String line) {
+                return StringUtils.contains(line, "--");
+            }
+
+            private boolean isNextNameLine() {
+                String line = lines.get(index);
+                return isNameLine(line);
+            }
+
+            private boolean isLastLine() {
+                return index == total;
+            }
+        };
+    }
 }

@@ -15,7 +15,7 @@ public class BeanFactory {
     /**
      * bean 容器
      */
-    private static ConcurrentHashMap<Class, Object> beanContainer = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<Class<?>, Object> beanContainer = new ConcurrentHashMap<>();
 
     public static <T> T getBean(Class<T> aClass) {
         return (T) beanContainer.computeIfAbsent(aClass, aClass1 -> {
