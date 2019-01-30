@@ -40,7 +40,7 @@ public class SftlNamedTemplateResolver implements NamedTemplateResolver {
 
     private String encoding = "UTF-8";
 
-    public void setEncoding(String encoding) {
+    public SftlNamedTemplateResolver(String encoding) {
         this.encoding = encoding;
     }
 
@@ -113,5 +113,9 @@ public class SftlNamedTemplateResolver implements NamedTemplateResolver {
                 return index == total;
             }
         };
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
     }
 }

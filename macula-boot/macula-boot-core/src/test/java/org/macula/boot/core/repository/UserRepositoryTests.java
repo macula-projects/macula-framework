@@ -18,12 +18,15 @@ package org.macula.boot.core.repository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.macula.boot.core.repository.config.RepositoryConfig;
 import org.macula.boot.core.repository.support.UserMongoRepository;
 import org.macula.boot.core.repository.support.UserRepository;
 import org.macula.boot.core.repository.support.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +47,8 @@ import java.util.Optional;
  * @since 2010-12-31
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@DataJpaTest
+@Import(RepositoryConfig.class)
 public class UserRepositoryTests {
 
     @Autowired

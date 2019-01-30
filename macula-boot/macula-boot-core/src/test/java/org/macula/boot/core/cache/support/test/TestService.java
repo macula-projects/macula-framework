@@ -21,13 +21,13 @@ import org.macula.boot.core.cache.support.domain.User;
 import org.macula.boot.core.cache.support.CacheMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.test.context.TestComponent;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-@Service
 public class TestService {
     Logger logger = LoggerFactory.getLogger(getClass());
 

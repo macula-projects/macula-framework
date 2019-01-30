@@ -124,7 +124,7 @@ public class User extends AbstractAuditable<Long> {
 	}
 
 	/**
-	 * @param lastname
+	 * @param lastName
 	 *            the lastname to set
 	 */
 	public void setLastName(String lastName) {

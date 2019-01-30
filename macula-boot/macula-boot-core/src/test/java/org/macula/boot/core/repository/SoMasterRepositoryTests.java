@@ -18,15 +18,17 @@ package org.macula.boot.core.repository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.macula.boot.core.cache.support.config.CacheConfig;
+import org.macula.boot.core.cache.support.test.TestService;
+import org.macula.boot.core.repository.config.RepositoryConfig;
 import org.macula.boot.core.repository.support.SoMasterRepository;
 import org.macula.boot.core.repository.support.domain.SoDetail;
 import org.macula.boot.core.repository.support.domain.SoMaster;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -46,7 +48,8 @@ import java.util.Optional;
  */
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {CacheConfig.class})
+@DataJpaTest
+@Import(RepositoryConfig.class)
 public class SoMasterRepositoryTests {
 
     @Autowired
@@ -74,9 +77,18 @@ public class SoMasterRepositoryTests {
         sds.add(sd);
 
         so = soMasterRepository.save(so);
-
+        System.out.println("ID=" + so.getId());
         Optional<SoMaster> soNew = soMasterRepository.findById(so.getId());
         Assert.assertEquals(so.getSoNo(), soNew.get().getSoNo());
 
+    }
+
+    // 内部的会被自动扫描到，但是如果是TOP LEVEL的注解不能被自动扫描到
+    @TestConfiguration
+    static class Testx {
+        @Bean
+        public TestService testService() {
+            return new TestService();
+        }
     }
 }

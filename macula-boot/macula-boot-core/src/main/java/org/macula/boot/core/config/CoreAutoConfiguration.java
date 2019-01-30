@@ -1,13 +1,16 @@
 package org.macula.boot.core.config;
 
+import io.lettuce.core.resource.ClientResources;
+import io.lettuce.core.resource.DefaultClientResources;
 import org.macula.boot.core.cache.aspect.LayeringAspect;
 import org.macula.boot.core.cache.manager.CacheManager;
 import org.macula.boot.core.cache.manager.LayeringCacheManager;
 import org.macula.boot.core.config.redis.CacheRedisProperties;
 import org.macula.boot.core.config.redis.DataRedisProperties;
-import org.macula.boot.core.config.redis.JedisConnectionConfiguration;
+import org.macula.boot.core.config.redis.LettuceConnectionConfiguration;
 import org.macula.boot.core.redis.KryoRedisSerializer;
 import org.macula.boot.core.redis.StringRedisSerializer;
+import org.macula.boot.core.repository.templatequery.template.FreemarkerSqlTemplates;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -15,45 +18,49 @@ import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
-import org.springframework.data.redis.repository.support.RedisRepositoryFactoryBean;
-
-import java.net.UnknownHostException;
 
 /**
  * <p>
  * <b>CoreAutoConfiguration</b> Core模块的自动配置入口
  * </p>
  *
- * @since 2019-01-22
  * @author Rain
+ * @since 2019-01-22
  */
 
 @Configuration
 @EnableConfigurationProperties({CoreConfigProperties.class, DataRedisProperties.class, CacheRedisProperties.class})
-@EnableRedisRepositories()
-@Import({JedisConnectionConfiguration.class})
+@EnableRedisRepositories
 @AutoConfigureBefore(RedisAutoConfiguration.class)
 public class CoreAutoConfiguration {
+
+    @Bean(destroyMethod = "shutdown")
+    @ConditionalOnMissingBean(ClientResources.class)
+    public DefaultClientResources lettuceClientResources() {
+        return DefaultClientResources.create();
+    }
 
     // 缓存配置
     @Bean(name = "cacheRedisConnectionFactory")
     @ConditionalOnMissingBean(name = "cacheRedisConnectionFactory")
-    public RedisConnectionFactory cacheRedisConnectionFactory(CacheRedisProperties cacheRedisProperties) {
-        JedisConnectionConfiguration jedisCfg = new JedisConnectionConfiguration(cacheRedisProperties);
-        return jedisCfg.createJedisConnectionFactory();
+    public RedisConnectionFactory cacheRedisConnectionFactory(ClientResources clientResources, CacheRedisProperties cacheRedisProperties) {
+        LettuceConnectionConfiguration lettuceCfg = new LettuceConnectionConfiguration(cacheRedisProperties);
+
+        LettuceClientConfiguration clientConfig = lettuceCfg.getLettuceClientConfiguration(clientResources, cacheRedisProperties.getLettuce().getPool());
+        return lettuceCfg.createLettuceConnectionFactory(clientConfig);
     }
 
     @Bean(name = "cacheRedisTemplate")
     @ConditionalOnMissingBean(name = "cacheRedisTemplate")
-    public RedisTemplate<Object, Object> cacheRedisTemplate(@Qualifier("cacheRedisConnectionFactory") RedisConnectionFactory cacheRedisConnectionFactory) {
+    public RedisTemplate<String, Object> cacheRedisTemplate(@Qualifier("cacheRedisConnectionFactory") RedisConnectionFactory cacheRedisConnectionFactory) {
         KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(Object.class);
 
-        RedisTemplate<Object, Object> template = new RedisTemplate<>();
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(cacheRedisConnectionFactory);
         // 设置值（value）的序列化采用FastJsonRedisSerializer。
         template.setValueSerializer(kryoRedisSerializer);
@@ -81,17 +88,19 @@ public class CoreAutoConfiguration {
     // REDIS读写配置
     @Bean(name = "dataRedisConnectionFactory")
     @ConditionalOnMissingBean(name = "dataRedisConnectionFactory")
-    public RedisConnectionFactory dataRedisConnectionFactory(DataRedisProperties dataRedisProperties) {
-        JedisConnectionConfiguration jedisCfg = new JedisConnectionConfiguration(dataRedisProperties);
-        return jedisCfg.createJedisConnectionFactory();
+    public RedisConnectionFactory dataRedisConnectionFactory(ClientResources clientResources, DataRedisProperties dataRedisProperties) {
+        LettuceConnectionConfiguration lettuceCfg = new LettuceConnectionConfiguration(dataRedisProperties);
+
+        LettuceClientConfiguration clientConfig = lettuceCfg.getLettuceClientConfiguration(clientResources, dataRedisProperties.getLettuce().getPool());
+        return lettuceCfg.createLettuceConnectionFactory(clientConfig);
     }
 
     @Bean(name = "redisTemplate")
     @ConditionalOnMissingBean(name = "dataRedisTemplate")
-    public RedisTemplate<Object, Object> dataRedisTemplate(@Qualifier("dataRedisConnectionFactory") RedisConnectionFactory dataRedisConnectionFactory) {
+    public RedisTemplate<String, Object> dataRedisTemplate(@Qualifier("dataRedisConnectionFactory") RedisConnectionFactory dataRedisConnectionFactory) {
         KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(Object.class);
 
-        RedisTemplate<Object, Object> template = new RedisTemplate<>();
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(dataRedisConnectionFactory);
 
         // 设置值（value）的序列化采用FastJsonRedisSerializer。
@@ -103,11 +112,16 @@ public class CoreAutoConfiguration {
         return template;
     }
 
-    @Bean(name = "stringDataRedisTemplate")
+    @Bean(name = "stringRedisTemplate")
     @ConditionalOnMissingBean(name = "stringDataRedisTemplate")
     public StringRedisTemplate dataStringRedisTemplate(@Qualifier("dataRedisConnectionFactory") RedisConnectionFactory dataRedisConnectionFactory) {
         StringRedisTemplate template = new StringRedisTemplate();
         template.setConnectionFactory(dataRedisConnectionFactory);
         return template;
+    }
+
+    @Bean
+    public FreemarkerSqlTemplates freemarkerSqlTemplates() {
+        return new FreemarkerSqlTemplates();
     }
 }

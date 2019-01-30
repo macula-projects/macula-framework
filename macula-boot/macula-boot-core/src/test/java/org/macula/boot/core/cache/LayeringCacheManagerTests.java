@@ -31,7 +31,7 @@ import org.macula.boot.core.cache.setting.SecondaryCacheSetting;
 import org.macula.boot.core.cache.stats.CacheStats;
 import org.macula.boot.core.cache.support.ExpireMode;
 import org.macula.boot.core.cache.support.Lock;
-import org.macula.boot.core.cache.support.config.CacheConfig;
+import org.macula.boot.core.cache.config.CacheConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +42,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
-// SpringJUnit4ClassRunner再Junit环境下提供Spring TestContext Framework的功能。
 @RunWith(SpringRunner.class)
-// @ContextConfiguration用来加载配置ApplicationContext，其中classes用来加载配置类
 @ContextConfiguration(classes = {CacheConfig.class})
 public class LayeringCacheManagerTests {
     private Logger logger = LoggerFactory.getLogger(LayeringCacheManagerTests.class);

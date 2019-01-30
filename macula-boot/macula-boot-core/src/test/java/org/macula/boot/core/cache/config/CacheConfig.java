@@ -1,16 +1,16 @@
-package org.macula.boot.core.cache.support.config;
+package org.macula.boot.core.cache.config;
 
 import org.macula.boot.core.cache.aspect.LayeringAspect;
 import org.macula.boot.core.cache.manager.CacheManager;
 import org.macula.boot.core.cache.manager.LayeringCacheManager;
 import org.macula.boot.core.cache.support.test.TestService;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
 
-@Configuration
+@TestConfiguration
 @Import({RedisConfig.class})
 @EnableAspectJAutoProxy
 public class CacheConfig {

@@ -58,12 +58,9 @@ public class XmlNamedTemplateResolver implements NamedTemplateResolver {
 
 	private ErrorHandler errorHandler = new SimpleSaxErrorHandler(logger);
 
-	public XmlNamedTemplateResolver(ResourceLoader resourceLoader) {
-		this.entityResolver = new ResourceEntityResolver(resourceLoader);
-	}
-
-	public void setEncoding(String encoding) {
+	public XmlNamedTemplateResolver(String encoding, ResourceLoader resourceLoader) {
 		this.encoding = encoding;
+		this.entityResolver = new ResourceEntityResolver(resourceLoader);
 	}
 
 	/**
@@ -107,4 +104,9 @@ public class XmlNamedTemplateResolver implements NamedTemplateResolver {
 			}
 		};
 	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
+	}
+
 }

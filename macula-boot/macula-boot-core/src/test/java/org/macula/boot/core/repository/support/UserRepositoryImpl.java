@@ -20,10 +20,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import org.hibernate.Query;
-import org.hibernate.ejb.HibernateQuery;
+import org.hibernate.jpa.HibernateQuery;
 import org.hibernate.transform.AliasToBeanResultTransformer;
-import org.macula.core.test.domain.User;
-import org.macula.core.test.domain.UserVo2;
+import org.macula.boot.core.repository.support.domain.User;
+import org.macula.boot.core.repository.support.domain.UserVo2;
 
 /**
  * <p>
@@ -80,8 +80,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserVo2> findByXXX(String lastName) {
-		HibernateQuery query = (HibernateQuery) em.createQuery("select u.firstName as firstName, u.lastName as lastName from User u where u.lastName=:lastName");
-		Query q = query.getHibernateQuery();
+		Query q = (Query) em.createQuery("select u.firstName as firstName, u.lastName as lastName from User u where u.lastName=:lastName");
 		return q.setResultTransformer(new AliasToBeanResultTransformer(UserVo2.class))
 				.setString("lastName", lastName)
 				.list();

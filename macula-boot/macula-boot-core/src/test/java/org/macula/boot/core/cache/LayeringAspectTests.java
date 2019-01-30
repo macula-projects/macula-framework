@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 import org.macula.boot.core.cache.manager.CacheManager;
 import org.macula.boot.core.cache.manager.LayeringCacheManager;
 import org.macula.boot.core.cache.support.CacheMode;
-import org.macula.boot.core.cache.support.config.CacheConfig;
+import org.macula.boot.core.cache.config.CacheConfig;
 import org.macula.boot.core.cache.support.domain.User;
 import org.macula.boot.core.cache.support.test.TestService;
 import org.macula.boot.core.utils.JSONUtils;
@@ -39,9 +39,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-// SpringRunner再Junit环境下提供Spring TestContext Framework的功能。
 @RunWith(SpringRunner.class)
-// @ContextConfiguration用来加载配置ApplicationContext，其中classes用来加载配置类
 @ContextConfiguration(classes = {CacheConfig.class})
 public class LayeringAspectTests {
     private Logger logger = LoggerFactory.getLogger(LayeringAspectTests.class);

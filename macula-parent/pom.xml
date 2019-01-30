@@ -23,6 +23,7 @@
         <commons-io.version>2.6</commons-io.version>
         <kryo.version>4.0.2</kryo.version>
         <jsoup.version>1.11.3</jsoup.version>
+        <druid.version>1.1.12</druid.version>
     </properties>
 
     <dependencyManagement>
@@ -65,6 +66,13 @@
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>kryo</artifactId>
                 <version>${kryo.version}</version>
+            </dependency>
+
+            <!-- druid DataSource -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>{druid.version}</version>
             </dependency>
 
         </dependencies>

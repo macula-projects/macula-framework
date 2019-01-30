@@ -17,8 +17,8 @@ package org.macula.boot.core.repository.support;
 
 import javax.persistence.EntityManager;
 
-import org.macula.core.hibernate.type.Binary;
-import org.macula.core.test.domain.UserMongo;
+import org.macula.boot.core.hibernate.type.Binary;
+import org.macula.boot.core.repository.support.domain.UserMongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -37,8 +37,8 @@ public class UserMongoRepositoryImpl implements UserMongoRepositoryCustom {
 
 	private EntityManager em;
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
+	//@Autowired
+	//private MongoTemplate mongoTemplate;
 
 	/* (non-Javadoc)
 	 * @see org.macula.core.repository.JpaEntityManagerAware#setEntityManager(javax.persistence.EntityManager)
@@ -74,7 +74,7 @@ public class UserMongoRepositoryImpl implements UserMongoRepositoryCustom {
 		if (entity != null) {
 			Binary binary = entity.getPhoto();
 			if (binary != null) {
-				mongoTemplate.remove(new Query(Criteria.where("id").is(binary.getId())), Binary.class);
+			//	mongoTemplate.remove(new Query(Criteria.where("id").is(binary.getId())), Binary.class);
 			}
 			em.remove(em.contains(entity) ? entity : em.merge(entity));
 		}

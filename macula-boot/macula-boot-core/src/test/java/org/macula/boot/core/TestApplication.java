@@ -14,20 +14,23 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core.config.redis;
+package org.macula.boot.core;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * <p>
- * <b>DataRedisProperties</b> 把Redis当做数据库时的配置项
+ * <b>TestApplication</b> 测试启动类
  * </p>
  *
  * @author Rain
- * @since 2019-01-24
+ * @since 2019-01-30
  */
 
-@ConfigurationProperties(prefix = "spring.data.redis")
-public class DataRedisProperties extends RedisProperties {
-
+@SpringBootApplication
+public class TestApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(TestApplication.class, args);
+    }
 }

@@ -1,12 +1,12 @@
-package org.macula.boot.core.cache.support.config;
+package org.macula.boot.core.cache.config;
 
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 import org.macula.boot.core.redis.KryoRedisSerializer;
 import org.macula.boot.core.redis.StringRedisSerializer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisPassword;
@@ -16,7 +16,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceClientConfigurat
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
-@Configuration
+@TestConfiguration
 @PropertySource({"classpath:application.properties"})
 public class RedisConfig {
 
@@ -43,24 +43,6 @@ public class RedisConfig {
 
     @Value("${spring.redis.pool.max-wait:-1}")
     private int maxWait;
-
-
-//    @Bean
-//    public JedisConnectionFactory redisConnectionFactory() {
-//        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-//        jedisPoolConfig.setMinIdle(minIdle);
-//        jedisPoolConfig.setMaxIdle(maxIdle);
-//        jedisPoolConfig.setMaxTotal(maxActive);
-//        jedisPoolConfig.setMaxWaitMillis(maxWait);
-//
-//        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);
-//        jedisConnectionFactory.setDatabase(database);
-//        jedisConnectionFactory.setHostName(host);
-//        jedisConnectionFactory.setPassword(password);
-//        jedisConnectionFactory.setPort(port);
-//        jedisConnectionFactory.setUsePool(true);
-//        return jedisConnectionFactory;
-//    }
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
