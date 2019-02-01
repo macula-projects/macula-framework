@@ -81,12 +81,14 @@ public class SoMasterRepositoryTests {
         Optional<SoMaster> soNew = soMasterRepository.findById(so.getId());
         Assert.assertEquals(so.getSoNo(), soNew.get().getSoNo());
 
+        Assert.assertNotNull(applicationContext.getBean("testService-config"));
+
     }
 
     // 内部的会被自动扫描到，但是如果是TOP LEVEL的注解不能被自动扫描到
     @TestConfiguration
-    static class Testx {
-        @Bean
+    static class TestCfg {
+        @Bean("testService-config")
         public TestService testService() {
             return new TestService();
         }

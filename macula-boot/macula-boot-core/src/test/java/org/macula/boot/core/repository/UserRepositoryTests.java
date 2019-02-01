@@ -38,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 /**
- * <p> <b>UserRepositoryTests</b> 是用户存取测试. </p>
+ * <p> <b>UserRepositoryTests</b> 是用户存取测试. @DataJpaTest 等属于局部测试，只自动加载相关的自动配置项</p>
  *
  * @author Rain
  * @author Wilson Luo

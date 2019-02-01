@@ -26,6 +26,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+/**
+ * 由于@SpringBootTest会扫描test目录下的XXXRepository类，所以必须要引入JPA的配置，否则会出现找不到EntityManager等问题
+ * @TestConfiguration 如果标识在顶层类上，这个配置是不会被@SpringBooTest注解扫描的，因为加了@SpringBootApplication上加了TypeExcludeFilter
+ * 所以这里需要通过@Import引入
+ * @author Rain
+ * @since 2019-1-31
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Import(RepositoryConfig.class)
