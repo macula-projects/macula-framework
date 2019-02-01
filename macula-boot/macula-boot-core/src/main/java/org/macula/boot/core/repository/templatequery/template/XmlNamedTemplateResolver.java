@@ -48,6 +48,7 @@ import org.xml.sax.InputSource;
  * @version $Id$
  */
 public class XmlNamedTemplateResolver implements NamedTemplateResolver {
+
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	private String encoding = "UTF-8";
@@ -58,55 +59,31 @@ public class XmlNamedTemplateResolver implements NamedTemplateResolver {
 
 	private ErrorHandler errorHandler = new SimpleSaxErrorHandler(logger);
 
+	private String suffix = "xml";
+
 	public XmlNamedTemplateResolver(String encoding, ResourceLoader resourceLoader) {
 		this.encoding = encoding;
 		this.entityResolver = new ResourceEntityResolver(resourceLoader);
 	}
 
-	/**
-	 * 模板后缀
-	 *
-	 * @return String
-	 */
 	@Override
 	public String getSuffix() {
-		return "xml";
+		return this.suffix;
 	}
 
 	@Override
-	public Iterator<Void> doInTemplateResource(Resource resource, final NamedTemplateCallback callback)
-			throws Exception {
+	public void doInTemplateResource(Resource resource, final NamedTemplateCallback callback) throws Exception {
 		InputSource inputSource = new InputSource(resource.getInputStream());
 		inputSource.setEncoding(encoding);
-		Document doc = documentLoader.loadDocument(inputSource, entityResolver, errorHandler,
-				XmlValidationModeDetector.VALIDATION_XSD, false);
+		Document doc = documentLoader.loadDocument(inputSource, entityResolver, errorHandler, XmlValidationModeDetector.VALIDATION_XSD, false);
 		final List<Element> sqes = DomUtils.getChildElementsByTagName(doc.getDocumentElement(), "sql");
 
-		return new Iterator<Void>() {
-			int index = 0, total = sqes.size();
-
-			@Override
-			public boolean hasNext() {
-				return index < total;
-			}
-
-			@Override
-			public Void next() {
-				Element sqle = sqes.get(index);
-				callback.process(sqle.getAttribute("name"), sqle.getTextContent());
-				index++;
-				return null;
-			}
-
-			@Override
-			public void remove() {
-				//ignore
-			}
-		};
+		for (Element sqle : sqes) {
+			callback.process(sqle.getAttribute("name"), sqle.getTextContent());
+		}
 	}
 
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
 	}
-
 }

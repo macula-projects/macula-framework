@@ -29,16 +29,13 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.data.jpa.repository.query.JpaQueryMethod;
 import org.springframework.util.ClassUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.metamodel.EntityType;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -73,8 +70,9 @@ public class FreemarkerSqlTemplates implements ResourceLoaderAware, Initializing
 
     /**
      * 处理查询方法的TemplateQuery注解，寻找SQL模板，按照Freemarker语法解析
+     *
      * @param queryMethod JPA Method
-     * @param model 参数集
+     * @param model       参数集
      * @return SQL语句
      */
     public String process(JpaQueryMethod queryMethod, Map<String, Object> model) {
@@ -108,7 +106,7 @@ public class FreemarkerSqlTemplates implements ResourceLoaderAware, Initializing
         if (modified == null || modified) {
             // 配置中心的优先级最高，注解中的次之，文件中的优先级最低，通过Map层层覆盖替换
             // 1、====先加载文件中的SQL配置
-            // 先按照repository路劲寻找SQL模板文件（和包含TemplateQuery的Repository类在一起并同名，后缀是xml或者sftl）
+            // 先按照repository路径寻找SQL模板文件（和包含TemplateQuery的Repository类在一起并同名，后缀是xml或者sftl）
             String pattern = "classpath:/" + ClassUtils.convertClassNameToResourcePath(repositoryName);
             loadResource(repositoryName, pattern);
             if (sqlTemplateLoader.findTemplateSource(getTemplateKey(repositoryName, methodName)) == null) {
@@ -140,12 +138,9 @@ public class FreemarkerSqlTemplates implements ResourceLoaderAware, Initializing
                     for (Resource resource : resources) {
                         if (resource.exists()) {
                             // 找到对应SQL模板文件后，把里面的所有SQL都一次性加载
-                            resolver.doInTemplateResource(resource, new NamedTemplateCallback() {
-                                @Override
-                                public void process(String methodName, String content) {
-                                    sqlTemplateLoader.putTemplate(getTemplateKey(repositoryName, methodName), content);
-                                    modifiedCache.put(getTemplateKey(repositoryName, methodName), Boolean.FALSE);
-                                }
+                            resolver.doInTemplateResource(resource, (methodName, content) -> {
+                                sqlTemplateLoader.putTemplate(getTemplateKey(repositoryName, methodName), content);
+                                modifiedCache.put(getTemplateKey(repositoryName, methodName), Boolean.FALSE);
                             });
                         }
                     }

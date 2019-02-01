@@ -16,6 +16,7 @@
 
 package org.macula.boot.core.config.redis;
 
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.connection.*;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;

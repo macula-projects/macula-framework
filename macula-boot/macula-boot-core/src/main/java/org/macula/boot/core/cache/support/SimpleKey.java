@@ -38,7 +38,6 @@ public class SimpleKey implements Serializable {
     private final Object[] params;
     private final int hashCode;
 
-
     /**
      * Create a new {@link SimpleKey} instance.
      *

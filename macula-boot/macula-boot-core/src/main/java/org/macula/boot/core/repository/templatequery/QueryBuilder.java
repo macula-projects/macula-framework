@@ -20,18 +20,17 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.DynaBean;
 import org.apache.commons.beanutils.DynaProperty;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.hibernate.query.Query;
-import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.QueryParameter;
 import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
 import org.macula.boot.core.repository.templatequery.transformer.BeanTransformerAdapter;
 import org.macula.boot.core.repository.templatequery.transformer.SmartTransformer;
+import org.springframework.data.jpa.repository.query.JpaParameters;
+import org.springframework.data.repository.query.Parameter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.EntityManager;
 import java.beans.PropertyDescriptor;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,6 +51,7 @@ public class QueryBuilder {
 
     private static Map<Class<?>, ResultTransformer> transformerCache = new ConcurrentHashMap<>();
 
+    @SuppressWarnings("unchecked")
     public static void transform(NativeQuery<?> query, Class<?> clazz) {
         ResultTransformer transformer;
         if (Map.class.isAssignableFrom(clazz)) {
@@ -96,11 +96,15 @@ public class QueryBuilder {
         return wrapCountQuery(cleanOrderBy(query));
     }
 
-    public static void setParams(NativeQuery<?> query, Object beanOrMap) {
+    /**
+     * 给Hibernate查询参数设置值
+     * @param query
+     * @param params
+     */
+    public static void setParams(NativeQuery<?> query, Map<String, Object> params) {
 
         Collection<QueryParameter> nps = query.getParameterMetadata().getNamedParameters();
         if (nps != null) {
-            Map<String, Object> params = toParams(beanOrMap);
             for (QueryParameter<?> param : nps) {
                 String key = param.getName();
                 Object arg = params.get(key);
@@ -119,20 +123,67 @@ public class QueryBuilder {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static Map<String, Object> toParams(Object beanOrMap) {
-        Map<String, Object> params;
-        if (beanOrMap instanceof Map) {
-            params = (Map<String, Object>) beanOrMap;
-        } else {
-            params = toMap(beanOrMap);
+    /**
+     * 将接口中定义的查询方法参数转换为Map，直接使用参数名称作为KEY
+     * @param parameters
+     * @param values
+     * @return
+     */
+    public static Map<String, Object> transValuesToDataModel(JpaParameters parameters, Object[] values) {
+        // gen model
+        Map<String, Object> dataModel = new HashMap<>();
+        for (int i = 0; i < parameters.getNumberOfParameters(); i++) {
+            Object value = values[i];
+            Parameter parameter = parameters.getParameter(i);
+            String name = parameter.getName().orElse(null);
+            if (name != null) {
+                dataModel.put(name, value);
+            }
         }
-        if (!CollectionUtils.isEmpty(params)) {
-            Iterator<String> keys = params.keySet().iterator();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                if (!isValidValue(params.get(key))) {
-                    keys.remove();
+        return dataModel;
+    }
+
+    /**
+     * 将接口中定义的查询方法参数转换为Map，原子类型直接放入map，Bean或者Map转换为Map后放入<BR/>
+     * 为了防止不同的bean或者map属性重名，最终的MAP的KEY是参数名称.属性名称
+     *
+     * @param parameters 参数定义
+     * @param values 参数值
+     * @return Map
+     */
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> transValuesToMap(JpaParameters parameters, Object[] values) {
+        // gen model
+        Map<String, Object> params = new HashMap<>();
+        for (int i = 0; i < parameters.getNumberOfParameters(); i++) {
+            Object value = values[i];
+            Parameter parameter = parameters.getParameter(i);
+            if (value != null && parameter.isBindable()) {
+                if (!QueryBuilder.isValidValue(value)) {
+                    continue;
+                }
+                Class<?> clz = value.getClass();
+                if (clz.isPrimitive() || clz.isEnum() || String.class.isAssignableFrom(clz) || Number.class.isAssignableFrom(clz) || Date.class.isAssignableFrom(clz)) {
+                    // 原子类型
+                    params.put(parameter.getName().get(), value);
+                } else if (clz.isArray()  || value instanceof Collection<?>) {
+                    // 集合
+                    params.put(parameter.getName().get(), value);
+                } else {
+                    // 如果方法中的参数为Map或者Bean类型，则当成Map放入参数的Map中
+                    // 为了防止不同的bean或者map属性重名，最终的MAP的KEY是参数名称.属性名称
+                    Map<String, Object> map;
+                    if (value instanceof Map) {
+                        map = (Map<String, Object>) value;
+                    } else {
+                        map = transBeanToMap(value);
+                    }
+                    for (String key : map.keySet()) {
+                        Object mapValue = map.get(key);
+                        if (isValidValue(mapValue)) {
+                            params.put(parameter.getName().get() + "." + key, mapValue);
+                        }
+                    }
                 }
             }
         }
@@ -149,7 +200,8 @@ public class QueryBuilder {
         return !(object instanceof Collection && CollectionUtils.isEmpty((Collection<?>) object));
     }
 
-    public static Map<String, Object> toMap(Object bean) {
+    // Object转为Map
+    private static Map<String, Object> transBeanToMap(Object bean) {
         if (bean == null) {
             return Collections.emptyMap();
         }
@@ -157,15 +209,15 @@ public class QueryBuilder {
             Map<String, Object> description = new HashMap<String, Object>();
             if (bean instanceof DynaBean) {
                 DynaProperty[] descriptors = ((DynaBean) bean).getDynaClass().getDynaProperties();
-                for (DynaProperty descriptor : descriptors) {
-                    String name = descriptor.getName();
+                for (int i = 0; i < descriptors.length; i++) {
+                    String name = descriptors[i].getName();
                     description.put(name, BeanUtils.getProperty(bean, name));
                 }
             } else {
                 PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(bean);
-                for (PropertyDescriptor descriptor : descriptors) {
-                    String name = descriptor.getName();
-                    if (PropertyUtils.getReadMethod(descriptor) != null) {
+                for (int i = 0; i < descriptors.length; i++) {
+                    String name = descriptors[i].getName();
+                    if (PropertyUtils.getReadMethod(descriptors[i]) != null) {
                         description.put(name, PropertyUtils.getNestedProperty(bean, name));
                     }
                 }

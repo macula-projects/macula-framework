@@ -46,5 +46,5 @@ public interface NamedTemplateResolver {
 	 * @param callback 回调函数，对应一个SQL
 	 * @throws Exception
 	 */
-	Iterator<Void> doInTemplateResource(Resource resource, final NamedTemplateCallback callback) throws Exception;
+	void doInTemplateResource(Resource resource, final NamedTemplateCallback callback) throws Exception;
 }

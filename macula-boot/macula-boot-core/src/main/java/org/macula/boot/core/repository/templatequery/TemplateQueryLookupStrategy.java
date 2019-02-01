@@ -18,7 +18,6 @@ package org.macula.boot.core.repository.templatequery;
 
 import org.springframework.data.jpa.provider.QueryExtractor;
 import org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy;
-import org.springframework.data.jpa.repository.query.JpaQueryMethod;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.repository.core.NamedQueries;
 import org.springframework.data.repository.core.RepositoryMetadata;
@@ -59,7 +58,7 @@ public class TemplateQueryLookupStrategy implements QueryLookupStrategy {
         if (method.getAnnotation(org.macula.boot.core.repository.TemplateQuery.class) == null) {
             return jpaQueryLookupStrategy.resolveQuery(method, metadata, factory, namedQueries);
         } else {
-            return new TemplateQuery(new JpaQueryMethod(method, metadata, factory, extractor), entityManager);
+            return new TemplateQuery(new TemplateQueryMethod(method, metadata, factory, extractor), entityManager);
         }
     }
 

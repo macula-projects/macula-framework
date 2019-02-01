@@ -59,4 +59,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     @Transactional
     void updateFirstName(@Param("lastName") String lastName, @Param("firstName") String firstName);
 
+    @TemplateQuery
+    List<User> findByLastNameMapAndList(@Param("data") Map<String, Object> data, @Param("firstNames") List<String> firstNames);
+
 }

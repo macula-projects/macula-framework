@@ -16,10 +16,8 @@
 
 package org.macula.boot.core.repository.config;
 
-import org.macula.boot.core.domain.support.AuditorAwareStub;
-import org.macula.boot.core.domain.support.DbDateTimeProvider;
+import org.macula.boot.core.config.JpaConfiguration;
 import org.macula.boot.core.repository.MaculaJpaRepositoryFactoryBean;
-import org.macula.boot.core.repository.templatequery.template.FreemarkerSqlTemplates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
@@ -29,6 +27,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -53,6 +52,7 @@ import java.util.Map;
         entityManagerFactoryRef = "maculaEntityManagerFactory")
 @EnableJpaAuditing(auditorAwareRef = "auditorAwareStub", dateTimeProviderRef = "dbDateTimeProvider")
 @AutoConfigureBefore(JpaRepositoriesAutoConfiguration.class)
+@Import(JpaConfiguration.class)
 public class RepositoryConfig {
 
     @Autowired
@@ -62,6 +62,7 @@ public class RepositoryConfig {
     private HibernateProperties hibernateProperties;
 
     @Autowired
+    // 默认内嵌的数据库DataSource，可以自己定义
     private DataSource dataSource;
 
     @Bean(name = "maculaEntityManagerFactory")
@@ -74,20 +75,6 @@ public class RepositoryConfig {
                 .build();
     }
 
-    @Bean
-    public AuditorAwareStub auditorAwareStub() {
-        return new AuditorAwareStub();
-    }
-
-    @Bean
-    public DbDateTimeProvider dbDateTimeProvider() {
-        return new DbDateTimeProvider();
-    }
-
-    @Bean
-    public FreemarkerSqlTemplates freemarkerSqlTemplates() {
-        return new FreemarkerSqlTemplates();
-    }
 
     private Map<String, Object> getVendorProperties() {
         return hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), new HibernateSettings());

@@ -15,164 +15,48 @@
  */
 package org.macula.boot.core.repository.support.domain;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
+import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
-import org.macula.boot.MaculaConstants;
 import org.macula.boot.core.domain.AbstractAuditable;
 import org.macula.boot.core.hibernate.audit.Auditable;
-import org.macula.boot.core.hibernate.type.Binary;
-import org.macula.boot.core.hibernate.type.RelationDbBinaryType;
-import org.macula.boot.core.hibernate.type.RelationDbTextType;
-import org.macula.boot.core.hibernate.type.Text;
+
+import javax.persistence.*;
 
 /**
  * <p>
  * <b>User</b> 是用户测试模型.
  * </p>
- * 
- * @since 2010-12-30
+ *
  * @author Rain
  * @author Wilson Luo
  * @version $Id: User.java 5354 2014-09-01 03:21:07Z wzp $
+ * @since 2010-12-30
  */
 @Entity
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "MY_USER")
 @Auditable
-@TypeDefs({ @TypeDef(name = "binary", typeClass = RelationDbBinaryType.class),
-		@TypeDef(name = "text", typeClass = RelationDbTextType.class) })
+@Data
 public class User extends AbstractAuditable<Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@javax.validation.constraints.Size(min = 1, max = 10)
-	@Auditable
-	@Column(name = "FIRST_NAME")
-	private String firstName;
-	@javax.validation.constraints.Size(max = 10)
-	@Auditable
-	@Column(name = "LAST_NAME")
-	private String lastName;
-	@Auditable
-	@Column(name = "EMAIL")
-	private String email;
-	@Column(name = "PHOTO", columnDefinition = "LONGVARBINARY")
-	@Type(type = "binary", parameters = {
-			@Parameter(name = "columnName", value = "PHOTO"),
-			@Parameter(name = "jdbcTemplate", value = MaculaConstants.JDBC_TEMPLATE_NAME),
-			@Parameter(name = "tableName", value = "MY_USER") })
-	private Binary photo;
-	@Column(name = "PROFILE", columnDefinition = "CLOB")
-	@Type(type = "text", parameters = {
-			@Parameter(name = "columnName", value = "PROFILE"),
-			@Parameter(name = "jdbcTemplate", value = MaculaConstants.JDBC_TEMPLATE_NAME),
-			@Parameter(name = "tableName", value = "MY_USER") })
-	private Text profile;
-
-	@Embedded
-	@AttributeOverrides({
-			@AttributeOverride(name = "homeTel", column = @Column(name = "HOME_TEL")),
-			@AttributeOverride(name = "officeTel", column = @Column(name = "OFFICE_TEL")) })
-	private EmbbedContactInfo contactInfo;
-
-	public Text getProfile() {
-		return profile;
-	}
-
-	public void setProfile(String profile) {
-		if (this.profile == null) {
-			this.profile = new Text();
-		}
-		this.profile.setContent(profile);
-	}
-
-	/**
-	 * @return the photo
-	 */
-	public Binary getPhoto() {
-		return photo;
-	}
-
-	/**
-	 * @param photo
-	 *            the photo to set
-	 */
-	public void setPhoto(byte[] photo) {
-		if (this.photo == null) {
-			this.photo = new Binary();
-		}
-		this.photo.setContent(photo);
-	}
-
-	/**
-	 * @return the lastname
-	 */
-	public String getLastName() {
-		return lastName;
-	}
-
-	/**
-	 * @param lastName
-	 *            the lastname to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public User() {
-		this(null);
-	}
-
-	public User(Long id) {
-		this.setId(id);
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-	/**
-	 * @param email
-	 *            the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	/**
-	 * @return the contactInfo
-	 */
-	public EmbbedContactInfo getContactInfo() {
-		return contactInfo;
-	}
-
-	/**
-	 * @param contactInfo the contactInfo to set
-	 */
-	public void setContactInfo(EmbbedContactInfo contactInfo) {
-		this.contactInfo = contactInfo;
-	}
+    @javax.validation.constraints.Size(min = 1, max = 10)
+    @Auditable
+    @Column(name = "FIRST_NAME")
+    private String firstName;
+    @javax.validation.constraints.Size(max = 10)
+    @Auditable
+    @Column(name = "LAST_NAME")
+    private String lastName;
+    @Auditable
+    @Column(name = "EMAIL")
+    private String email;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "homeTel", column = @Column(name = "HOME_TEL")),
+            @AttributeOverride(name = "officeTel", column = @Column(name = "OFFICE_TEL"))})
+    private EmbbedContactInfo contactInfo;
 }

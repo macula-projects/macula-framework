@@ -42,7 +42,7 @@ public class MaculaJpaRepositoryFactoryBean<T extends JpaRepository<Object, Seri
     /*
      * (non-Javadoc)
      *
-     * @see org.springframework.data.jpa.repository.support.
+     * @see org.springframework.data.org.macula.boot.core.repository.repository.support.
      * GenericJpaRepositoryFactoryBean#getFactory()
      */
     @Override

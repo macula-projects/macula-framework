@@ -98,7 +98,7 @@ public class MaculaJpaRepositoryFactory extends JpaRepositoryFactory {
      * (non-Javadoc)
      *
      * @see
-     * org.springframework.data.jpa.repository.support.JpaRepositoryFactory#
+     * org.springframework.data.org.macula.boot.core.repository.repository.support.JpaRepositoryFactory#
      * getRepositoryBaseClass(java.lang.Class)
      */
     @Override

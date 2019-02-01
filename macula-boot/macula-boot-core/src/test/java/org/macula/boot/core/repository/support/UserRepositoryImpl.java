@@ -18,9 +18,8 @@ package org.macula.boot.core.repository.support;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
-import org.hibernate.Query;
-import org.hibernate.jpa.HibernateQuery;
 import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.macula.boot.core.repository.support.domain.User;
 import org.macula.boot.core.repository.support.domain.UserVo2;
@@ -80,8 +79,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserVo2> findByXXX(String lastName) {
-		Query q = (Query) em.createQuery("select u.firstName as firstName, u.lastName as lastName from User u where u.lastName=:lastName");
-		return q.setResultTransformer(new AliasToBeanResultTransformer(UserVo2.class))
+		Query q = em.createQuery("select u.firstName as firstName, u.lastName as lastName from User u where u.lastName=:lastName");
+		return ((org.hibernate.query.Query)q).setResultTransformer(new AliasToBeanResultTransformer(UserVo2.class))
 				.setString("lastName", lastName)
 				.list();
 	}

@@ -53,7 +53,7 @@ public class TemplateQuery extends AbstractJpaQuery {
     /**
      * Creates a new {@link AbstractJpaQuery} from the given {@link JpaQueryMethod}.
      *
-     * @param method jpa query method
+     * @param method org.macula.boot.core.repository query method
      * @param em     entity manager
      */
     TemplateQuery(JpaQueryMethod method, EntityManager em) {
@@ -78,31 +78,11 @@ public class TemplateQuery extends AbstractJpaQuery {
     }
 
     private String getQueryFromTpl(Object[] values) {
-        return ApplicationContext.getBean(FreemarkerSqlTemplates.class).process(getQueryMethod(), getParams(values));
+        return ApplicationContext.getBean(FreemarkerSqlTemplates.class).process(getQueryMethod(),
+                        QueryBuilder.transValuesToDataModel(getQueryMethod().getParameters(), values));
     }
 
-    private Map<String, Object> getParams(Object[] values) {
-        JpaParameters parameters = getQueryMethod().getParameters();
-        //gen model
-        Map<String, Object> params = new HashMap<String, Object>();
-        for (int i = 0; i < parameters.getNumberOfParameters(); i++) {
-            Object value = values[i];
-            Parameter parameter = parameters.getParameter(i);
-            if (value != null && canBindParameter(parameter)) {
-                if (!QueryBuilder.isValidValue(value)) {
-                    continue;
-                }
-                Class<?> clz = value.getClass();
-                if (clz.isPrimitive() || String.class.isAssignableFrom(clz) || Number.class.isAssignableFrom(clz)
-                        || clz.isArray() || Collection.class.isAssignableFrom(clz) || clz.isEnum()) {
-                    params.put(parameter.getName().orElse(null), value);
-                } else {
-                    params = QueryBuilder.toParams(value);
-                }
-            }
-        }
-        return params;
-    }
+
 
     private Query createJpaQuery(String queryString) {
         Class<?> objectType = getQueryMethod().getReturnedObjectType();
@@ -135,14 +115,6 @@ public class TemplateQuery extends AbstractJpaQuery {
         return oriProxyQuery;
     }
 
-    private String getEntityName() {
-        return getQueryMethod().getEntityInformation().getJavaType().getSimpleName();
-    }
-
-    private String getMethodName() {
-        return getQueryMethod().getName();
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     protected TypedQuery<Long> doCreateCountQuery(Object[] values) {
@@ -155,14 +127,10 @@ public class TemplateQuery extends AbstractJpaQuery {
         //get proxy target if exist.
         //must be hibernate QueryImpl
         NativeQuery<?> targetQuery = AopTargetUtils.getTarget(query);
-        Map<String, Object> params = getParams(values);
+        Map<String, Object> params = QueryBuilder.transValuesToMap(getQueryMethod().getParameters(), values);
         if (!CollectionUtils.isEmpty(params)) {
             QueryBuilder.setParams(targetQuery, params);
         }
         return query;
-    }
-
-    private boolean canBindParameter(Parameter parameter) {
-        return parameter.isBindable();
     }
 }

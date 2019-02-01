@@ -16,15 +16,17 @@
 package org.macula.boot.core.repository;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.macula.boot.core.repository.config.RepositoryConfig;
-import org.macula.boot.core.repository.support.UserMongoRepository;
 import org.macula.boot.core.repository.support.UserRepository;
-import org.macula.boot.core.repository.support.domain.*;
+import org.macula.boot.core.repository.support.domain.EmbbedContactInfo;
+import org.macula.boot.core.repository.support.domain.User;
+import org.macula.boot.core.repository.support.domain.UserVo;
+import org.macula.boot.core.repository.support.domain.UserVo2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
@@ -33,10 +35,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * <p> <b>UserRepositoryTests</b> 是用户存取测试. </p>
@@ -55,20 +54,17 @@ public class UserRepositoryTests {
     private UserRepository userRepository;
 
     @Autowired
-    private UserMongoRepository userMongoRepository;
-
-    @Autowired
     private ApplicationContext applicationContext;
 
-    //@Test
-    public void testFindById() {
-
+    @Before
+    public void init() {
         org.macula.boot.ApplicationContext.setContainer(applicationContext);
+    }
 
+    @Test
+    public void testFindById() {
         User user = new User();
         user.setFirstName("测试用户");
-        user.setPhoto(new byte[]{0x01, 0x02});
-        user.setProfile("我是好人！");
         User entity = userRepository.saveUser(user);
 
         Optional<User> findo = userRepository.findById(entity.getId());
@@ -76,7 +72,6 @@ public class UserRepositoryTests {
 
         User find = findo.get();
         Assert.assertNotNull(find.getCreatedBy());
-        Assert.assertEquals("我是好人！", find.getProfile().getContent());
 
 
         find.setFirstName("测试用");
@@ -85,86 +80,30 @@ public class UserRepositoryTests {
         User find2 = userRepository.loadElementById(entity.getId());
         Assert.assertNotNull(find2);
         Assert.assertNotNull(find2.getCreatedBy());
-        Assert.assertNotNull(find2.getPhoto());
-        Assert.assertNotNull(find2.getPhoto().getId());
-        Assert.assertEquals(2, find2.getPhoto().getContent().length);
 
-        String content = getText();
-        find2.setPhoto(new byte[]{0x01, 0x02, 0x03});
-        find2.setProfile(content);
         find2.setLastName("Changed");
         userRepository.save(find2);
 
         User find3 = userRepository.loadElementById(entity.getId());
-        Assert.assertEquals(3, find3.getPhoto().getContent().length);
-        Assert.assertEquals(content, find3.getProfile().getContent());
 
         userRepository.customDelete(find3);
     }
 
-    //@Test
-    public void testMongoFindById() {
-
-        org.macula.boot.ApplicationContext.setContainer(applicationContext);
-
-        UserMongo user = new UserMongo();
-        user.setFirstname("测试用户");
-        user.setPhoto(new byte[]{0x01, 0x02});
-        user.setProfile("我是好人！");
-        UserMongo entity = userMongoRepository.saveUser(user);
-
-        Optional<UserMongo> findo = userMongoRepository.findById(entity.getId());
-        Assert.assertTrue(findo.isPresent());
-
-        UserMongo find = findo.get();
-
-        Assert.assertNotNull(find.getCreatedBy());
-        Assert.assertEquals("我是好人！", find.getProfile().getContent());
-
-        find.setFirstname("测试用");
-        userMongoRepository.save(find);
-
-        UserMongo find2 = userMongoRepository.loadElementById(entity.getId());
-        Assert.assertNotNull(find2);
-        Assert.assertNotNull(find2.getCreatedBy());
-        Assert.assertNotNull(find2.getPhoto());
-        Assert.assertNotNull(find2.getPhoto().getId());
-        Assert.assertEquals(2, find2.getPhoto().getContent().length);
-
-        String content = getText();
-        find2.setPhoto(new byte[]{0x01, 0x02, 0x03});
-        find2.setProfile(content);
-        find2.setLastname("Changed");
-        userMongoRepository.save(find2);
-
-        UserMongo find3 = userMongoRepository.loadElementById(entity.getId());
-        Assert.assertEquals(3, find3.getPhoto().getContent().length);
-        Assert.assertEquals(content, find3.getProfile().getContent());
-
-        userMongoRepository.customDelete(find3);
-    }
-
     @Test
     public void testQueryAnnotation() {
-        org.macula.boot.ApplicationContext.setContainer(applicationContext);
-
         User user = new User();
         user.setFirstName("测试用户");
         user.setLastName("Rain");
         user.setEmail("rain@xxx.com");
-        user.setPhoto(new byte[]{0x01, 0x02});
-        user.setProfile("我是好人！");
         userRepository.saveUser(user);
 
         User user2 = new User();
         user2.setFirstName("测试用户2");
         user2.setLastName("Rain");
         user2.setEmail("rain2@xxx.com");
-        user2.setPhoto(new byte[]{0x01, 0x02});
-        user2.setProfile("我是好人2！");
         userRepository.saveUser(user2);
 
-        Pageable page = new PageRequest(0, 20);
+        Pageable page = PageRequest.of(0, 20);
         Page<UserVo> vos = userRepository.findByLastName("Rain", page);
         System.out.println("==========size==========:" + vos.getTotalElements());
         Assert.assertEquals("测试用户", vos.getContent().get(0).getFirstName());
@@ -181,12 +120,22 @@ public class UserRepositoryTests {
         Assert.assertEquals("测试用户", vos2.getContent().get(0).getFirstName());
         Assert.assertEquals("测试用户2", vos2.getContent().get(1).getFirstName());
 
-        Map<String, Object> data = new HashMap<String, Object>();
+        Map<String, Object> data = new HashMap<>();
         data.put("lastName", "Rain");
         Page<User> userMap = userRepository.findByLastNameMap(data, page);
         System.out.println("==========size==========:" + userMap.getTotalElements());
         Assert.assertEquals("测试用户", userMap.getContent().get(0).getFirstName());
         Assert.assertEquals("测试用户2", userMap.getContent().get(1).getFirstName());
+
+        List<String> firstNames = new ArrayList<>();
+        firstNames.add("测试用户2");
+        List<User> mapAndList = userRepository.findByLastNameMapAndList(data, firstNames);
+        Assert.assertEquals(1, mapAndList.size());
+        Assert.assertEquals("rain2@xxx.com", mapAndList.get(0).getEmail());
+
+        firstNames.add("测试用户");
+        mapAndList = userRepository.findByLastNameMapAndList(data, firstNames);
+        Assert.assertEquals(2, mapAndList.size());
 
         userRepository.updateFirstName("Rain", "测试用户update");
         Page<UserVo> vos21 = userRepository.findByLastNameVo("Rain", page);
@@ -194,20 +143,15 @@ public class UserRepositoryTests {
         System.out.println(vos21.getContent().get(0).getFirstName());
         Assert.assertEquals("测试用户update", vos21.getContent().get(0).getFirstName());
         Assert.assertEquals("测试用户update", vos21.getContent().get(1).getFirstName());
-
     }
 
-    //@Test
+    @Test
     @Transactional
     public void testQueryEmbbedContactInfo() {
-        org.macula.boot.ApplicationContext.setContainer(applicationContext);
-
         User user = new User();
         user.setFirstName("测试用户");
         user.setLastName("Rainxx");
         user.setEmail("rain@xxx.com");
-        user.setPhoto(new byte[]{0x01, 0x02});
-        user.setProfile("我是好人！");
 
         EmbbedContactInfo contactInfo = new EmbbedContactInfo();
         contactInfo.setHomeTel("123456");
@@ -236,13 +180,5 @@ public class UserRepositoryTests {
         Assert.assertEquals("xxxxemail@xx.com", xx.getEmail());
         System.out.println(xx.getContactInfo().getHomeTel() + "  after=======================");
         Assert.assertEquals("123456", xx.getContactInfo().getHomeTel());
-    }
-
-    private String getText() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 10; i++) {
-            sb.append(i);
-        }
-        return sb.toString();
     }
 }

@@ -16,18 +16,21 @@
 
 package org.macula.boot.core.config.redis;
 
+import lombok.Data;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * <p>
- * <b>DataRedisProperties</b> 把Redis当做数据库时的配置项
+ * <b>MultiRedisProperties</b> 多Redis配置
  * </p>
  *
  * @author Rain
- * @since 2019-01-24
+ * @since 2019-01-31
  */
-
-@ConfigurationProperties(prefix = "spring.data.redis")
-public class DataRedisProperties extends RedisProperties {
-
+@Data
+@ConfigurationProperties("spring.redis")
+public class MultiRedisProperties {
+    private RedisProperties cache = new RedisProperties();
+    private RedisProperties data = new RedisProperties();
 }

@@ -1,7 +1,4 @@
---findByLastNameMapy
-	select * from MY_USER u where u.last_name = :data.lastName
-
---findByLastNameMapAndListy
+--findByLastNameMapAndList
 	select * from MY_USER u where 1=1
 	<#if (data.lastName)??>
 	  and u.last_name = :data.lastName 

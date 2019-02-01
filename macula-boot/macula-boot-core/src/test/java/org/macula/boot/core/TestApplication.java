@@ -18,10 +18,12 @@ package org.macula.boot.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * <p>
- * <b>TestApplication</b> 测试启动类
+ * <b>TestApplication</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
  * </p>
  *
  * @author Rain
@@ -31,6 +33,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TestApplication {
     public static void main(String[] args) {
-        SpringApplication.run(TestApplication.class, args);
+        ApplicationContext ctx = SpringApplication.run(TestApplication.class, args);
+        org.macula.boot.ApplicationContext.setContainer(ctx);
     }
 }
