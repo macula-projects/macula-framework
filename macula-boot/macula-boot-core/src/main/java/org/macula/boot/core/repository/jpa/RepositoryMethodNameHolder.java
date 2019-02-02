@@ -14,25 +14,32 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+/**
+ * RepositoryMethodNameHolder.java 2016年6月22日
+ */
+package org.macula.boot.core.repository.jpa;
 
 /**
  * <p>
- * <b>TestApplication</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
+ * <b>RepositoryMethodNameHolder</b> 存放当前线程的SQL名称
  * </p>
  *
  * @author Rain
- * @since 2019-01-30
+ * @version $Id$
+ * @since 2016年6月22日
  */
+public class RepositoryMethodNameHolder {
+    private static ThreadLocal<String> sqlName = new ThreadLocal<String>();
 
-@SpringBootApplication
-public class TestApplication {
-    public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(TestApplication.class, args);
-        org.macula.boot.ApplicationContext.setContainer(ctx);
+    public static void set(String name) {
+        sqlName.set(name);
+    }
+
+    public static String get() {
+        return sqlName.get();
+    }
+
+    public static void remove() {
+        sqlName.remove();
     }
 }

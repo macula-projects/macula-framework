@@ -14,25 +14,35 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core;
+/**
+ * NamedTemplateResolver.java 2017年11月17日
+ */
+package org.macula.boot.core.repository.jpa.templatequery.template;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
 
 /**
  * <p>
- * <b>TestApplication</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
+ * <b>NamedTemplateResolver</b> TemplateQuery模板解析接口
  * </p>
  *
+ * @since 2017年11月17日
  * @author Rain
- * @since 2019-01-30
+ * @version $Id$
  */
+public interface NamedTemplateResolver {
+	
+	/**
+	 * 模板后缀
+	 * @return String
+	 */
+	String getSuffix();
 
-@SpringBootApplication
-public class TestApplication {
-    public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(TestApplication.class, args);
-        org.macula.boot.ApplicationContext.setContainer(ctx);
-    }
+	/**
+	 * 解析模板中的SQL并回调
+	 * @param resource 模板资源
+	 * @param callback 回调函数，对应一个SQL
+	 * @throws Exception
+	 */
+	void doInTemplateResource(Resource resource, final NamedTemplateCallback callback) throws Exception;
 }

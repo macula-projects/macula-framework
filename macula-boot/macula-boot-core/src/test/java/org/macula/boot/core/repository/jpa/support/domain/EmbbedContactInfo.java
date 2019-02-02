@@ -14,25 +14,32 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core;
+/**
+ * EmbbedContactInfo.java 2014年9月1日
+ */
+package org.macula.boot.core.repository.jpa.support.domain;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import lombok.Data;
+
+import javax.persistence.Embeddable;
 
 /**
  * <p>
- * <b>TestApplication</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
+ * <b>EmbbedContactInfo</b> is
  * </p>
  *
+ * @since 2014年9月1日
  * @author Rain
- * @since 2019-01-30
+ * @version $Id: EmbbedContactInfo.java 5354 2014-09-01 03:21:07Z wzp $
  */
 
-@SpringBootApplication
-public class TestApplication {
-    public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(TestApplication.class, args);
-        org.macula.boot.ApplicationContext.setContainer(ctx);
-    }
+@Data
+@Embeddable
+public class EmbbedContactInfo {
+	
+	private String homeTel;
+	
+	private String mobile;
+	
+	private String officeTel;
 }

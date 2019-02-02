@@ -2,9 +2,11 @@ package org.macula.boot.core.cache.config;
 
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
+import lombok.Data;
 import org.macula.boot.core.redis.KryoRedisSerializer;
 import org.macula.boot.core.redis.StringRedisSerializer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
@@ -17,32 +19,18 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 
 @TestConfiguration
-@PropertySource({"classpath:application.properties"})
+@ConfigurationProperties(prefix = "spring.redis")
+@Data
 public class RedisConfig {
 
-    @Value("${spring.redis.database:0}")
-    private int database;
-
-    @Value("${spring.redis.host:127.0.0.1}")
-    private String host;
-
-    @Value("${spring.redis.password:}")
+    private int database = 0;
+    private String host = "127.0.0.1";
     private String password;
-
-    @Value("${spring.redis.port:6379}")
-    private int port;
-
-    @Value("${spring.redis.pool.max-idle:200}")
-    private int maxIdle;
-
-    @Value("${spring.redis.pool.min-idle:10}")
-    private int minIdle;
-
-    @Value("${spring.redis.pool.max-active:80}")
-    private int maxActive;
-
-    @Value("${spring.redis.pool.max-wait:-1}")
-    private int maxWait;
+    private int port = 6379;
+    private int maxIdle = 200;
+    private int minIdle = 10;
+    private int maxActive = 80;
+    private int maxWait = -1;
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {

@@ -19,23 +19,22 @@ package org.macula.boot.core.config;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.macula.boot.core.repository.config.RepositoryConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * 由于@SpringBootTest会扫描test目录下的XXXRepository类，所以必须要引入JPA的配置，否则会出现找不到EntityManager等问题
+ *
+ * @author Rain
  * @TestConfiguration 如果标识在顶层类上，这个配置是不会被@SpringBooTest注解扫描的，因为加了@SpringBootApplication上加了TypeExcludeFilter
  * 所以这里需要通过@Import引入
- * @author Rain
  * @since 2019-1-31
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@Import(RepositoryConfig.class)
+// 避开其他目录的类被加载，这里只做CoreAutoConfiguration的配置检查
+@SpringBootTest(classes = Application.class)
 public class CoreAutoConfigurationTests {
 
     @Autowired

@@ -13,26 +13,24 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package org.macula.boot.core.repository.jpa;
 
-package org.macula.boot.core;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import javax.persistence.EntityManager;
+import java.io.Serializable;
 
 /**
  * <p>
- * <b>TestApplication</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
+ * <b>MaculaJpaRepository</b> 可以获取EntityManager的接口，所有自定义的Repository接口继承该接口
  * </p>
  *
  * @author Rain
- * @since 2019-01-30
+ * @version $Id: MaculaJpaRepository.java 3807 2012-11-21 07:31:51Z wilson $
+ * @since 2011-4-19
  */
-
-@SpringBootApplication
-public class TestApplication {
-    public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(TestApplication.class, args);
-        org.macula.boot.ApplicationContext.setContainer(ctx);
-    }
+@NoRepositoryBean
+public interface MaculaJpaRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
+    EntityManager getEntityManager();
 }

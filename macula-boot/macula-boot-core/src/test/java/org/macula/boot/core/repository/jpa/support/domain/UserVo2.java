@@ -14,25 +14,27 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core;
+/**
+ * UserVo.java 2014年8月27日
+ */
+package org.macula.boot.core.repository.jpa.support.domain;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import lombok.Data;
 
 /**
  * <p>
- * <b>TestApplication</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
+ * <b>UserVo</b> is
  * </p>
  *
+ * @since 2014年8月27日
  * @author Rain
- * @since 2019-01-30
+ * @version $Id: UserVo2.java 5351 2014-08-27 09:19:53Z wzp $
  */
 
-@SpringBootApplication
-public class TestApplication {
-    public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(TestApplication.class, args);
-        org.macula.boot.ApplicationContext.setContainer(ctx);
-    }
+@Data
+public class UserVo2 {
+	
+	private String firstName;
+	
+	private String lastName;
 }

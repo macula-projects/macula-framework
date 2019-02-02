@@ -14,25 +14,27 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core;
+/**
+ * NotFoundTemplateException.java 2016年11月2日
+ */
+package org.macula.boot.core.repository.jpa;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import org.macula.boot.exception.MaculaException;
 
 /**
  * <p>
- * <b>TestApplication</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
+ * <b>TemplateQueryNotFoundException</b> 找不到SQL定义的模板异常
  * </p>
  *
  * @author Rain
- * @since 2019-01-30
+ * @version $Id$
+ * @since 2016年11月2日
  */
+public class TemplateQueryNotFoundException extends MaculaException {
 
-@SpringBootApplication
-public class TestApplication {
-    public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(TestApplication.class, args);
-        org.macula.boot.ApplicationContext.setContainer(ctx);
+    private static final long serialVersionUID = 1L;
+
+    public TemplateQueryNotFoundException(String message) {
+        super(message);
     }
 }

@@ -18,7 +18,7 @@ package org.macula.boot.core.config;
 
 import org.macula.boot.core.domain.support.AuditorAwareStub;
 import org.macula.boot.core.domain.support.DbDateTimeProvider;
-import org.macula.boot.core.repository.templatequery.template.FreemarkerSqlTemplates;
+import org.macula.boot.core.repository.jpa.templatequery.template.FreemarkerSqlTemplates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,7 +31,6 @@ import org.springframework.context.annotation.Configuration;
  * @since 2019-01-31
  */
 
-@Configuration
 public class JpaConfiguration {
     // JPA Audit配置
     @Bean

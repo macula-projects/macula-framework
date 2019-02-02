@@ -14,15 +14,16 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core;
+package org.macula.boot.core.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.PropertySource;
 
 /**
  * <p>
- * <b>TestApplication</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
+ * <b>Application</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
  * </p>
  *
  * @author Rain
@@ -30,9 +31,9 @@ import org.springframework.context.ApplicationContext;
  */
 
 @SpringBootApplication
-public class TestApplication {
+public class Application {
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(TestApplication.class, args);
+        ApplicationContext ctx = SpringApplication.run(Application.class, args);
         org.macula.boot.ApplicationContext.setContainer(ctx);
     }
 }

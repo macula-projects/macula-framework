@@ -14,25 +14,22 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core;
+package org.macula.boot.core.repository.jpa;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import org.springframework.data.annotation.QueryAnnotation;
+
+import java.lang.annotation.*;
 
 /**
- * <p>
- * <b>TestApplication</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
- * </p>
+ * 写在Repository接口方法上的注解，表示读取写在模板文件中的SQL语句
  *
- * @author Rain
- * @since 2019-01-30
+ * @author <a href="mailto:stormning@163.com">stormning</a>
+ * @version V1.0, 2015/8/9.
  */
-
-@SpringBootApplication
-public class TestApplication {
-    public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(TestApplication.class, args);
-        org.macula.boot.ApplicationContext.setContainer(ctx);
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD})
+@QueryAnnotation
+@Documented
+public @interface TemplateQuery {
+    String value() default "";
 }

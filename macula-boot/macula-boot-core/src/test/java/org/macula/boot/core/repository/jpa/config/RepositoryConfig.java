@@ -1,0 +1,91 @@
+/*
+ *  Copyright (c) 2010-2019   the original author or authors.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *          http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+package org.macula.boot.core.repository.jpa.config;
+
+import org.macula.boot.core.config.JpaConfiguration;
+import org.macula.boot.core.repository.jpa.MaculaJpaRepositoryFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.jdbc.SchemaManagement;
+import org.springframework.boot.jdbc.SchemaManagementProvider;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.sql.DataSource;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * <p>
+ * <b>RepositoryConfig</b> Spring Data Jpa扩展测试
+ * </p>
+ *
+ * @author Rain
+ * @since 2019-01-28
+ */
+
+@TestConfiguration
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "org.macula.boot.core.repository.jpa.support",
+        repositoryFactoryBeanClass = MaculaJpaRepositoryFactoryBean.class,
+        entityManagerFactoryRef = "maculaEntityManagerFactory")
+@EnableJpaAuditing(auditorAwareRef = "auditorAwareStub", dateTimeProviderRef = "dbDateTimeProvider")
+@AutoConfigureBefore(JpaRepositoriesAutoConfiguration.class)
+@Import(JpaConfiguration.class)
+public class RepositoryConfig {
+
+    @Autowired
+    private JpaProperties jpaProperties;
+
+    @Autowired
+    private HibernateProperties hibernateProperties;
+
+    @Autowired
+    // 默认内嵌的数据库DataSource，可以自己定义
+    private DataSource dataSource;
+
+    @Bean(name = "maculaEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean maculaEntityManagerFactory(EntityManagerFactoryBuilder builder) {
+        return builder
+                .dataSource(dataSource)
+                .properties(getVendorProperties())
+                .packages("org.macula.boot.core.repository.jpa.support.domain") //设置实体类所在位置
+                .persistenceUnit("maculaPersistenceUnit")
+                .build();
+    }
+
+
+    private Map<String, Object> getVendorProperties() {
+        HibernateSettings settings = new HibernateSettings();
+        return hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), settings);
+    }
+}

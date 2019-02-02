@@ -14,25 +14,25 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+/**
+ * NamedTemplateCallback.java 2017年11月17日
+ */
+package org.macula.boot.core.repository.jpa.templatequery.template;
 
 /**
  * <p>
- * <b>TestApplication</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
+ * <b>NamedTemplateCallback</b> 模板处理回调
  * </p>
  *
+ * @since 2017年11月17日
  * @author Rain
- * @since 2019-01-30
+ * @version $Id$
  */
-
-@SpringBootApplication
-public class TestApplication {
-    public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(TestApplication.class, args);
-        org.macula.boot.ApplicationContext.setContainer(ctx);
-    }
+public interface NamedTemplateCallback {
+	/**
+	 * 处理模板
+	 * @param methodName 模板中的SQL名称
+	 * @param content SQL语句模板
+	 */
+	void process(String methodName, String content);
 }

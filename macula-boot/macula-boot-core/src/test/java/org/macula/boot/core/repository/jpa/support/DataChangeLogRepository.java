@@ -13,26 +13,19 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package org.macula.boot.core.repository.jpa.support;
 
-package org.macula.boot.core;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import org.macula.boot.core.repository.jpa.support.domain.DataChangeLog;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * <p>
- * <b>TestApplication</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
- * </p>
+ * <p> <b>DataChangeLogRepository</b> 是DataChangeLog存取接口. </p>
  *
- * @author Rain
- * @since 2019-01-30
+ * @author Wilson Luo
+ * @version $Id: DataChangeLogRepository.java 3807 2012-11-21 07:31:51Z wilson $
+ * @since 2011-4-11
  */
+public interface DataChangeLogRepository extends JpaRepository<DataChangeLog, Long> {
 
-@SpringBootApplication
-public class TestApplication {
-    public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(TestApplication.class, args);
-        org.macula.boot.ApplicationContext.setContainer(ctx);
-    }
+    public DataChangeLog findByTableNameAndColumnNameAndDataId(String tableName, String columnName, String dataId);
 }
