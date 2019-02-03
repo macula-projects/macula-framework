@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author Rain
  * @since 2019-01-23
  */
-@ConfigurationProperties(prefix = "macula.boot.core")
+@ConfigurationProperties(prefix = MaculaConstants.CONFIG_BOOT_CORE_PREFIX)
 public class CoreConfigProperties {
 
     // XSS防护级别，默认是BASIC级别

@@ -33,7 +33,13 @@ public class MaculaConstants {
 	public final static String EXCEPTION_CODE_DATABASE = "database";
 
 	public final static String JDBC_TEMPLATE_NAME = "jdbcTemplate";
-	
+
+	public final static String CONFIG_DATASOURCE_PREFIX = "macula.datasource.druid";
+
+    public static final String CONFIG_REDIS_PREFIX = "macula.redis";
+
+	public static final String CONFIG_BOOT_CORE_PREFIX = "macula.config";
+
 	public enum ESCAPE_XSS_LEVEL{
 
 		BASIC("BASIC"),

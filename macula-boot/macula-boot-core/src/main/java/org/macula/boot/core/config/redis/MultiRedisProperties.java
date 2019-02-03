@@ -17,6 +17,7 @@
 package org.macula.boot.core.config.redis;
 
 import lombok.Data;
+import org.macula.boot.MaculaConstants;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -29,7 +30,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 2019-01-31
  */
 @Data
-@ConfigurationProperties("spring.redis")
+@ConfigurationProperties(prefix = MaculaConstants.CONFIG_REDIS_PREFIX)
 public class MultiRedisProperties {
     private RedisProperties cache = new RedisProperties();
     private RedisProperties data = new RedisProperties();

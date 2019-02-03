@@ -17,6 +17,7 @@
 package org.macula.boot.core.config.datasource;
 
 import lombok.extern.slf4j.Slf4j;
+import org.macula.boot.MaculaConstants;
 import org.macula.boot.core.utils.StringUtils;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -55,7 +56,7 @@ public class DataSourceBeanDefinitionRegistrar implements EnvironmentAware, Impo
     @Override
     public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
         try {
-            List<Map> list = binder.bind("spring.datasource.druid.dynads", Bindable.listOf(Map.class)).get();
+            List<Map> list = binder.bind(MaculaConstants.CONFIG_DATASOURCE_PREFIX, Bindable.listOf(Map.class)).get();
 
             for (Map dsPropMap : list) {
                 String dataSourceName = "dataSource-" + dsPropMap.get("name");
