@@ -1,6 +1,7 @@
 package org.macula.boot.core.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
+import org.macula.boot.core.config.core.CoreConfigProperties;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
@@ -22,7 +23,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @EnableConfigurationProperties({CoreConfigProperties.class})
 @EnableRedisRepositories
 @AutoConfigureBefore({DruidDataSourceAutoConfigure.class, RedisAutoConfiguration.class, JpaRepositoriesAutoConfiguration.class})
-@Import({RedisConfiguration.class, DataSourceConfiguration.class, JpaConfiguration.class})
+@Import({RedisConfiguration.class, DataSourceConfiguration.class})
 public class CoreAutoConfiguration {
 
 }

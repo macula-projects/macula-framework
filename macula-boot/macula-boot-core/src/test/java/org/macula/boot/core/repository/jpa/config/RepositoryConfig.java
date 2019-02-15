@@ -16,33 +16,17 @@
 
 package org.macula.boot.core.repository.jpa.config;
 
-import org.macula.boot.core.config.JpaConfiguration;
+import org.macula.boot.core.config.jpa.JpaBaseConfiguration;
 import org.macula.boot.core.repository.jpa.MaculaJpaRepositoryFactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
-import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.jdbc.SchemaManagement;
-import org.springframework.boot.jdbc.SchemaManagementProvider;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -54,28 +38,23 @@ import java.util.Map;
  */
 
 @TestConfiguration
-@EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "org.macula.boot.core.repository.jpa.support",
         repositoryFactoryBeanClass = MaculaJpaRepositoryFactoryBean.class,
-        entityManagerFactoryRef = "maculaEntityManagerFactory")
-@EnableJpaAuditing(auditorAwareRef = "auditorAwareStub", dateTimeProviderRef = "dbDateTimeProvider")
-@AutoConfigureBefore(JpaRepositoriesAutoConfiguration.class)
-@Import(JpaConfiguration.class)
-public class RepositoryConfig {
+        entityManagerFactoryRef = "maculaEntityManagerFactory",
+        transactionManagerRef = "maculaTransactionManager")
+public class RepositoryConfig extends JpaBaseConfiguration {
 
-    @Autowired
-    private JpaProperties jpaProperties;
-
-    @Autowired
-    private HibernateProperties hibernateProperties;
-
-    @Autowired
-    // 默认内嵌的数据库DataSource，可以自己定义
     private DataSource dataSource;
 
+    // 默认内嵌的数据库DataSource，可以自己定义
+    protected RepositoryConfig(DataSource dataSource) {
+        super(dataSource);
+        this.dataSource = dataSource;
+    }
+
     @Bean(name = "maculaEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean maculaEntityManagerFactory(EntityManagerFactoryBuilder builder) {
-        return builder
+    public LocalContainerEntityManagerFactoryBean maculaEntityManagerFactory() {
+        return getEntityManagerFactoryBuilder()
                 .dataSource(dataSource)
                 .properties(getVendorProperties())
                 .packages("org.macula.boot.core.repository.jpa.support.domain") //设置实体类所在位置
@@ -83,9 +62,10 @@ public class RepositoryConfig {
                 .build();
     }
 
-
-    private Map<String, Object> getVendorProperties() {
-        HibernateSettings settings = new HibernateSettings();
-        return hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), settings);
+    @Bean(name = "maculaTransactionManager")
+    public PlatformTransactionManager maculaTransactionManager() {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setPersistenceUnitName("maculaPersistenceUnit");
+        return transactionManager;
     }
 }

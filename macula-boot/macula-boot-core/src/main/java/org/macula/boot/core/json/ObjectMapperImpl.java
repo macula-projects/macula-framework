@@ -27,7 +27,7 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import org.macula.boot.core.config.CoreConfigProperties;
+import org.macula.boot.core.config.core.CoreConfigProperties;
 import org.macula.boot.core.utils.XssCleaner;
 
 import java.io.IOException;
