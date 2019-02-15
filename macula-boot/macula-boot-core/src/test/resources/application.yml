@@ -55,3 +55,5 @@ macula:
         max-pool-prepared-statement-per-connection-size: 20
         ## 过滤器配置
         filters: stat,wall
+  jpa:
+

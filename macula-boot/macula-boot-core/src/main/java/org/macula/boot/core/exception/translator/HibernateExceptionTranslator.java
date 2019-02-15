@@ -33,7 +33,6 @@ import java.sql.BatchUpdateException;
  * @version $Id: HibernateExceptionTranslator.java 5877 2015-09-25 06:50:45Z wzp $
  * @since 2011-10-10
  */
-@Component
 public class HibernateExceptionTranslator implements MaculaExceptionTranslator {
 
     @Override

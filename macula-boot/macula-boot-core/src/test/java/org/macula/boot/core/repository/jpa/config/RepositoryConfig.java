@@ -18,6 +18,9 @@ package org.macula.boot.core.repository.jpa.config;
 
 import org.macula.boot.core.config.jpa.JpaBaseConfiguration;
 import org.macula.boot.core.repository.jpa.MaculaJpaRepositoryFactoryBean;
+import org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
+import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -25,8 +28,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * <p>
@@ -38,7 +44,8 @@ import javax.sql.DataSource;
  */
 
 @TestConfiguration
-@EnableJpaRepositories(basePackages = "org.macula.boot.core.repository.jpa.support",
+@EnableJpaRepositories(
+        basePackages = "org.macula.boot.core.repository.jpa.support",
         repositoryFactoryBeanClass = MaculaJpaRepositoryFactoryBean.class,
         entityManagerFactoryRef = "maculaEntityManagerFactory",
         transactionManagerRef = "maculaTransactionManager")
@@ -63,9 +70,27 @@ public class RepositoryConfig extends JpaBaseConfiguration {
     }
 
     @Bean(name = "maculaTransactionManager")
-    public PlatformTransactionManager maculaTransactionManager() {
+    public PlatformTransactionManager maculaTransactionManager(@Qualifier("maculaEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setPersistenceUnitName("maculaPersistenceUnit");
+        transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
     }
+
+    @Bean(name = "maculaTxAdvise")
+    public TransactionInterceptor maculaTxAdvise(@Qualifier("maculaTransactionManager") PlatformTransactionManager transactionManager) {
+        TransactionInterceptor transactionInterceptor = new TransactionInterceptor();
+        transactionInterceptor.setTransactionManager(transactionManager);
+        return transactionInterceptor;
+    }
+
+    @Bean(name = "maculaTxAdvisor")
+    public AspectJExpressionPointcutAdvisor pointcutAdvisor(@Qualifier("maculaTxAdvise") TransactionInterceptor txAdvise){
+        AspectJExpressionPointcutAdvisor pointcutAdvisor = new AspectJExpressionPointcutAdvisor();
+        pointcutAdvisor.setAdvice(txAdvise);
+        pointcutAdvisor.setExpression("execution(* org.macula..*.*(..)) and @within(org.springframework.stereotype.Service)");
+        return pointcutAdvisor;
+    }
+
+    
+
 }

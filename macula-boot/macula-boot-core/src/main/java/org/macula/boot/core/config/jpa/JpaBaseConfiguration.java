@@ -14,15 +14,15 @@ import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.persistenceunit.PersistenceUnitManager;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * JPA配置的基类
@@ -31,21 +31,17 @@ import java.util.*;
  * @see 2019-2-15
  */
 
-@EnableTransactionManagement
 @EnableJpaAuditing(auditorAwareRef = "auditorAwareStub", dateTimeProviderRef = "dbDateTimeProvider")
 @EnableConfigurationProperties(HibernateProperties.class)
 public abstract class JpaBaseConfiguration {
 
-    private DataSource dataSource;
-
-    @Autowired
-    private JpaProperties jpaProperties;
-
-    @Autowired
-    private HibernateProperties hibernateProperties;
-
     @Autowired(required = false)
     ObjectProvider<PersistenceUnitManager> persistenceUnitManager;
+    private DataSource dataSource;
+    @Autowired
+    private JpaProperties jpaProperties;
+    @Autowired
+    private HibernateProperties hibernateProperties;
 
     protected JpaBaseConfiguration(DataSource dataSource) {
         this.dataSource = dataSource;

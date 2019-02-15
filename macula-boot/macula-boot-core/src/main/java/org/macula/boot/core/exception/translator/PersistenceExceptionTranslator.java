@@ -31,7 +31,6 @@ import javax.persistence.*;
  * @author zhengping_wang
  * @version $Id: PersistenceExceptionTranslator.java 5877 2015-09-25 06:50:45Z wzp $
  */
-@Component
 public class PersistenceExceptionTranslator implements MaculaExceptionTranslator {
 
     @Override
