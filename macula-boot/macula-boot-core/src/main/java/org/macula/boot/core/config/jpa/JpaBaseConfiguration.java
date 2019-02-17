@@ -1,12 +1,16 @@
 package org.macula.boot.core.config.jpa;
 
+import org.macula.boot.core.config.CoreAutoConfiguration;
 import org.macula.boot.core.domain.support.AuditorAwareStub;
 import org.macula.boot.core.domain.support.DbDateTimeProvider;
 import org.macula.boot.core.hibernate.audit.AuditedEventListener;
 import org.macula.boot.core.repository.jpa.templatequery.template.FreemarkerSqlTemplates;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
@@ -33,6 +37,8 @@ import java.util.Map;
 
 @EnableJpaAuditing(auditorAwareRef = "auditorAwareStub", dateTimeProviderRef = "dbDateTimeProvider")
 @EnableConfigurationProperties(HibernateProperties.class)
+@AutoConfigureAfter(CoreAutoConfiguration.class)
+@AutoConfigureBefore(DataSourceAutoConfiguration.class)
 public abstract class JpaBaseConfiguration {
 
     @Autowired(required = false)

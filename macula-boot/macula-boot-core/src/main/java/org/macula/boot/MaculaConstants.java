@@ -32,8 +32,6 @@ public class MaculaConstants {
 
 	public final static String EXCEPTION_CODE_DATABASE = "database";
 
-	public final static String JDBC_TEMPLATE_NAME = "jdbcTemplate";
-
 	public final static String CONFIG_DATASOURCE_PREFIX = "macula.datasource.druid";
 
     public static final String CONFIG_REDIS_PREFIX = "macula.redis";

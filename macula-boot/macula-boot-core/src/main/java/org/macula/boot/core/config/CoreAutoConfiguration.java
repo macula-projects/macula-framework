@@ -17,6 +17,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 /**
  * <p>
  * <b>CoreAutoConfiguration</b> Core模块的自动配置入口
+ * 在系统数据源之前配置时，系统默认的JPA、JDBC等都会靠后
  * </p>
  *
  * @author Rain
@@ -26,7 +27,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @Configuration
 @EnableConfigurationProperties({CoreConfigProperties.class})
 @EnableRedisRepositories
-@AutoConfigureBefore({DruidDataSourceAutoConfigure.class, RedisAutoConfiguration.class, JpaRepositoriesAutoConfiguration.class})
+@AutoConfigureBefore({DruidDataSourceAutoConfigure.class, RedisAutoConfiguration.class})
 @Import({RedisConfiguration.class, DataSourceConfiguration.class})
 public class CoreAutoConfiguration {
 

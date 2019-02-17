@@ -17,7 +17,7 @@
 package org.macula.boot.core.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import org.macula.boot.core.config.datasource.DataSourceBeanDefinitionRegistrar;
+import org.macula.boot.core.config.jdbc.DataSourceBeanDefinitionRegistrar;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Import;
 
