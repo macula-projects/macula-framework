@@ -14,24 +14,39 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core.config;
-
-import com.alibaba.druid.pool.DruidDataSource;
-import org.macula.boot.core.config.jdbc.DataSourceConfigurationRegistrar;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Import;
+/**
+ * ServiceException.java 2015年9月24日
+ */
+package org.macula.boot.exception;
 
 /**
  * <p>
- * <b>DataSourceConfiguration</b> 数据源自动配置，支持多数据源自动注册bean
+ * <b>ServiceException</b> 服务层默认异常
  * </p>
  *
+ * @since 2015年9月24日
  * @author Rain
- * @since 2019-02-02
+ * @version $Id: ServiceException.java 5874 2015-09-24 11:22:28Z wzp $
  */
+public class ServiceException extends MaculaException {
 
-@ConditionalOnClass(DruidDataSource.class)
-@Import({DataSourceConfigurationRegistrar.class})
-class DataSourceConfiguration {
+	private static final long serialVersionUID = 1L;
 
+	private String code;
+
+
+	/**
+	 * 服务层异常
+	 * @param code 异常代码
+	 * @param message 异常信息
+	 * @param ex 原异常
+	 */
+	public ServiceException(String code, String message, Throwable ex) {
+		super(code + ":" + message, ex);
+		this.code = code;
+	}
+
+	public String getCode() {
+		return this.code;
+	}
 }

@@ -13,25 +13,29 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package org.macula.boot.vo;
 
-package org.macula.boot.core.config;
-
-import com.alibaba.druid.pool.DruidDataSource;
-import org.macula.boot.core.config.jdbc.DataSourceConfigurationRegistrar;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Import;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * <p>
- * <b>DataSourceConfiguration</b> 数据源自动配置，支持多数据源自动注册bean
- * </p>
- *
- * @author Rain
- * @since 2019-02-02
+ * <p> <b>SimpleResult</b> 是简单数据类型返回结果. </p>
+ * 
+ * @since 2011-7-7
+ * @author Wilson Luo
+ * @version $Id: ExecuteResponse.java 5735 2015-08-17 08:31:52Z wzp $
  */
 
-@ConditionalOnClass(DruidDataSource.class)
-@Import({DataSourceConfigurationRegistrar.class})
-class DataSourceConfiguration {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class ExecuteResponse<T> extends Response {
 
+	private static final long serialVersionUID = 1L;
+	
+	/** 结果信息 */
+	private T returnObject;
+	
+	public ExecuteResponse(T result) {
+		this.returnObject = result;
+	}
 }

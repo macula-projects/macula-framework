@@ -13,25 +13,30 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-package org.macula.boot.core.config;
-
-import com.alibaba.druid.pool.DruidDataSource;
-import org.macula.boot.core.config.jdbc.DataSourceConfigurationRegistrar;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Import;
+package org.macula.boot.exception;
 
 /**
  * <p>
- * <b>DataSourceConfiguration</b> 数据源自动配置，支持多数据源自动注册bean
+ * <b>JpaDataAccessException</b> 所有PersistenceException异常被转为该异常
  * </p>
  *
- * @author Rain
- * @since 2019-02-02
+ * @since 2011-10-28
+ * @author zhengping_wang
+ * @version $Id: JpaDataAccessException.java 3807 2012-11-21 07:31:51Z wilson $
  */
+public class JpaDataAccessException extends MaculaException {
 
-@ConditionalOnClass(DruidDataSource.class)
-@Import({DataSourceConfigurationRegistrar.class})
-class DataSourceConfiguration {
+	private static final long serialVersionUID = 1L;
 
+	public JpaDataAccessException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public JpaDataAccessException(String message, Object[] args) {
+		super(message, args);
+	}
+
+	public JpaDataAccessException(String message, Object[] args, Throwable cause) {
+		super(message, args, cause);
+	}
 }

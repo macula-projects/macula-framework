@@ -31,6 +31,7 @@ import java.util.List;
  * @version $Id: UserRepositoryCustom.java 5351 2014-08-27 09:19:53Z wzp $
  * @since 2011-2-15
  */
+
 @Transactional(readOnly = true)
 public interface UserRepositoryCustom extends JpaEntityManagerAware {
     @Transactional

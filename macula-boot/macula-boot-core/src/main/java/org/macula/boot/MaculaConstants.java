@@ -34,6 +34,10 @@ public class MaculaConstants {
 
 	public final static String CONFIG_DATASOURCE_PREFIX = "macula.datasource.druid";
 
+	public final static String CONFIG_JPA_PREFIX = "macula.jpa";
+
+	public final static String CONFIG_JPA_REPOSITORIES_PREFIX = CONFIG_JPA_PREFIX + ".repositories";
+
     public static final String CONFIG_REDIS_PREFIX = "macula.redis";
 
 	public static final String CONFIG_BOOT_CORE_PREFIX = "macula.config";

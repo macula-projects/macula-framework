@@ -13,25 +13,32 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-package org.macula.boot.core.config;
-
-import com.alibaba.druid.pool.DruidDataSource;
-import org.macula.boot.core.config.jdbc.DataSourceConfigurationRegistrar;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Import;
+package org.macula.boot.exception;
 
 /**
- * <p>
- * <b>DataSourceConfiguration</b> 数据源自动配置，支持多数据源自动注册bean
- * </p>
- *
- * @author Rain
- * @since 2019-02-02
+ * <p> <b>MaculaArgumentException</b> 是输入参数异常. </p>
+ * 
+ * @since 2011-7-13
+ * @author Wilson Luo
+ * @version $Id: MaculaArgumentException.java 3807 2012-11-21 07:31:51Z wilson $
  */
+public class MaculaArgumentException extends MaculaException {
 
-@ConditionalOnClass(DruidDataSource.class)
-@Import({DataSourceConfigurationRegistrar.class})
-class DataSourceConfiguration {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @param ex
+	 */
+	public MaculaArgumentException(IllegalArgumentException ex) {
+		super(ex.getMessage(), ex);
+	}
+
+	/**
+	 * @param code
+	 * @param args
+	 */
+	public MaculaArgumentException(String code, Object... args) {
+		super(code, args);
+	}
 
 }

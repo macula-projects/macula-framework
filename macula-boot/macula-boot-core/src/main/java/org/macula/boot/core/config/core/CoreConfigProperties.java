@@ -1,5 +1,6 @@
 package org.macula.boot.core.config.core;
 
+import lombok.Data;
 import org.macula.boot.MaculaConstants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -36,4 +37,21 @@ public class CoreConfigProperties {
         CoreConfigProperties.enableEscapeXss = enableEscapeXss;
     }
 
+    private Pattern pattern;
+
+    public Pattern getPattern() {
+        return this.pattern;
+    }
+
+    public void setPattern(Pattern pattern) {
+        this.pattern = pattern;
+    }
+
+    @Data
+    public static class Pattern {
+        private String datetime = "yyyy-MM-dd HH:mm:ss";
+        private String date = "yyyy-MM-dd";
+        private String time = "HH:mm:ss";
+        private String number = "#";
+    }
 }

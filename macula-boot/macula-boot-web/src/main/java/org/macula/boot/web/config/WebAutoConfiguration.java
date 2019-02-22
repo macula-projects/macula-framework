@@ -14,24 +14,16 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core.config;
+package org.macula.boot.web.config;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import org.macula.boot.core.config.jdbc.DataSourceConfigurationRegistrar;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-/**
- * <p>
- * <b>DataSourceConfiguration</b> 数据源自动配置，支持多数据源自动注册bean
- * </p>
- *
- * @author Rain
- * @since 2019-02-02
- */
-
-@ConditionalOnClass(DruidDataSource.class)
-@Import({DataSourceConfigurationRegistrar.class})
-class DataSourceConfiguration {
+@Configuration
+@AutoConfigureAfter({FreeMarkerAutoConfiguration.class})
+@Import({FreeMarkerConfiguration.class})
+public class WebAutoConfiguration {
 
 }

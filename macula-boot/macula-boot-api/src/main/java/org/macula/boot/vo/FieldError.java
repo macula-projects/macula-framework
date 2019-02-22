@@ -13,25 +13,35 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package org.macula.boot.vo;
 
-package org.macula.boot.core.config;
+import lombok.Data;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import org.macula.boot.core.config.jdbc.DataSourceConfigurationRegistrar;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Import;
+import java.io.Serializable;
 
 /**
  * <p>
- * <b>DataSourceConfiguration</b> 数据源自动配置，支持多数据源自动注册bean
+ * <b>FieldError</b> 是页面元素对应的错误
  * </p>
  *
+ * @since 2011-3-2
  * @author Rain
- * @since 2019-02-02
+ * @version $Id: FieldError.java 5734 2015-08-17 08:29:11Z wzp $
  */
 
-@ConditionalOnClass(DruidDataSource.class)
-@Import({DataSourceConfigurationRegistrar.class})
-class DataSourceConfiguration {
+@Data
+public class FieldError implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
+	// 元素名，与页面元素名一致  
+	private String element;
+	
+	// 错误信息  
+	private String message;
+	
+	public FieldError(String element, String message) {
+		this.element = element;
+		this.message = message;
+	}
 }

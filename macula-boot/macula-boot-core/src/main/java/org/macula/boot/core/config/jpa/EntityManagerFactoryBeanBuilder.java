@@ -1,21 +1,16 @@
 package org.macula.boot.core.config.jpa;
 
-import org.macula.boot.core.domain.support.AuditorAwareStub;
-import org.macula.boot.core.domain.support.DbDateTimeProvider;
+import org.macula.boot.core.config.support.AbstractRepositoryConfigurationSourceSupport;
 import org.macula.boot.core.hibernate.audit.AuditedEventListener;
-import org.macula.boot.core.repository.jpa.templatequery.template.FreemarkerSqlTemplates;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.persistenceunit.PersistenceUnitManager;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
@@ -25,15 +20,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * JPA配置的基类
+ * JPA配置工厂
  *
  * @author Rain
  * @see 2019-2-15
  */
 
-@EnableJpaAuditing(auditorAwareRef = "auditorAwareStub", dateTimeProviderRef = "dbDateTimeProvider")
-@EnableConfigurationProperties(HibernateProperties.class)
-public abstract class JpaBaseConfiguration {
+public class EntityManagerFactoryBeanBuilder {
 
     @Autowired(required = false)
     ObjectProvider<PersistenceUnitManager> persistenceUnitManager;
@@ -42,12 +35,15 @@ public abstract class JpaBaseConfiguration {
     private JpaProperties jpaProperties;
     @Autowired
     private HibernateProperties hibernateProperties;
+    private AbstractRepositoryConfigurationSourceSupport.RepositoryConfig repositoryConfig;
 
-    protected JpaBaseConfiguration(DataSource dataSource) {
+    public EntityManagerFactoryBeanBuilder(DataSource dataSource,
+                                           AbstractRepositoryConfigurationSourceSupport.RepositoryConfig repositoryConfig) {
         this.dataSource = dataSource;
+        this.repositoryConfig = repositoryConfig;
     }
 
-    protected Map<String, Object> getVendorProperties() {
+    private Map<String, Object> getVendorProperties() {
         HibernateSettings settings = new HibernateSettings();
 
         List<HibernatePropertiesCustomizer> customizers = new ArrayList<>();
@@ -61,11 +57,11 @@ public abstract class JpaBaseConfiguration {
         return hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), settings);
     }
 
-    protected EntityManagerFactoryBuilder getEntityManagerFactoryBuilder() {
+    private EntityManagerFactoryBuilder getEntityManagerFactoryBuilder() {
         return new EntityManagerFactoryBuilder(getJpaVendorAdapter(), jpaProperties.getProperties(), persistenceUnitManager.getIfAvailable());
     }
 
-    protected JpaVendorAdapter getJpaVendorAdapter() {
+    private JpaVendorAdapter getJpaVendorAdapter() {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         adapter.setShowSql(this.jpaProperties.isShowSql());
         adapter.setDatabase(this.jpaProperties.determineDatabase(this.dataSource));
@@ -74,23 +70,12 @@ public abstract class JpaBaseConfiguration {
         return adapter;
     }
 
-    // JPA Audit配置
-    @Bean
-    @ConditionalOnMissingBean
-    public AuditorAwareStub auditorAwareStub() {
-        return new AuditorAwareStub();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public DbDateTimeProvider dbDateTimeProvider() {
-        return new DbDateTimeProvider();
-    }
-
-    // JPA TemplateQuery配置
-    @Bean
-    @ConditionalOnMissingBean
-    public FreemarkerSqlTemplates freemarkerSqlTemplates() {
-        return new FreemarkerSqlTemplates();
+    public LocalContainerEntityManagerFactoryBean createEntityManagerFactory() {
+        return getEntityManagerFactoryBuilder()
+                .dataSource(dataSource)
+                .properties(getVendorProperties())
+                .packages(repositoryConfig.getEntityPackages()) //设置实体类所在位置
+                .persistenceUnit(repositoryConfig.getName())
+                .build();
     }
 }

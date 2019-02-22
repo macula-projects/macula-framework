@@ -13,25 +13,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
-package org.macula.boot.core.config;
-
-import com.alibaba.druid.pool.DruidDataSource;
-import org.macula.boot.core.config.jdbc.DataSourceConfigurationRegistrar;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Import;
+package org.macula.boot.web.mvc.view;
 
 /**
  * <p>
- * <b>DataSourceConfiguration</b> 数据源自动配置，支持多数据源自动注册bean
+ * <b>FreeMarkerViewResolverImpl</b> 扩展了Spring中的FreeMarkerViewResolver
  * </p>
  *
  * @author Rain
- * @since 2019-02-02
+ * @version $Id: FreeMarkerViewResolverImpl.java 3807 2012-11-21 07:31:51Z wilson $
+ * @since 2011-5-24
  */
-
-@ConditionalOnClass(DruidDataSource.class)
-@Import({DataSourceConfigurationRegistrar.class})
-class DataSourceConfiguration {
-
+public class FreeMarkerViewResolverImpl extends org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver {
+    /**
+     * Requires {@link FreeMarkerViewImpl}.
+     */
+    @Override
+    protected Class<?> requiredViewClass() {
+        return FreeMarkerViewImpl.class;
+    }
 }

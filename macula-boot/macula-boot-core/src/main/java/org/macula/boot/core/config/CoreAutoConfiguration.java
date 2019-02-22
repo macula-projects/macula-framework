@@ -2,12 +2,12 @@ package org.macula.boot.core.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.macula.boot.core.config.core.CoreConfigProperties;
-import org.macula.boot.core.exception.handler.ServiceExceptionAspect;
-import org.macula.boot.core.exception.translator.HibernateExceptionTranslator;
-import org.macula.boot.core.exception.translator.PersistenceExceptionTranslator;
+import org.macula.boot.exception.handler.ServiceExceptionAspect;
+import org.macula.boot.exception.translator.HibernateExceptionTranslator;
+import org.macula.boot.exception.translator.PersistenceExceptionTranslator;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,8 +27,8 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @Configuration
 @EnableConfigurationProperties({CoreConfigProperties.class})
 @EnableRedisRepositories
-@AutoConfigureBefore({DruidDataSourceAutoConfigure.class, RedisAutoConfiguration.class})
-@Import({RedisConfiguration.class, DataSourceConfiguration.class})
+@AutoConfigureBefore({RedisAutoConfiguration.class, DruidDataSourceAutoConfigure.class, HibernateJpaAutoConfiguration.class})
+@Import({RedisConfiguration.class, DataSourceConfiguration.class, JpaRepositoriesConfiguration.class})
 public class CoreAutoConfiguration {
 
     @Bean

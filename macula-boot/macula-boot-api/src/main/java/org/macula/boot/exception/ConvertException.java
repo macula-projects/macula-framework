@@ -14,24 +14,25 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core.config;
-
-import com.alibaba.druid.pool.DruidDataSource;
-import org.macula.boot.core.config.jdbc.DataSourceConfigurationRegistrar;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Import;
+/**
+ * ConvertException.java 2015年10月19日
+ */
+package org.macula.boot.exception;
 
 /**
  * <p>
- * <b>DataSourceConfiguration</b> 数据源自动配置，支持多数据源自动注册bean
+ * <b>ConvertException</b> 类型转换异常
  * </p>
  *
+ * @since 2015年10月19日
  * @author Rain
- * @since 2019-02-02
+ * @version $Id: ConvertException.java 5906 2015-10-19 09:40:12Z wzp $
  */
+public class ConvertException extends MaculaException {
 
-@ConditionalOnClass(DruidDataSource.class)
-@Import({DataSourceConfigurationRegistrar.class})
-class DataSourceConfiguration {
+	private static final long serialVersionUID = 1L;
 
+	public ConvertException(Throwable e) {
+		super("Convert Error", e);
+	}
 }

@@ -45,7 +45,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  */
 
 @EnableConfigurationProperties({MultiRedisProperties.class})
-public class RedisConfiguration {
+class RedisConfiguration {
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean(ClientResources.class)
     public DefaultClientResources lettuceClientResources() {

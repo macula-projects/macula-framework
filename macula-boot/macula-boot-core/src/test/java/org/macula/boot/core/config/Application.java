@@ -16,8 +16,10 @@
 
 package org.macula.boot.core.config;
 
+import org.macula.boot.core.repository.jpa.support.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.PropertySource;
 
@@ -32,6 +34,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 public class Application {
+
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
         org.macula.boot.ApplicationContext.setContainer(ctx);
