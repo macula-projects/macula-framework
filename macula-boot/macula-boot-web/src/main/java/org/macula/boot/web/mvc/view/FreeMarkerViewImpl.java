@@ -67,12 +67,14 @@ public class FreeMarkerViewImpl extends org.springframework.web.servlet.view.fre
 
         TimeZone timeZone = RequestContextUtils.getTimeZone(request);
 
-        // 设置时区
-        model.put("timeZone", timeZone.getID());
-        model.put("timeZoneOffset", -(timeZone.getRawOffset() + timeZone.getDSTSavings()) / 60 / 1000);
+        if (timeZone != null) {
+            // 设置时区
+            model.put("timeZone", timeZone.getID());
+            model.put("timeZoneOffset", -(timeZone.getRawOffset() + timeZone.getDSTSavings()) / 60 / 1000);
 
-        // 设置FreeMarker的时区
-        getConfiguration().setTimeZone(timeZone);
+            // 设置FreeMarker的时区
+            getConfiguration().setTimeZone(timeZone);
+        }
 
         model.put("request", request);
 

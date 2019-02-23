@@ -13,9 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.macula.boot.web.mvc.json;
+package org.macula.boot.web.mvc.jackson;
 
-import org.macula.boot.core.json.ObjectMapperImpl;
+import org.macula.boot.core.jackson.ObjectMapperImpl;
 import org.macula.boot.web.utils.HttpRequestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

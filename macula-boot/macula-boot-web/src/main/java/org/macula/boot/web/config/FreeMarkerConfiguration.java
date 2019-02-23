@@ -19,8 +19,12 @@ package org.macula.boot.web.config;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import org.macula.boot.core.config.core.CoreConfigProperties;
+import org.macula.boot.web.mvc.view.FreeMarkerViewResolverImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.freemarker.FreeMarkerProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import javax.annotation.PostConstruct;
 
@@ -32,7 +36,6 @@ import javax.annotation.PostConstruct;
  * @author Rain
  * @since 2019-02-21
  */
-@ConditionalOnBean(Configuration.class)
 public class FreeMarkerConfiguration {
     @Autowired
     private Configuration cfg;
@@ -49,7 +52,14 @@ public class FreeMarkerConfiguration {
         cfg.setSetting(Configuration.TIME_FORMAT_KEY, coreConfigProperties.getPattern().getTime());
         cfg.setSetting(Configuration.NUMBER_FORMAT_KEY, coreConfigProperties.getPattern().getNumber());
 
-        // 设置FreeMarker全局变量
+        // TODO 设置FreeMarker全局变量
         // cfg.setSharedVariable("ctx", ctx);
+    }
+
+    @Bean(name = "freeMarkerViewResolver")
+    public FreeMarkerViewResolver freeMarkerViewResolver(FreeMarkerProperties properties) {
+        FreeMarkerViewResolver resolver = new FreeMarkerViewResolverImpl();
+        properties.applyToMvcViewResolver(resolver);
+        return resolver;
     }
 }

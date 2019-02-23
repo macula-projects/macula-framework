@@ -8,6 +8,14 @@ spring:
     template:
       fetchSize: -1
       maxRows: -1
+  freemarker:
+    content-type: text/html;charset=UTF-8
+    template-loader-path: classpath:/views/
+    settings:
+      template_update_delay: 0
+      template_exception_handler: html_debug
+      cache_storage: strong:5000, soft
+      #auto_import:
 macula:
   config:
     enableEscapeXss: true

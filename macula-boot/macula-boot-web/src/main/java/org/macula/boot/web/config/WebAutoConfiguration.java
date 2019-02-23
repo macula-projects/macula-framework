@@ -16,14 +16,37 @@
 
 package org.macula.boot.web.config;
 
+import org.macula.boot.core.config.CoreAutoConfiguration;
+import org.macula.boot.web.config.support.MaculaWebMvcRegistrations;
+import org.macula.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.validation.Validator;
 
 @Configuration
-@AutoConfigureAfter({FreeMarkerAutoConfiguration.class})
+@AutoConfigureBefore({FreeMarkerAutoConfiguration.class})
+@AutoConfigureAfter({CoreAutoConfiguration.class})
 @Import({FreeMarkerConfiguration.class})
 public class WebAutoConfiguration {
 
+    @Bean
+    public WebMvcRegistrations webMvcRegistrations() {
+        return new MaculaWebMvcRegistrations();
+    }
+
+    @Bean
+    public ConfigurableWebBindingInitializer configurableWebBindingInitializer(ConversionService conversionService,
+                                                                               Validator validator ) {
+        ConfigurableWebBindingInitializer initializer = new ConfigurableWebBindingInitializer();
+        initializer.setConversionService(conversionService);
+        initializer.setValidator(validator);
+        initializer.setAutoGrowCollectionLimit(1000);
+        return initializer;
+    }
 }

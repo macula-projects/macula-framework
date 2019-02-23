@@ -16,7 +16,10 @@
 
 package org.macula.boot.web.config.support;
 
+import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -29,7 +32,10 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
  * @author Rain
  * @since 2019-02-21
  */
-public class MaculaWebMvcRegistrations implements WebMvcRegistrations {
+public class MaculaWebMvcRegistrations implements WebMvcRegistrations, ApplicationContextAware {
+
+    private ApplicationContext applicationContext;
+
     /**
      * Return the custom {@link RequestMappingHandlerMapping} that should be used and
      * processed by the MVC configuration.
@@ -45,7 +51,7 @@ public class MaculaWebMvcRegistrations implements WebMvcRegistrations {
      * @return the custom {@link RequestMappingHandlerAdapter} instance
      */
     public RequestMappingHandlerAdapter getRequestMappingHandlerAdapter() {
-        return null;
+        return new org.macula.boot.web.mvc.method.annotation.RequestMappingHandlerAdapter();
     }
 
     /**
@@ -54,6 +60,11 @@ public class MaculaWebMvcRegistrations implements WebMvcRegistrations {
      * @return the custom {@link ExceptionHandlerExceptionResolver} instance
      */
     public ExceptionHandlerExceptionResolver getExceptionHandlerExceptionResolver() {
-        return null;
+        return applicationContext.getBean(ExceptionHandlerExceptionResolver.class);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

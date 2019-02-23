@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.macula.boot.exception.ConvertException;
-import org.macula.boot.core.json.ObjectMapperImpl;
+import org.macula.boot.core.jackson.ObjectMapperImpl;
 
 import java.io.IOException;
 import java.util.List;

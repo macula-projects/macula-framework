@@ -13,28 +13,29 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.macula.boot.web.mvc.xml;
+package org.macula.boot.web.mvc.jackson;
 
-import java.util.Collections;
-
+import org.macula.boot.core.jackson.XmlMapperImpl;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+
+import java.util.Collections;
 
 /**
  * <p>
  * <b>MappingJackson2XmlHttpMessageConverter</b> 使用FastXML转换Java与XML
  * </p>
  *
- * @since 2012-7-11
  * @author zhengping_wang
  * @version $Id: MappingJackson2XmlHttpMessageConverter.java 3807 2012-11-21 07:31:51Z wilson $
+ * @since 2012-7-11
  */
 public class MappingJackson2XmlHttpMessageConverter extends MappingJackson2HttpMessageConverter {
 
-	public MappingJackson2XmlHttpMessageConverter() {
-		super();
-		MediaType supportedMediaType = new MediaType("application", "xml", DEFAULT_CHARSET);
-		this.setSupportedMediaTypes(Collections.singletonList(supportedMediaType));
-		this.setObjectMapper(new XmlMapperImpl());
-	}
+    public MappingJackson2XmlHttpMessageConverter() {
+        super();
+        MediaType supportedMediaType = new MediaType("application", "xml", DEFAULT_CHARSET);
+        this.setSupportedMediaTypes(Collections.singletonList(supportedMediaType));
+        this.setObjectMapper(new XmlMapperImpl());
+    }
 }
