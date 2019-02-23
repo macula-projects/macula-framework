@@ -23,7 +23,6 @@
         <module>macula-parent</module>
         <module>macula-plugins</module>
         <module>macula-samples</module>
-        <module>macula-tests</module>
     </modules>
 
 
