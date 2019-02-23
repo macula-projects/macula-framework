@@ -1,13 +1,15 @@
 spring:
+  message:
+    basename: i18n/messages
+  jdbc:
+    template:
+      fetchSize: -1
+      maxRows: -1
   jpa:
     generateDdl: false
     showSql: true
     hibernate:
       ddl-auto: create-drop
-  jdbc:
-    template:
-      fetchSize: -1
-      maxRows: -1
   freemarker:
     content-type: text/html;charset=UTF-8
     template-loader-path: classpath:/views/

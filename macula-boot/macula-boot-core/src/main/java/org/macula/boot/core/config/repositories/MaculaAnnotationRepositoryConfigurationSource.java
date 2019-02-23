@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core.config.support;
+package org.macula.boot.core.config.repositories;
 
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.core.env.Environment;

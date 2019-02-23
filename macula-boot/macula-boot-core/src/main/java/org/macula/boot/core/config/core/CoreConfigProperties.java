@@ -21,6 +21,9 @@ public class CoreConfigProperties {
     // 是否开启XSS防护，默认开启
     private static boolean enableEscapeXss = true;
 
+    // 日期和数字格式
+    private static Pattern pattern = new Pattern();
+
     public static MaculaConstants.ESCAPE_XSS_LEVEL getEscapeXssLevel() {
         return escapeXssLevel;
     }
@@ -37,14 +40,12 @@ public class CoreConfigProperties {
         CoreConfigProperties.enableEscapeXss = enableEscapeXss;
     }
 
-    private Pattern pattern;
-
-    public Pattern getPattern() {
-        return this.pattern;
+    public static Pattern getPattern() {
+        return pattern;
     }
 
     public void setPattern(Pattern pattern) {
-        this.pattern = pattern;
+        CoreConfigProperties.pattern = pattern;
     }
 
     @Data

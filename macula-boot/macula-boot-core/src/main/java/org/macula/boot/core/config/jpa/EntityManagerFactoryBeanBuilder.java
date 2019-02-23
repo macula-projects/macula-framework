@@ -1,6 +1,6 @@
 package org.macula.boot.core.config.jpa;
 
-import org.macula.boot.core.config.support.AbstractRepositoryConfigurationSourceSupport;
+import org.macula.boot.core.config.repositories.AbstractRepositoryConfigurationSourceSupport;
 import org.macula.boot.core.hibernate.audit.AuditedEventListener;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;

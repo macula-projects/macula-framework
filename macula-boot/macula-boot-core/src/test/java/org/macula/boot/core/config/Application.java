@@ -36,7 +36,6 @@ import org.springframework.context.annotation.PropertySource;
 public class Application {
 
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(Application.class, args);
-        org.macula.boot.ApplicationContext.setContainer(ctx);
+        SpringApplication.run(Application.class, args);
     }
 }

@@ -32,17 +32,17 @@ import java.util.Map;
 import java.util.TimeZone;
 
 /**
- * <p> <b>FreeMarkerViewImpl</b> 扩展Spring的FreeMarkerView，添加一些扩展属性 </p>
+ * <p> <b>MaculaFreeMarkerView</b> 扩展Spring的FreeMarkerView，添加一些扩展属性 </p>
  * <p>
  * 通过实现CustomFreeMarkerViewModel接口，可以给FreeMarker注入一些默认的变量，可以实现多个CustomFreeMarkerViewModel接口<BR/>
  * 按照order的顺序加载。
  *
  * @author Rain
  * @author Wilson Luo
- * @version $Id: FreeMarkerViewImpl.java 5627 2015-06-15 01:16:13Z wzp $
+ * @version $Id: MaculaFreeMarkerView.java 5627 2015-06-15 01:16:13Z wzp $
  * @since 2011-5-24
  */
-public class FreeMarkerViewImpl extends org.springframework.web.servlet.view.freemarker.FreeMarkerView {
+public class MaculaFreeMarkerView extends org.springframework.web.servlet.view.freemarker.FreeMarkerView {
     private static List<CustomFreeMarkerViewModel> customList = null;
 
     @Autowired

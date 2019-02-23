@@ -17,17 +17,28 @@
 package org.macula.boot.web.config;
 
 import org.macula.boot.core.config.CoreAutoConfiguration;
+import org.macula.boot.core.config.core.CoreConfigProperties;
+import org.macula.boot.web.config.support.MaculaWebMvcConfigurer;
 import org.macula.boot.web.config.support.MaculaWebMvcRegistrations;
+import org.macula.boot.web.mvc.annotation.support.ExceptionResultReturnValueHandler;
 import org.macula.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
+import org.macula.boot.web.mvc.convert.DateConverter;
+import org.macula.boot.web.mvc.convert.NumberToBooleanConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
+import javax.annotation.PostConstruct;
 
 @Configuration
 @AutoConfigureBefore({FreeMarkerAutoConfiguration.class})
@@ -35,18 +46,50 @@ import org.springframework.validation.Validator;
 @Import({FreeMarkerConfiguration.class})
 public class WebAutoConfiguration {
 
+    @Autowired
+    private WebMvcProperties webMvcProperties;
+
     @Bean
-    public WebMvcRegistrations webMvcRegistrations() {
+    public MaculaWebMvcRegistrations maculaWebMvcRegistrations() {
         return new MaculaWebMvcRegistrations();
     }
 
     @Bean
+    public MaculaWebMvcConfigurer maculaWebMvcConfigurer() {
+        return new MaculaWebMvcConfigurer();
+    }
+
+    @Bean
+    public DateConverter dateConverter() {
+        return new DateConverter();
+    }
+
+    @Bean
+    public NumberToBooleanConverter numberToBooleanConverter() {
+        return new NumberToBooleanConverter();
+    }
+
+    @Bean
     public ConfigurableWebBindingInitializer configurableWebBindingInitializer(ConversionService conversionService,
-                                                                               Validator validator ) {
+                                                                               Validator validator) {
         ConfigurableWebBindingInitializer initializer = new ConfigurableWebBindingInitializer();
         initializer.setConversionService(conversionService);
         initializer.setValidator(validator);
         initializer.setAutoGrowCollectionLimit(1000);
         return initializer;
+    }
+
+    @Bean
+    public Validator validator(MessageSource messageSource) {
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setValidationMessageSource(messageSource);
+        return validator;
+    }
+
+    @PostConstruct
+    public void init() {
+        if (StringUtils.isEmpty(webMvcProperties.getDateFormat())) {
+            webMvcProperties.setDateFormat(CoreConfigProperties.getPattern().getDate());
+        }
     }
 }

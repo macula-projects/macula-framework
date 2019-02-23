@@ -60,7 +60,7 @@ public class MaculaWebMvcRegistrations implements WebMvcRegistrations, Applicati
      * @return the custom {@link ExceptionHandlerExceptionResolver} instance
      */
     public ExceptionHandlerExceptionResolver getExceptionHandlerExceptionResolver() {
-        return applicationContext.getBean(ExceptionHandlerExceptionResolver.class);
+        return new org.macula.boot.web.mvc.method.annotation.ExceptionHandlerExceptionResolver();
     }
 
     @Override

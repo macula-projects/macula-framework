@@ -17,7 +17,7 @@
 package org.macula.boot.core.config.jpa;
 
 import org.macula.boot.MaculaConstants;
-import org.macula.boot.core.config.support.AbstractRepositoryConfigurationSourceSupport;
+import org.macula.boot.core.config.repositories.AbstractRepositoryConfigurationSourceSupport;
 import org.macula.boot.core.repository.jpa.MaculaJpaRepositoryFactoryBean;
 import org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import org.springframework.beans.BeansException;

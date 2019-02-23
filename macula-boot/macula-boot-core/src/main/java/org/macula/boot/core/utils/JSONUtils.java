@@ -5,9 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.macula.boot.ApplicationContext;
 import org.macula.boot.exception.ConvertException;
-import org.macula.boot.core.jackson.ObjectMapperImpl;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -22,7 +21,14 @@ import java.util.List;
 @Slf4j
 public class JSONUtils {
     // 定义jackson对象
-    private static final ObjectMapper MAPPER = new ObjectMapperImpl();
+    private static ObjectMapper MAPPER = new ObjectMapper();
+
+    static {
+        ObjectMapper bean = ApplicationContext.getBean(ObjectMapper.class);
+        if (bean != null) {
+            MAPPER = bean;
+        }
+    }
 
     /**
      * 将对象转换成json字符串。

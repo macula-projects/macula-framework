@@ -17,19 +17,19 @@ package org.macula.boot.web.mvc.view;
 
 /**
  * <p>
- * <b>FreeMarkerViewResolverImpl</b> 扩展了Spring中的FreeMarkerViewResolver
+ * <b>MaculaFreeMarkerViewResolver</b> 扩展了Spring中的FreeMarkerViewResolver
  * </p>
  *
  * @author Rain
- * @version $Id: FreeMarkerViewResolverImpl.java 3807 2012-11-21 07:31:51Z wilson $
+ * @version $Id: MaculaFreeMarkerViewResolver.java 3807 2012-11-21 07:31:51Z wilson $
  * @since 2011-5-24
  */
-public class FreeMarkerViewResolverImpl extends org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver {
+public class MaculaFreeMarkerViewResolver extends org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver {
     /**
-     * Requires {@link FreeMarkerViewImpl}.
+     * Requires {@link MaculaFreeMarkerView}.
      */
     @Override
     protected Class<?> requiredViewClass() {
-        return FreeMarkerViewImpl.class;
+        return MaculaFreeMarkerView.class;
     }
 }

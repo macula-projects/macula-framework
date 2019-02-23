@@ -14,25 +14,25 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.web.config;
+package org.macula.boot.web.mvc.method.annotation;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import org.macula.boot.web.mvc.annotation.support.ExceptionResultReturnValueHandler;
 
 /**
  * <p>
- * <b>Application</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
+ * <b>ExceptionHandlerExceptionResolver</b> ExceptionHandlerExceptionResolver扩展
  * </p>
  *
  * @author Rain
- * @since 2019-01-30
+ * @since 2019-02-23
  */
+public class ExceptionHandlerExceptionResolver extends org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver {
 
-@SpringBootApplication
-public class Application {
+    @Override
+    public void afterPropertiesSet() {
+        super.afterPropertiesSet();
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        ExceptionResultReturnValueHandler resultReturnValueHandler = new ExceptionResultReturnValueHandler(this.getMessageConverters());
+        this.getReturnValueHandlers().addHandler(resultReturnValueHandler);
     }
 }

@@ -19,9 +19,8 @@ package org.macula.boot.web.config;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import org.macula.boot.core.config.core.CoreConfigProperties;
-import org.macula.boot.web.mvc.view.FreeMarkerViewResolverImpl;
+import org.macula.boot.web.mvc.view.MaculaFreeMarkerViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
@@ -58,7 +57,7 @@ public class FreeMarkerConfiguration {
 
     @Bean(name = "freeMarkerViewResolver")
     public FreeMarkerViewResolver freeMarkerViewResolver(FreeMarkerProperties properties) {
-        FreeMarkerViewResolver resolver = new FreeMarkerViewResolverImpl();
+        FreeMarkerViewResolver resolver = new MaculaFreeMarkerViewResolver();
         properties.applyToMvcViewResolver(resolver);
         return resolver;
     }

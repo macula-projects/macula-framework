@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core.config.support;
+package org.macula.boot.core.config.repositories;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
