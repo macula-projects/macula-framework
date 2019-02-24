@@ -1,5 +1,6 @@
 package org.macula.boot.core.config;
 
+import org.macula.boot.core.config.context.MessageSourceConfiguration;
 import org.macula.boot.core.config.core.CoreConfigProperties;
 import org.macula.boot.core.config.json.MaculaJackson2ObjectMapperBuilderCustomizer;
 import org.macula.boot.core.context.support.ReloadableResourceBundleMessageSource;
@@ -41,10 +42,11 @@ import java.time.Duration;
 @Configuration
 @EnableConfigurationProperties({CoreConfigProperties.class})
 @EnableRedisRepositories
-@AutoConfigureBefore({RedisAutoConfiguration.class, DataSourceAutoConfiguration.class,
-        HibernateJpaAutoConfiguration.class, MessageSourceAutoConfiguration.class})
 @AutoConfigureAfter({JacksonAutoConfiguration.class})
-@Import({RedisConfiguration.class, DataSourceConfiguration.class, JpaRepositoriesConfiguration.class})
+@AutoConfigureBefore({MessageSourceAutoConfiguration.class, RedisAutoConfiguration.class,
+        DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, })
+@Import({MessageSourceConfiguration.class, RedisConfiguration.class,
+        DataSourceConfiguration.class, JpaRepositoriesConfiguration.class})
 public class CoreAutoConfiguration implements ApplicationContextAware {
 
     @Bean
@@ -72,3 +74,4 @@ public class CoreAutoConfiguration implements ApplicationContextAware {
         org.macula.boot.ApplicationContext.setContainer(applicationContext);
     }
 }
+
