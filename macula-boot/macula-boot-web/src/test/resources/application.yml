@@ -1,6 +1,6 @@
 spring:
-  message:
-    basename: i18n/messages
+  messages:
+    basename: i18n/messages,i18n/core
   jdbc:
     template:
       fetchSize: -1
@@ -12,7 +12,6 @@ spring:
       ddl-auto: create-drop
   freemarker:
     content-type: text/html;charset=UTF-8
-    template-loader-path: classpath:/views/
     settings:
       template_update_delay: 0
       template_exception_handler: html_debug

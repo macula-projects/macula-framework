@@ -19,6 +19,7 @@ package org.macula.boot.web.config;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 /**
  * <p>
@@ -33,6 +34,9 @@ import org.springframework.context.ApplicationContext;
 public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        ApplicationContext ctx = SpringApplication.run(Application.class, args);
+
+        System.out.println(ctx.getMessage("test.msg", new Object[]{}, LocaleContextHolder.getLocale()));
+        System.out.println(ctx.getMessage("test.msg.core", new Object[]{}, LocaleContextHolder.getLocale()));
     }
 }

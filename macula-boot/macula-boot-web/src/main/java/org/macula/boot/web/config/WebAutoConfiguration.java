@@ -27,6 +27,7 @@ import org.macula.boot.web.mvc.convert.NumberToBooleanConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
 import org.springframework.context.MessageSource;
@@ -41,7 +42,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import javax.annotation.PostConstruct;
 
 @Configuration
-@AutoConfigureBefore({FreeMarkerAutoConfiguration.class})
+@AutoConfigureBefore({FreeMarkerAutoConfiguration.class, MessageSourceAutoConfiguration.class})
 @AutoConfigureAfter({CoreAutoConfiguration.class})
 @Import({FreeMarkerConfiguration.class})
 public class WebAutoConfiguration {

@@ -103,7 +103,7 @@
             <artifactId>caffeine</artifactId>
         </dependency>
 
-        <!-- kryo -->
+        <!-- kryo for serialization -->
         <dependency>
             <groupId>com.esotericsoftware</groupId>
             <artifactId>kryo</artifactId>

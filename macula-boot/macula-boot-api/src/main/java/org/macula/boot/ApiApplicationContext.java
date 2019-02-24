@@ -7,6 +7,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.Locale;
 
@@ -119,7 +120,7 @@ public class ApiApplicationContext implements ApplicationContextAware {
     }
 
     public static Locale getCurrentUserLocale() {
-        return Locale.getDefault();
+        return LocaleContextHolder.getLocale();
     }
 
     public static synchronized org.springframework.context.ApplicationContext getContainer() {
