@@ -1,6 +1,6 @@
 spring:
   messages:
-    basename: i18n/messages,i18n/core
+    basename: classpath*:i18n/messages
   jdbc:
     template:
       fetchSize: -1

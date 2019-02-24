@@ -113,9 +113,12 @@ public class MessageSourceConfiguration {
 
         private Resource[] getResources(ClassLoader classLoader, String name) {
             String target = name.replace('.', '/');
+            if (!target.startsWith(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX)) {
+                target = "classpath*:" + target;
+            }
             try {
                 return new PathMatchingResourcePatternResolver(classLoader)
-                        .getResources("classpath*:" + target + ".properties");
+                        .getResources(target + ".properties");
             }
             catch (Exception ex) {
                 return NO_RESOURCES;
