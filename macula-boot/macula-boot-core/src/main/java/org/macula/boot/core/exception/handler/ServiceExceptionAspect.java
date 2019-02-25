@@ -1,7 +1,7 @@
 /**
  * ServiceExceptionAspect.java 2015年9月24日
  */
-package org.macula.boot.exception.handler;
+package org.macula.boot.core.exception.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -10,10 +10,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.macula.boot.MaculaConstants;
-import org.macula.boot.exception.ServiceException;
-import org.macula.boot.exception.annotation.ErrorMessage;
-import org.macula.boot.exception.translator.MaculaExceptionTranslator;
-import org.macula.boot.exception.MaculaException;
+import org.macula.boot.core.exception.ServiceException;
+import org.macula.boot.core.exception.annotation.ErrorMessage;
+import org.macula.boot.core.exception.translator.MaculaExceptionTranslator;
+import org.macula.boot.core.exception.MaculaException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -57,7 +57,7 @@ public class ServiceExceptionAspect implements BeanFactoryAware {
 
             ErrorMessage errorMessage = method.getAnnotation(ErrorMessage.class);
 
-            String message = errorMessage == null ? "org.macula.boot.exception.ServiceException" : errorMessage.value();
+            String message = errorMessage == null ? "org.macula.boot.core.exception.ServiceException" : errorMessage.value();
 
             log.error(message, ex);
 

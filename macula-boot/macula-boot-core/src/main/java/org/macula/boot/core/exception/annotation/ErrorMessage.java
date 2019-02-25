@@ -1,7 +1,7 @@
 /**
  * ErrorMessage.java 2015年9月24日
  */
-package org.macula.boot.exception.annotation;
+package org.macula.boot.core.exception.annotation;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;

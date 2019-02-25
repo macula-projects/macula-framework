@@ -1,17 +1,14 @@
 package org.macula.boot.core.config;
 
-import org.macula.boot.core.config.context.MessageSourceConfiguration;
 import org.macula.boot.core.config.core.CoreConfigProperties;
 import org.macula.boot.core.config.json.MaculaJackson2ObjectMapperBuilderCustomizer;
-import org.macula.boot.core.context.support.ReloadableResourceBundleMessageSource;
-import org.macula.boot.exception.handler.ServiceExceptionAspect;
-import org.macula.boot.exception.translator.HibernateExceptionTranslator;
-import org.macula.boot.exception.translator.PersistenceExceptionTranslator;
+import org.macula.boot.core.exception.handler.ServiceExceptionAspect;
+import org.macula.boot.core.exception.translator.HibernateExceptionTranslator;
+import org.macula.boot.core.exception.translator.PersistenceExceptionTranslator;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
@@ -20,14 +17,10 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
-import org.springframework.util.StringUtils;
-
-import java.time.Duration;
 
 /**
  * <p>

@@ -14,27 +14,19 @@
  *  limitations under the License.
  */
 
-/**
- * NotFoundTemplateException.java 2016年11月2日
- */
-package org.macula.boot.core.repository.jpa;
+package org.macula.boot.core.utils;
 
-import org.macula.boot.core.exception.MaculaException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
-/**
- * <p>
- * <b>TemplateQueryNotFoundException</b> 找不到SQL定义的模板异常
- * </p>
- *
- * @author Rain
- * @version $Id$
- * @since 2016年11月2日
- */
-public class TemplateQueryNotFoundException extends MaculaException {
+public class DateFormatUtilsTest {
 
-    private static final long serialVersionUID = 1L;
+    public static void main(String[] args) {
 
-    public TemplateQueryNotFoundException(String message) {
-        super(message);
+        System.out.println("Instant=" + Instant.now());
+        System.out.println("LocalDateTime=" + LocalDateTime.now());
+        System.out.println("ZonedDateTime=" + ZonedDateTime.now());
     }
+
 }

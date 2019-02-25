@@ -20,14 +20,13 @@ import org.macula.boot.core.config.CoreAutoConfiguration;
 import org.macula.boot.core.config.core.CoreConfigProperties;
 import org.macula.boot.web.config.support.MaculaWebMvcConfigurer;
 import org.macula.boot.web.config.support.MaculaWebMvcRegistrations;
-import org.macula.boot.web.mvc.annotation.support.ExceptionResultReturnValueHandler;
 import org.macula.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
-import org.macula.boot.web.mvc.convert.DateConverter;
+import org.macula.boot.web.mvc.convert.StringToDateConverter;
 import org.macula.boot.web.mvc.convert.NumberToBooleanConverter;
+import org.macula.boot.web.mvc.convert.StringToDateTimeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
 import org.springframework.context.MessageSource;
@@ -42,7 +41,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import javax.annotation.PostConstruct;
 
 @Configuration
-@AutoConfigureBefore({FreeMarkerAutoConfiguration.class, MessageSourceAutoConfiguration.class})
+@AutoConfigureBefore({FreeMarkerAutoConfiguration.class})
 @AutoConfigureAfter({CoreAutoConfiguration.class})
 @Import({FreeMarkerConfiguration.class})
 public class WebAutoConfiguration {
@@ -61,8 +60,13 @@ public class WebAutoConfiguration {
     }
 
     @Bean
-    public DateConverter dateConverter() {
-        return new DateConverter();
+    public StringToDateConverter dateConverter() {
+        return new StringToDateConverter();
+    }
+
+    @Bean
+    public StringToDateTimeConverter dateTimeConverter() {
+        return new StringToDateTimeConverter();
     }
 
     @Bean
@@ -90,7 +94,7 @@ public class WebAutoConfiguration {
     @PostConstruct
     public void init() {
         if (StringUtils.isEmpty(webMvcProperties.getDateFormat())) {
-            webMvcProperties.setDateFormat(CoreConfigProperties.getPattern().getDate());
+            webMvcProperties.setDateFormat(CoreConfigProperties.getPattern().getDatetime());
         }
     }
 }

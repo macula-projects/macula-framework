@@ -18,8 +18,8 @@ package org.macula.boot.vo;
 import java.io.Serializable;
 
 import lombok.Data;
-import org.macula.boot.exception.ServiceException;
-import org.macula.boot.exception.MaculaException;
+import org.macula.boot.core.exception.ServiceException;
+import org.macula.boot.core.exception.MaculaException;
 
 /**
  * <p>

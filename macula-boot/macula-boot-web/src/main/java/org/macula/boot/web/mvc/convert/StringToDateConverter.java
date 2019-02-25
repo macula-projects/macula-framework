@@ -21,21 +21,23 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.apache.commons.lang3.StringUtils;
 import org.macula.boot.core.utils.DateFormatUtils;
-import org.macula.boot.exception.ConvertException;
+import org.macula.boot.core.exception.ConvertException;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.ConditionalGenericConverter;
 
 /**
- * <p> <b>DateConverter</b> 是时间转换器. </p>
+ * <p> <b>StringToDateConverter</b> 是时间转换器. </p>
  * 
  * @since 2011-5-19
  * @author Wilson Luo
- * @version $Id: DateConverter.java 5906 2015-10-19 09:40:12Z wzp $
+ * @version $Id: StringToDateConverter.java 5906 2015-10-19 09:40:12Z wzp $
  */
-public class DateConverter implements ConditionalGenericConverter {
+public class StringToDateConverter implements ConditionalGenericConverter {
 
 	@Override	
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -49,6 +51,9 @@ public class DateConverter implements ConditionalGenericConverter {
 
 	@Override
 	public Object convert(Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
+		// TODO 根据当前请求的TimeZone处理时间日期
+		TimeZone timeZone = LocaleContextHolder.getTimeZone();
+
 		String sourceValue = (String) source;
 		if (StringUtils.isBlank(sourceValue)) {
 			return null;

@@ -19,6 +19,7 @@ package org.macula.boot.web.config;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import org.macula.boot.core.config.core.CoreConfigProperties;
+import org.macula.boot.web.mvc.view.GetAbsoluteUrlMethod;
 import org.macula.boot.web.mvc.view.MaculaFreeMarkerViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerProperties;
@@ -51,8 +52,8 @@ public class FreeMarkerConfiguration {
         cfg.setSetting(Configuration.TIME_FORMAT_KEY, coreConfigProperties.getPattern().getTime());
         cfg.setSetting(Configuration.NUMBER_FORMAT_KEY, coreConfigProperties.getPattern().getNumber());
 
-        // TODO 设置FreeMarker全局变量
-        // cfg.setSharedVariable("ctx", ctx);
+        // 设置FreeMarker全局变量
+        cfg.setSharedVariable("getAbsoluteUrl", new GetAbsoluteUrlMethod());
     }
 
     @Bean(name = "freeMarkerViewResolver")

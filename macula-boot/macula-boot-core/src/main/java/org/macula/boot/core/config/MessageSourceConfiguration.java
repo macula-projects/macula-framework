@@ -14,13 +14,12 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core.config.context;
+package org.macula.boot.core.config;
 
 import org.macula.boot.core.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
-import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -113,12 +112,12 @@ public class MessageSourceConfiguration {
 
         private Resource[] getResources(ClassLoader classLoader, String name) {
             String target = name.replace('.', '/');
-            if (!target.startsWith(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX)) {
-                target = "classpath*:" + target;
-            }
+            target = target.replace(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX, "");
+            target = target.replace(PathMatchingResourcePatternResolver.CLASSPATH_URL_PREFIX, "");
+
             try {
                 return new PathMatchingResourcePatternResolver(classLoader)
-                        .getResources(target + ".properties");
+                        .getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + target + ".properties");
             }
             catch (Exception ex) {
                 return NO_RESOURCES;

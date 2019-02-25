@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.macula.boot.exception.translator;
+package org.macula.boot.core.exception.translator;
 
-import org.macula.boot.exception.JpaDataAccessException;
+import org.macula.boot.core.exception.JpaDataAccessException;
 import org.macula.boot.core.utils.ExceptionUtils;
-import org.macula.boot.exception.MaculaException;
+import org.macula.boot.core.exception.MaculaException;
 
 import javax.persistence.*;
 

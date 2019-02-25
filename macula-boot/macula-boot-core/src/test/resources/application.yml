@@ -1,4 +1,6 @@
 spring:
+  messages:
+    basename: classpath*:i18n/messages,classpath*i18n/validation
   jpa:
     generateDdl: false
     showSql: true

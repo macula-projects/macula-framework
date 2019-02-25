@@ -17,7 +17,7 @@
 /**
  * ConvertException.java 2015年10月19日
  */
-package org.macula.boot.exception;
+package org.macula.boot.core.exception;
 
 /**
  * <p>

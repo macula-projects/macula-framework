@@ -42,35 +42,69 @@ public final class HttpRequestUtils {
 		// Noops
 	}
 
+	/**
+	 * 判断HttpServletRequest是否是AJAX或者OpenAPI请求
+	 * @param request
+	 * @return Boolean
+	 */
 	public static boolean isAjaxOrOpenAPIRequest(HttpServletRequest request) {
 		String requestType = request.getHeader(AJAX_REQUEST_HEADER);
 		return AJAX_REQUEST_VALUE.equals(requestType) || API_REQUEST_VALUE.equals(requestType);
 	}
 
+	/**
+	 * 判断你是否是AJAX请求
+	 * @param request
+	 * @return Boolean
+	 */
 	public static boolean isAjaxRequest(HttpServletRequest request) {
 		String requestType = request.getHeader(AJAX_REQUEST_HEADER);
 		return AJAX_REQUEST_VALUE.equals(requestType);
 	}
 
+	/**
+	 * 判断是否是OpenAPI请求
+	 * @param request
+	 * @return Boolean
+	 */
 	public static boolean isOpenAPIRequest(HttpServletRequest request) {
 		String requestType = request.getHeader(AJAX_REQUEST_HEADER);
 		return API_REQUEST_VALUE.equals(requestType);
 	}
 
+	/**
+	 * 将当前请求标记为AJAX请求
+	 * @param request
+	 */
 	public static void markAsAjaxRequest(HttpServletRequest request) {
 		if (request.getAttribute(AJAX_MARK_UP) == null) {
 			request.setAttribute(AJAX_MARK_UP, Boolean.TRUE);
 		}
 	}
 
+	/**
+	 * 判断是否被标记为AJAX请求
+	 * @param request
+	 * @return
+	 */
 	public static boolean isMarkAsAjaxRequest(HttpServletRequest request) {
 		return Boolean.TRUE == request.getAttribute(AJAX_MARK_UP);
 	}
 
+	/**
+	 * 获取当前请求的浏览器类型
+	 * @param request
+	 * @return 返回User-Agent内容
+	 */
 	public static String getRequestBrowser(HttpServletRequest request) {
 		return request.getHeader("User-Agent");
 	}
 
+	/**
+	 * 获取浏览器客户端地址
+	 * @param request
+	 * @return 客户端地址
+	 */
 	public static String getRequestAddress(HttpServletRequest request) {
 		String[] headNames = new String[] { "X-Forwarded-For", "Proxy-Client-IP", "WL-Proxy-Client-IP" };
 		String ip = null;
@@ -83,6 +117,10 @@ public final class HttpRequestUtils {
 		return StringUtils.isEmpty(ip) ? request.getRemoteAddr() : ip;
 	}
 
+	/**
+	 * 获取当前HTTP线程的请求对象
+	 * @return HttpServletRequest或者Null
+	 */
 	public static HttpServletRequest getRequest() {
 		ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		if (null != attrs) {

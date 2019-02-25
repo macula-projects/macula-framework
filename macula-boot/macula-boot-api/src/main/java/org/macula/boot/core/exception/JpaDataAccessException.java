@@ -13,31 +13,30 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.macula.boot.exception;
+package org.macula.boot.core.exception;
 
 /**
  * <p>
- * <b>HibernateDataAccessException</b> 所有HibernateException会被转为该异常
+ * <b>JpaDataAccessException</b> 所有PersistenceException异常被转为该异常
  * </p>
  *
  * @since 2011-10-28
  * @author zhengping_wang
- * @version $Id: HibernateDataAccessException.java 3807 2012-11-21 07:31:51Z wilson $
+ * @version $Id: JpaDataAccessException.java 3807 2012-11-21 07:31:51Z wilson $
  */
-public class HibernateDataAccessException extends MaculaException {
+public class JpaDataAccessException extends MaculaException {
 
 	private static final long serialVersionUID = 1L;
 
-	public HibernateDataAccessException(String message, Throwable cause) {
+	public JpaDataAccessException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public HibernateDataAccessException(String message, Object[] args) {
+	public JpaDataAccessException(String message, Object[] args) {
 		super(message, args);
 	}
 
-	public HibernateDataAccessException(String message, Object[] args, Throwable cause) {
+	public JpaDataAccessException(String message, Object[] args, Throwable cause) {
 		super(message, args, cause);
 	}
-
 }

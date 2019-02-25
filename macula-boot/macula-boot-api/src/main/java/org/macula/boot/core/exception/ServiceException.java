@@ -17,7 +17,7 @@
 /**
  * ServiceException.java 2015年9月24日
  */
-package org.macula.boot.exception;
+package org.macula.boot.core.exception;
 
 /**
  * <p>

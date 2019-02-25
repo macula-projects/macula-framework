@@ -13,32 +13,31 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.macula.boot.exception;
+package org.macula.boot.core.exception;
 
 /**
- * <p> <b>MaculaArgumentException</b> 是输入参数异常. </p>
- * 
- * @since 2011-7-13
- * @author Wilson Luo
- * @version $Id: MaculaArgumentException.java 3807 2012-11-21 07:31:51Z wilson $
+ * <p>
+ * <b>HibernateDataAccessException</b> 所有HibernateException会被转为该异常
+ * </p>
+ *
+ * @since 2011-10-28
+ * @author zhengping_wang
+ * @version $Id: HibernateDataAccessException.java 3807 2012-11-21 07:31:51Z wilson $
  */
-public class MaculaArgumentException extends MaculaException {
+public class HibernateDataAccessException extends MaculaException {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @param ex
-	 */
-	public MaculaArgumentException(IllegalArgumentException ex) {
-		super(ex.getMessage(), ex);
+	public HibernateDataAccessException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
-	/**
-	 * @param code
-	 * @param args
-	 */
-	public MaculaArgumentException(String code, Object... args) {
-		super(code, args);
+	public HibernateDataAccessException(String message, Object[] args) {
+		super(message, args);
+	}
+
+	public HibernateDataAccessException(String message, Object[] args, Throwable cause) {
+		super(message, args, cause);
 	}
 
 }

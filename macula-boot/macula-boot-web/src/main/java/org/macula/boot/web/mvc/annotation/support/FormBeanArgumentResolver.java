@@ -16,7 +16,7 @@
 package org.macula.boot.web.mvc.annotation.support;
 
 import org.apache.commons.lang3.StringUtils;
-import org.macula.boot.exception.MaculaArgumentException;
+import org.macula.boot.core.exception.MaculaArgumentException;
 import org.macula.boot.web.mvc.annotation.FormBean;
 import org.macula.boot.web.mvc.annotation.TokenValidation;
 import org.springframework.beans.BeanUtils;
