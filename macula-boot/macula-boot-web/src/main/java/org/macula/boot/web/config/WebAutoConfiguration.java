@@ -23,25 +23,28 @@ import org.macula.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
 import org.macula.boot.web.mvc.convert.StringToDateConverter;
 import org.macula.boot.web.mvc.convert.NumberToBooleanConverter;
 import org.macula.boot.web.mvc.convert.StringToDateTimeConverter;
-import org.macula.boot.web.mvc.i18n.TimeZoneServlet;
+import org.macula.boot.web.mvc.i18n.TimeZoneController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Validator;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.servlet.LocaleContextResolver;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping;
+import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.annotation.PostConstruct;
 
 @Configuration
 @AutoConfigureAfter({CoreAutoConfiguration.class})
+@AutoConfigureBefore({WebMvcAutoConfiguration.class})
 public class WebAutoConfiguration {
 
     @Autowired
@@ -73,12 +76,17 @@ public class WebAutoConfiguration {
     }
 
     @Bean
-    public ServletRegistrationBean timezoneServlet() {
-        return new ServletRegistrationBean(new TimeZoneServlet(), "/timezone");
+    public BeanNameUrlHandlerMapping beanNameUrlHandlerMapping() {
+        return new BeanNameUrlHandlerMapping();
+    }
+
+    @Bean(name = "/timezone")
+    public TimeZoneController timeZoneController() {
+        return new TimeZoneController();
     }
 
     @Bean
-    LocaleContextResolver sessionLocaleResolver () {
+    LocaleResolver localeResolver () {
         return new SessionLocaleResolver();
     }
 
@@ -90,13 +98,6 @@ public class WebAutoConfiguration {
         initializer.setValidator(validator);
         initializer.setAutoGrowCollectionLimit(1000);
         return initializer;
-    }
-
-    @Bean
-    public Validator validator(MessageSource messageSource) {
-        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-        validator.setValidationMessageSource(messageSource);
-        return validator;
     }
 
     @PostConstruct

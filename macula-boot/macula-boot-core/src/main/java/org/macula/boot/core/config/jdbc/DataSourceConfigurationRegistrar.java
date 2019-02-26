@@ -109,7 +109,7 @@ public class DataSourceConfigurationRegistrar implements EnvironmentAware, Impor
                 }
             }
         } catch (NoSuchElementException ex) {
-            log.warn("No DataSource Configuration!!");
+            log.warn("No Macula DataSource Configuration!!");
         }
     }
 

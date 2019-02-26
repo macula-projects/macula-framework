@@ -17,36 +17,38 @@
 package org.macula.boot.web.mvc.i18n;
 
 import org.springframework.context.i18n.SimpleTimeZoneAwareLocaleContext;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.LocaleContextResolver;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.ZoneOffset;
-import java.util.Locale;
 import java.util.TimeZone;
 
 /**
  * <p>
- * <b>TimeZoneServlet</b> 时区处理器
+ * <b>TimeZoneController</b> 时区处理控制器
  * </p>
  *
  * @author Rain
  * @since 2019-02-26
  */
-
-public class TimeZoneServlet extends HttpServlet {
-
-    private static final long serialVersionUID = -5618085796169538710L;
+public class TimeZoneController extends AbstractController {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    protected ModelAndView handleRequestInternal(HttpServletRequest req, HttpServletResponse res) throws Exception {
+        if ("GET".equals(req.getMethod())) {
+            doGet(req, res);
+        }
+        if ("POST".equals(req.getMethod())) {
+            doPost(req, res);
+        }
+        return null;
+    }
+
+    private void doGet(HttpServletRequest req, HttpServletResponse res) throws Exception {
         Object requestedUrl = req.getAttribute("requestedUrl");
         if (requestedUrl != null) {
             String content = "<html>\n" +
@@ -70,8 +72,7 @@ public class TimeZoneServlet extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    private void doPost(HttpServletRequest req, HttpServletResponse res) throws Exception {
         String requestedUrl = req.getParameter("requestedUrl");
         int timeZoneOffset = 8;
         try {

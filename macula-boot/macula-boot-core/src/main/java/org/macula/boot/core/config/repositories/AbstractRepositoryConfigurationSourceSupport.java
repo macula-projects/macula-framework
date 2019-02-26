@@ -38,6 +38,7 @@ import org.springframework.data.repository.config.RepositoryConfigurationExtensi
 import org.springframework.data.util.Streamable;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +68,13 @@ public abstract class AbstractRepositoryConfigurationSourceSupport implements Be
 
         log.info("开始注册Spring Data Repositories");
 
-        List<RepositoryConfig> list = binder.bind(getConfigPrefix(), Bindable.listOf(RepositoryConfig.class)).get();
+        List<RepositoryConfig> list = new ArrayList<>();
+
+        try {
+            list = binder.bind(getConfigPrefix(), Bindable.listOf(RepositoryConfig.class)).get();
+        } catch (Exception ex) {
+            log.warn("No Macula JPA Configuration");
+        }
 
         for (RepositoryConfig repoCfg : list) {
             // 注册各持久化层相关的Bean(EntityManagerFactory, TransactionManager，TxAdvise，TxAdvisor)
