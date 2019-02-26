@@ -17,26 +17,26 @@
 package org.macula.boot.web.config;
 
 import org.macula.boot.core.config.CoreAutoConfiguration;
-import org.macula.boot.core.config.core.CoreConfigProperties;
 import org.macula.boot.web.config.support.MaculaWebMvcConfigurer;
 import org.macula.boot.web.config.support.MaculaWebMvcRegistrations;
 import org.macula.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
 import org.macula.boot.web.mvc.convert.StringToDateConverter;
 import org.macula.boot.web.mvc.convert.NumberToBooleanConverter;
 import org.macula.boot.web.mvc.convert.StringToDateTimeConverter;
+import org.macula.boot.web.mvc.i18n.TimeZoneServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.LocaleContextResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.annotation.PostConstruct;
 
@@ -70,6 +70,16 @@ public class WebAutoConfiguration {
     @Bean
     public NumberToBooleanConverter numberToBooleanConverter() {
         return new NumberToBooleanConverter();
+    }
+
+    @Bean
+    public ServletRegistrationBean timezoneServlet() {
+        return new ServletRegistrationBean(new TimeZoneServlet(), "/timezone");
+    }
+
+    @Bean
+    LocaleContextResolver sessionLocaleResolver () {
+        return new SessionLocaleResolver();
     }
 
     @Bean
