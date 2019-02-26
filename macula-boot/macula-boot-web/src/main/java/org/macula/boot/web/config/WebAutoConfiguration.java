@@ -41,9 +41,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import javax.annotation.PostConstruct;
 
 @Configuration
-@AutoConfigureBefore({FreeMarkerAutoConfiguration.class})
 @AutoConfigureAfter({CoreAutoConfiguration.class})
-@Import({FreeMarkerConfiguration.class})
 public class WebAutoConfiguration {
 
     @Autowired
@@ -94,7 +92,7 @@ public class WebAutoConfiguration {
     @PostConstruct
     public void init() {
         if (StringUtils.isEmpty(webMvcProperties.getDateFormat())) {
-            webMvcProperties.setDateFormat(CoreConfigProperties.getPattern().getDatetime());
+            webMvcProperties.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         }
     }
 }

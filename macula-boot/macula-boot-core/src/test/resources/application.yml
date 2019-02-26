@@ -14,11 +14,6 @@ macula:
   config:
     enableEscapeXss: true
     escapeXssLevel: BASIC
-    pattern:
-      datetime: yyyy-MM-dd HH:mm:ss
-      date: yyyy-MM-dd
-      time: HH:mm:ss
-      number: #
   redis:
     cache:
       host: localhost

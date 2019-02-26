@@ -46,9 +46,9 @@ public final class DateFormatUtils {
     private static TimeZone timeZone = TimeZone.getDefault();
 
     static {
-        dateTimeFormat = new SimpleDateFormat(CoreConfigProperties.getPattern().getDatetime());
-        dateFormat = new SimpleDateFormat(CoreConfigProperties.getPattern().getDate());
-        timeFormat = new SimpleDateFormat(CoreConfigProperties.getPattern().getTime());
+        dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        timeFormat = new SimpleDateFormat("HH:mm:ss");
     }
 
     private DateFormatUtils() {
