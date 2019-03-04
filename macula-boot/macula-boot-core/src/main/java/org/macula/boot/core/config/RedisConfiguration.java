@@ -25,15 +25,19 @@ import org.macula.boot.core.config.redis.LettuceConnectionConfiguration;
 import org.macula.boot.core.config.redis.MultiRedisProperties;
 import org.macula.boot.core.redis.KryoRedisSerializer;
 import org.macula.boot.core.redis.StringRedisSerializer;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+
+import java.io.IOException;
 
 /**
  * <p>
@@ -46,16 +50,17 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 @EnableConfigurationProperties({MultiRedisProperties.class})
 class RedisConfiguration {
+
     @Bean(destroyMethod = "shutdown")
-    @ConditionalOnMissingBean(ClientResources.class)
-    public DefaultClientResources lettuceClientResources() {
-        return DefaultClientResources.create();
+    public RedissonClient redisson(@Value("classpath:/redisson.yaml") Resource configFile) throws IOException {
+        Config config = Config.fromYAML(configFile.getInputStream());
+        return Redisson.create(config);
     }
 
     // 缓存配置
     @Bean(name = "cacheRedisConnectionFactory")
     @ConditionalOnMissingBean(name = "cacheRedisConnectionFactory")
-    public RedisConnectionFactory cacheRedisConnectionFactory(ClientResources clientResources, MultiRedisProperties multiRedisProperties) {
+    public RedisConnectionFactory cacheRedisConnectionFactory(RedissonClient clientResources, MultiRedisProperties multiRedisProperties) {
         LettuceConnectionConfiguration lettuceCfg = new LettuceConnectionConfiguration(multiRedisProperties.getCache());
 
         LettuceClientConfiguration clientConfig = lettuceCfg.getLettuceClientConfiguration(clientResources, multiRedisProperties.getCache().getLettuce().getPool());
