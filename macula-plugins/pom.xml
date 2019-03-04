@@ -16,11 +16,11 @@
 
 
     <modules>
+        <module>macula-plugins-base</module>
         <module>macula-plugins-security</module>
         <module>macula-plugins-mda</module>
         <module>macula-plugins-rules</module>
         <module>macula-plugins-report</module>
-        <module>macula-plugins-lock</module>
         <module>macula-plugins-flow</module>
     </modules>
 

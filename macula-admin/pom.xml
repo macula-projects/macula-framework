@@ -16,7 +16,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>macula-admin-core</module>
+        <module>macula-admin-boot</module>
+        <module>macula-admin-base</module>
         <module>macula-admin-security</module>
         <module>macula-admin-flow</module>
         <module>macula-admin-mda</module>

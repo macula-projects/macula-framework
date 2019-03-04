@@ -31,7 +31,7 @@ import javax.persistence.Table;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.macula.boot.core.domain.AbstractAuditable;
+import org.macula.boot.core.repository.domain.AbstractAuditable;
 
 /**
  * <p>

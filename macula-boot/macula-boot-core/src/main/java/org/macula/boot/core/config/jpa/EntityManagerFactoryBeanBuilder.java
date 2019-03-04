@@ -1,7 +1,7 @@
 package org.macula.boot.core.config.jpa;
 
 import org.macula.boot.core.config.repositories.AbstractRepositoryConfigurationSourceSupport;
-import org.macula.boot.core.hibernate.audit.AuditedEventListener;
+import org.macula.boot.core.repository.hibernate.audit.AuditedEventListener;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;

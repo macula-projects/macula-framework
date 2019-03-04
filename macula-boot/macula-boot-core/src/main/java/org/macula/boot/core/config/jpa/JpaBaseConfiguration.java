@@ -1,8 +1,8 @@
 package org.macula.boot.core.config.jpa;
 
-import org.macula.boot.core.domain.support.AuditorAwareStub;
-import org.macula.boot.core.domain.support.DbDateTimeProvider;
-import org.macula.boot.core.hibernate.audit.AuditedEventListener;
+import org.macula.boot.core.repository.domain.support.AuditorAwareStub;
+import org.macula.boot.core.repository.domain.support.DbDateTimeProvider;
+import org.macula.boot.core.repository.hibernate.audit.AuditedEventListener;
 import org.macula.boot.core.repository.jpa.templatequery.template.FreemarkerSqlTemplates;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -23,6 +23,7 @@ import org.springframework.format.datetime.DateFormatter;
 import java.text.ParseException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.Locale;
@@ -52,7 +53,6 @@ public class DateTimeTest {
         System.out.println("指定时区的当前时间：" + OffsetDateTime.now(ZoneId.of("+07:00")));
         System.out.println("时区当前时间：" + ZonedDateTime.now());
         System.out.println("Parse测试:" + LocalDate.parse("2019-12-12T23:44:32.000+09:00", DateTimeFormatter.ISO_DATE_TIME));
-        System.out.println("OffsetDateTime to LocaleDateTime:" + OffsetDateTime.now(ZoneId.of("+07:00")).toLocalDateTime());
 
         DateFormatter formatter = new DateFormatter();
         //formatter.setIso(DateTimeFormat.ISO.DATE_TIME);
@@ -60,10 +60,26 @@ public class DateTimeTest {
         System.out.println("ISO.DATE_TIME:" + formatter.print(new Date(), Locale.getDefault()));
         System.out.println("ISO.DATE_TIME:" + formatter.parse("2019-02-26", Locale.getDefault()));
 
-        DateTimeFormatter formatter1 = DateTimeFormatter.ISO_DATE_TIME;
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
         System.out.println("DATETIME:" + formatter1.format(OffsetDateTime.now()));
-        //xx = formatter1.parse("2019-02-27T00:07:33.646+08:00");
-        //System.out.println("DATETIME:" + xx);
+        TemporalAccessor xx = formatter1.parse("19-2-27 上午11:26");
+        System.out.println("DATETIME:" + xx);
+
+        System.out.println(LocalDateTime.now().atZone(ZoneId.of("+07:00")).toOffsetDateTime());
+        System.out.println("OffsetDateTime to LocaleDateTime:" + OffsetDateTime.now().toLocalDateTime());
+
+        System.out.println("ISO_LOCAL_DATE_TIME:" + DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.of("+09:00")).format(LocalDateTime.now()));
+        System.out.println("ISO_LOCAL_DATE_TIME:" + DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneId.of("+09:00")).format(OffsetDateTime.now()));
+        System.out.println("OffsetDateTime:" + OffsetDateTime.parse("2019-02-27T15:28:14.965+07:00", DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneId.of("+09:00"))));
+
+
+        String iso8601 = "2016-02-14T18:32:04.150+07:00";
+        ZonedDateTime zdt = ZonedDateTime.parse(iso8601);
+        LocalDateTime ldt = zdt.withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
+        OffsetDateTime.now().withOffsetSameInstant(ZoneOffset.of("+08:00"));
+        System.out.println(ldt);
+
+
     }
 
 }

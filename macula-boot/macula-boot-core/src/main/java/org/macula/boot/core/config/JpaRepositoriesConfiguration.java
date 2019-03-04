@@ -18,8 +18,8 @@ package org.macula.boot.core.config;
 
 import org.macula.boot.MaculaConstants;
 import org.macula.boot.core.config.jpa.MaculaJpaRepositoriesConfigurationRegistar;
-import org.macula.boot.core.domain.support.AuditorAwareStub;
-import org.macula.boot.core.domain.support.DbDateTimeProvider;
+import org.macula.boot.core.repository.domain.support.AuditorAwareStub;
+import org.macula.boot.core.repository.domain.support.DbDateTimeProvider;
 import org.macula.boot.core.repository.jpa.templatequery.template.FreemarkerSqlTemplates;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
