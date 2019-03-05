@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.util.ClassUtils;
 
@@ -36,6 +37,7 @@ import org.springframework.util.ClassUtils;
  * Created by kl on 2017/12/29.
  * Content :klock自动装配
  */
+@Configuration
 @EnableConfigurationProperties(KlockProperties.class)
 @Import({KlockAspectHandler.class})
 public class KlockConfiguration {

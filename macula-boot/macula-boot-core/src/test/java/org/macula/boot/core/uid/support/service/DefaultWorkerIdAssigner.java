@@ -25,6 +25,7 @@ import org.macula.boot.core.uid.utils.NetUtils;
 import org.macula.boot.core.uid.worker.WorkerIdAssigner;
 import org.macula.boot.core.uid.worker.WorkerNodeType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>
@@ -36,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 
 @Slf4j
+@Component
 public class DefaultWorkerIdAssigner implements WorkerIdAssigner {
 
     @Autowired

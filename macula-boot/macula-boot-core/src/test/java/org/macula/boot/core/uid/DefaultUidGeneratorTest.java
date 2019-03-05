@@ -20,12 +20,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.macula.boot.core.uid.config.UidConfiguration;
-import org.macula.boot.core.uid.config.UidTestConfiguration;
 import org.macula.boot.core.uid.impl.DefaultUidGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -38,7 +36,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@Import({UidTestConfiguration.class, UidConfiguration.class})
+@ComponentScan(basePackages = "org.macula.boot.core.uid")
 public class DefaultUidGeneratorTest {
 
     private static final int SIZE = 100000; // 10w

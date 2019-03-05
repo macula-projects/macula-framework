@@ -19,6 +19,7 @@ package org.macula.boot.core.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.macula.boot.core.config.jdbc.DataSourceConfigurationRegistrar;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -29,7 +30,7 @@ import org.springframework.context.annotation.Import;
  * @author Rain
  * @since 2019-02-02
  */
-
+@Configuration
 @ConditionalOnClass(DruidDataSource.class)
 @Import({DataSourceConfigurationRegistrar.class})
 class DataSourceConfiguration {

@@ -19,10 +19,16 @@ package org.macula.boot.core.klock;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.macula.boot.core.klock.config.KlockConfiguration;
 import org.macula.boot.core.klock.support.TestService;
 import org.macula.boot.core.klock.support.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter;
+import org.springframework.boot.context.TypeExcludeFilter;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
@@ -39,7 +45,9 @@ import java.util.concurrent.Executors;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = {KlockTest.class, KlockConfiguration.class})
+@SpringBootConfiguration
+@ComponentScan
 public class KlockTest {
 
     @Autowired

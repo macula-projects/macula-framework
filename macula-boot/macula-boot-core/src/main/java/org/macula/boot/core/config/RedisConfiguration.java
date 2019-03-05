@@ -43,7 +43,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @author Rain
  * @since 2019-01-31
  */
-
+@Configuration
 @EnableConfigurationProperties({MultiRedisProperties.class})
 class RedisConfiguration {
     @Bean(destroyMethod = "shutdown")
