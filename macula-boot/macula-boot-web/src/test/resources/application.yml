@@ -1,0 +1,89 @@
+spring:
+  messages:
+    basename: classpath*:i18n/messages,classpath*i18n/validation
+  jdbc:
+    template:
+      fetchSize: -1
+      maxRows: -1
+  jpa:
+    generateDdl: false
+    showSql: true
+    hibernate:
+      ddl-auto: create-drop
+  freemarker:
+    content-type: text/html;charset=UTF-8
+    settings:
+      template_update_delay: 0
+      template_exception_handler: html_debug
+      cache_storage: strong:5000, soft
+      #auto_import:
+macula:
+  config:
+    enableEscapeXss: true
+    escapeXssLevel: BASIC
+    pattern:
+      datetime: yyyy-MM-dd HH:mm:ss
+      date: yyyy-MM-dd
+      time: HH:mm:ss
+      number: #
+  redis:
+    cache:
+      host: localhost
+      port: 6379
+    data:
+      host: localhost
+      port: 6379
+  datasource:
+    druid:
+      - name: macula
+        ## JDBC配置
+        url: jdbc:mysql://127.0.0.1:3306/macula3?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+        username: root
+        password: mysql
+        ## 连接池配置
+        max-active: 100
+        initial-size: 1
+        max-wait: 60000
+        min-idle: 1
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: select '1'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: true
+        max-open-prepared-statements: 50
+        max-pool-prepared-statement-per-connection-size: 20
+        ## 过滤器配置
+        filters: stat,wall
+      - name: gbss
+        ## JDBC配置
+        url: jdbc:mysql://127.0.0.1:3306/macula3?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+        username: root
+        password: mysql
+        ## 连接池配置
+        max-active: 100
+        initial-size: 1
+        max-wait: 60000
+        min-idle: 1
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: select '1'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: true
+        max-open-prepared-statements: 50
+        max-pool-prepared-statement-per-connection-size: 20
+        ## 过滤器配置
+        filters: stat,wall
+  jpa:
+    repositories:
+      - name: macula
+        entityPackages: org.macula.boot
+        repositoryPackages: org.macula.boot
+        servicePackage: org.macula
+      - name: gbss
+        entityPackages: com.infinitus.gbss
+        repositoryPackages: com.infinitus.gbss
+        servicePackage: com.infinitus.gbss
