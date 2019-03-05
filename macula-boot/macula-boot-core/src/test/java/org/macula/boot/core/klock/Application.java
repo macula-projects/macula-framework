@@ -17,20 +17,27 @@
 package org.macula.boot.core.klock;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter;
+import org.springframework.boot.context.TypeExcludeFilter;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 
 /**
  * <p>
  * <b>Application</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
- * @SpringBootTest 不会加载自动配置，@DataJpaTest 等会有选择的加载自动配置
- * </p>
  *
  * @author Rain
+ * @SpringBootTest 根据Application注解加载配置，@DataJpaTest 等会有选择的加载自动配置
+ * </p>
  * @since 2019-01-30
  */
 
-@SpringBootApplication
+@SpringBootConfiguration
+@ComponentScan(excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
+        @ComponentScan.Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class)})
 public class Application {
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);

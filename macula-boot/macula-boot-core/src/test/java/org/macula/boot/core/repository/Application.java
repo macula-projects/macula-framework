@@ -23,7 +23,7 @@ import org.springframework.context.ApplicationContext;
 /**
  * <p>
  * <b>Application</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
- * @SpringBootTest 不会加载自动配置，@DataJpaTest 等会有选择的加载自动配置
+ * @SpringBootTest 根据Application注解加载配置，@DataJpaTest 等会有选择的加载自动配置
  * </p>
  *
  * @author Rain

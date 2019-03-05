@@ -1,31 +1,28 @@
 spring:
   messages:
     basename: classpath*:i18n/messages,classpath*i18n/validation
-  jdbc:
-    template:
-      fetchSize: -1
-      maxRows: -1
   jpa:
-    generateDdl: false
-    showSql: true
+    generate-ddl: false
+    show-sql: true
     hibernate:
       ddl-auto: create-drop
-  freemarker:
-    content-type: text/html;charset=UTF-8
-    settings:
-      template_update_delay: 0
-      template_exception_handler: html_debug
-      cache_storage: strong:5000, soft
-      #auto_import:
+  jdbc:
+    template:
+      fetch-size: -1
+      max-rows: -1
 macula:
   config:
-    enableEscapeXss: true
-    escapeXssLevel: BASIC
-    pattern:
-      datetime: yyyy-MM-dd HH:mm:ss
-      date: yyyy-MM-dd
-      time: HH:mm:ss
-      number: #
+    enable-escape-xss: true
+    escape-xss-level: BASIC
+  uid:
+    time-bits: 29
+    worker-bits: 21
+    seq-bits: 13
+    epoch-str: "2018-11-26"
+    cached-uid-generator:
+      boost-power: 3          # RingBuffer size扩容参数, 可提高UID生成的吞吐量, 默认:3
+      padding-factor: 50      # 指定何时向RingBuffer中填充UID, 取值为百分比(0, 100), 默认为50
+      #schedule-interval: 60  # 默认:不配置此项, 即不实用Schedule线程. 如需使用, 请指定Schedule线程时间间隔, 单位:秒
   redis:
     cache:
       host: localhost
@@ -33,6 +30,10 @@ macula:
     data:
       host: localhost
       port: 6379
+    klock:
+      address: redis://localhost:6379
+      #cluster-server:
+      #  node-addresses: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005
   datasource:
     druid:
       - name: macula
@@ -80,10 +81,10 @@ macula:
   jpa:
     repositories:
       - name: macula
-        entityPackages: org.macula.boot
-        repositoryPackages: org.macula.boot
-        servicePackage: org.macula
+        entity-packages: org.macula.boot
+        repository-packages: org.macula.boot
+        service-package: org.macula
       - name: gbss
-        entityPackages: com.infinitus.gbss
-        repositoryPackages: com.infinitus.gbss
-        servicePackage: com.infinitus.gbss
+        entity-packages: com.infinitus.gbss
+        repository-packages: com.infinitus.gbss
+        service-package: com.infinitus.gbss
