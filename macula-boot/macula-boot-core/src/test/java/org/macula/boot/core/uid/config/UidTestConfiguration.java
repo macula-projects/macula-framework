@@ -13,22 +13,27 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.macula.boot.core.uid.worker;
 
-import org.macula.boot.core.uid.impl.DefaultUidGenerator;
+package org.macula.boot.core.uid.config;
+
+import org.macula.boot.core.uid.support.service.DefaultWorkerIdAssigner;
+import org.macula.boot.core.uid.worker.WorkerIdAssigner;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 
 /**
- * Represents a worker id assigner for {@link DefaultUidGenerator}
- * 
- * @author yutianbao
+ * <p>
+ * <b>UidTestConfiguration</b> UID相关配置
+ * </p>
+ *
+ * @author Rain
+ * @since 2019-03-05
  */
-public interface WorkerIdAssigner {
 
-    /**
-     * Assign worker id for {@link DefaultUidGenerator}
-     * 
-     * @return assigned worker id
-     */
-    long assignWorkerId();
-
+@TestConfiguration
+public class UidTestConfiguration {
+    @Bean
+    public WorkerIdAssigner workerIdAssigner() {
+        return new DefaultWorkerIdAssigner();
+    }
 }

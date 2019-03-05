@@ -13,16 +13,16 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.macula.boot.core.uid;
+package org.macula.boot.core.uid.impl;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.util.Assert;
 
 /**
  * Allocate 64 bits for the UID(long)<br>
  * sign (fixed 1bit) -> deltaSecond -> workerId -> sequence(within the same second)
- * 
+ *
  * @author yutianbao
  */
 public class BitsAllocator {
@@ -30,27 +30,24 @@ public class BitsAllocator {
      * Total 64 bits
      */
     public static final int TOTAL_BITS = 1 << 6;
-
-    /**
-     * Bits for [sign-> second-> workId-> sequence]
-     */
-    private int signBits = 1;
     private final int timestampBits;
     private final int workerIdBits;
     private final int sequenceBits;
-
     /**
      * Max value for workId & sequence
      */
     private final long maxDeltaSeconds;
     private final long maxWorkerId;
     private final long maxSequence;
-
     /**
      * Shift for timestamp & workerId
      */
     private final int timestampShift;
     private final int workerIdShift;
+    /**
+     * Bits for [sign-> second-> workId-> sequence]
+     */
+    private int signBits = 1;
 
     /**
      * Constructor with timestampBits, workerIdBits, sequenceBits<br>
@@ -79,7 +76,7 @@ public class BitsAllocator {
     /**
      * Allocate bits for UID according to delta seconds & workerId & sequence<br>
      * <b>Note that: </b>The highest bit will always be 0 for sign
-     * 
+     *
      * @param deltaSeconds
      * @param workerId
      * @param sequence
@@ -88,7 +85,7 @@ public class BitsAllocator {
     public long allocate(long deltaSeconds, long workerId, long sequence) {
         return (deltaSeconds << timestampShift) | (workerId << workerIdShift) | sequence;
     }
-    
+
     /**
      * Getters
      */
@@ -127,10 +124,10 @@ public class BitsAllocator {
     public int getWorkerIdShift() {
         return workerIdShift;
     }
-    
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
-    
+
 }

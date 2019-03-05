@@ -19,7 +19,7 @@ package org.macula.boot.core.klock.core;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.macula.boot.core.klock.annotation.Klock;
-import org.macula.boot.core.klock.config.KlockConfig;
+import org.macula.boot.core.klock.config.KlockProperties;
 import org.macula.boot.core.klock.model.LockInfo;
 import org.macula.boot.core.klock.model.LockType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class LockInfoProvider {
 
 
     @Autowired
-    private KlockConfig klockConfig;
+    private KlockProperties klockConfig;
 
     @Autowired
     private BusinessKeyProvider businessKeyProvider;

@@ -13,22 +13,42 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.macula.boot.core.uid.worker;
 
-import org.macula.boot.core.uid.impl.DefaultUidGenerator;
+package org.macula.boot.core.klock.support;
 
 /**
- * Represents a worker id assigner for {@link DefaultUidGenerator}
- * 
- * @author yutianbao
+ * <p>
+ * <b>User</b> User
+ * </p>
+ *
+ * @author Rain
+ * @since 2019-03-05
  */
-public interface WorkerIdAssigner {
+public class User{
+    private int id;
+    private String name;
 
-    /**
-     * Assign worker id for {@link DefaultUidGenerator}
-     * 
-     * @return assigned worker id
-     */
-    long assignWorkerId();
+    public User() {
+    }
 
+    public User(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

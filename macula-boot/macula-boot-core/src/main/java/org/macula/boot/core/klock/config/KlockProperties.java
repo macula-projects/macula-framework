@@ -13,22 +13,32 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.macula.boot.core.uid.worker;
 
-import org.macula.boot.core.uid.impl.DefaultUidGenerator;
+package org.macula.boot.core.klock.config;
+
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Represents a worker id assigner for {@link DefaultUidGenerator}
- * 
- * @author yutianbao
+ * Created by kl on 2017/12/29.
  */
-public interface WorkerIdAssigner {
+@ConfigurationProperties(prefix = "macula.redis.klock")
+@Data
+public class KlockProperties {
 
-    /**
-     * Assign worker id for {@link DefaultUidGenerator}
-     * 
-     * @return assigned worker id
-     */
-    long assignWorkerId();
+    //redisson
+    private String address;
+    private String password;
+    private int database = 15;
+    private ClusterServer clusterServer;
+    private String codec = "org.redisson.codec.JsonJacksonCodec";
+    //lock
+    private long waitTime = 60;
+    private long leaseTime = 60;
 
+    @Data
+    public static class ClusterServer {
+
+        private String[] nodeAddresses;
+    }
 }

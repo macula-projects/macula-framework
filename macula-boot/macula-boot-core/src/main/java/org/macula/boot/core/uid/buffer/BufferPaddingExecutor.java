@@ -22,12 +22,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.macula.boot.core.uid.utils.NamingThreadFactory;
+import org.macula.boot.core.uid.utils.PaddedAtomicLong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import com.baidu.fsg.uid.utils.NamingThreadFactory;
-import com.baidu.fsg.uid.utils.PaddedAtomicLong;
 
 /**
  * Represents an executor for padding {@link RingBuffer}<br>

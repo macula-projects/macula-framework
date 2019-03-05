@@ -5,6 +5,8 @@ import org.macula.boot.core.config.json.MaculaJackson2ObjectMapperBuilderCustomi
 import org.macula.boot.core.exception.handler.ServiceExceptionAspect;
 import org.macula.boot.core.exception.translator.HibernateExceptionTranslator;
 import org.macula.boot.core.exception.translator.PersistenceExceptionTranslator;
+import org.macula.boot.core.klock.config.KlockConfiguration;
+import org.macula.boot.core.uid.config.UidConfiguration;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -38,7 +40,8 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @AutoConfigureAfter({JacksonAutoConfiguration.class})
 @AutoConfigureBefore({MessageSourceAutoConfiguration.class, RedisAutoConfiguration.class,
         DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, })
-@Import({MessageSourceConfiguration.class, RedisConfiguration.class,
+@Import({MessageSourceConfiguration.class, UidConfiguration.class,
+        RedisConfiguration.class, KlockConfiguration.class,
         DataSourceConfiguration.class, JpaRepositoriesConfiguration.class})
 public class CoreAutoConfiguration implements ApplicationContextAware {
 

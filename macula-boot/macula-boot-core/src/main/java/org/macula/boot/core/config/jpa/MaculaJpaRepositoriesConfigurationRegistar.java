@@ -32,6 +32,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.AnnotationTransactionAttributeSource;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
+import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import java.lang.annotation.Annotation;
@@ -76,6 +77,12 @@ public class MaculaJpaRepositoriesConfigurationRegistar extends AbstractReposito
     @Override
     protected void registerManagerBeans(BeanDefinitionRegistry registry,
                                         AbstractRepositoryConfigurationSourceSupport.RepositoryConfig repositoryConfig) {
+
+        Assert.notNull(repositoryConfig.getName(), "repository name not null");
+        Assert.notNull(repositoryConfig.getEntityPackages(), "repository entity-packages not null");
+        Assert.notNull(repositoryConfig.getRepositoryPackages(), "repository packages not null");
+        Assert.notNull(repositoryConfig.getServicePackage(), "repository service package not null");
+
         String name = repositoryConfig.getName();
         String dataSourceBeanName = "dataSource-" + name;
         String entityManagerFactoryBeanName = "entityManagerFactory-" + name;

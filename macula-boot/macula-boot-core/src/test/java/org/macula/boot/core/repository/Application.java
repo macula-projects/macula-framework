@@ -14,37 +14,26 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core.uid.worker;
+package org.macula.boot.core.repository;
 
-import org.macula.boot.core.uid.utils.ValuedEnum;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 /**
  * <p>
- * <b>WorkNodeType</b> 工作节点类型
+ * <b>Application</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
+ * @SpringBootTest 不会加载自动配置，@DataJpaTest 等会有选择的加载自动配置
  * </p>
  *
  * @author Rain
- * @since 2019-03-05
+ * @since 2019-01-30
  */
-public enum WorkerNodeType implements ValuedEnum<Integer> {
 
-    CONTAINER(1), ACTUAL(2);
-
-    /**
-     * Lock type
-     */
-    private final Integer type;
-
-    /**
-     * Constructor with field of type
-     */
-    private WorkerNodeType(Integer type) {
-        this.type = type;
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        ApplicationContext ctx = SpringApplication.run(Application.class, args);
+        org.macula.boot.ApplicationContext.setContainer(ctx);
     }
-
-    @Override
-    public Integer value() {
-        return type;
-    }
-
 }

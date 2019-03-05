@@ -34,7 +34,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 // 避开其他目录的类被加载，这里只做CoreAutoConfiguration的配置检查
-@SpringBootTest(classes = Application.class)
+@SpringBootTest
 public class CoreAutoConfigurationTests {
 
     @Autowired

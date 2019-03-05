@@ -13,32 +13,27 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 package org.macula.boot.core.uid;
 
-import org.macula.boot.core.uid.exception.UidGenerateException;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 /**
- * Represents a unique id generator.
+ * <p>
+ * <b>Application</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
+ * @SpringBootTest 不会加载自动配置，@DataJpaTest 等会有选择的加载自动配置
+ * </p>
  *
- * @author yutianbao
+ * @author Rain
+ * @since 2019-01-30
  */
-public interface UidGenerator {
 
-    /**
-     * Get a unique ID
-     *
-     * @return UID
-     * @throws UidGenerateException
-     */
-    long getUID() throws UidGenerateException;
-
-    /**
-     * Parse the UID into elements which are used to generate the UID. <br>
-     * Such as timestamp & workerId & sequence...
-     *
-     * @param uid
-     * @return Parsed info
-     */
-    String parseUID(long uid);
-
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        ApplicationContext ctx = SpringApplication.run(Application.class, args);
+        org.macula.boot.ApplicationContext.setContainer(ctx);
+    }
 }
