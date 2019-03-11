@@ -1,7 +1,9 @@
 package org.macula.boot.core.config;
 
+import org.macula.boot.core.cache.config.CacheConfiguration;
 import org.macula.boot.core.config.core.CoreConfigProperties;
 import org.macula.boot.core.config.json.MaculaJackson2ObjectMapperBuilderCustomizer;
+import org.macula.boot.core.exception.config.ExceptionConfiguration;
 import org.macula.boot.core.exception.handler.ServiceExceptionAspect;
 import org.macula.boot.core.exception.translator.HibernateExceptionTranslator;
 import org.macula.boot.core.exception.translator.PersistenceExceptionTranslator;
@@ -40,25 +42,10 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @AutoConfigureAfter({JacksonAutoConfiguration.class})
 @AutoConfigureBefore({MessageSourceAutoConfiguration.class, RedisAutoConfiguration.class,
         DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, })
-@Import({MessageSourceConfiguration.class, UidConfiguration.class,
-        RedisConfiguration.class, KlockConfiguration.class,
+@Import({MessageSourceConfiguration.class, ExceptionConfiguration.class, UidConfiguration.class,
+        RedisConfiguration.class, CacheConfiguration.class, KlockConfiguration.class,
         DataSourceConfiguration.class, JpaRepositoriesConfiguration.class})
 public class CoreAutoConfiguration implements ApplicationContextAware {
-
-    @Bean
-    public HibernateExceptionTranslator hibernateExceptionTranslator() {
-        return new HibernateExceptionTranslator();
-    }
-
-    @Bean
-    public PersistenceExceptionTranslator persistenceExceptionTranslator() {
-        return new PersistenceExceptionTranslator();
-    }
-
-    @Bean
-    public ServiceExceptionAspect serviceExceptionAspect() {
-        return new ServiceExceptionAspect();
-    }
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {

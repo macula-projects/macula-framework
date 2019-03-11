@@ -35,6 +35,9 @@ import org.macula.boot.core.cache.config.CacheConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -43,7 +46,9 @@ import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {CacheConfig.class})
+@SpringBootTest
+@SpringBootConfiguration
+@ComponentScan
 public class LayeringCacheManagerTests {
     private Logger logger = LoggerFactory.getLogger(LayeringCacheManagerTests.class);
 

@@ -16,15 +16,12 @@
 
 package org.macula.boot.core.repository.jpa.config;
 
-import org.macula.boot.core.config.jpa.JpaBaseConfiguration;
+import org.macula.boot.core.repository.config.JpaBaseConfiguration;
 import org.macula.boot.core.repository.jpa.MaculaJpaRepositoryFactoryBean;
 import org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;

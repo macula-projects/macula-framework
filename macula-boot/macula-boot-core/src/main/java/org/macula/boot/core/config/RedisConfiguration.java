@@ -62,36 +62,6 @@ class RedisConfiguration {
         return lettuceCfg.createLettuceConnectionFactory(clientConfig);
     }
 
-    @Bean(name = "cacheRedisTemplate")
-    @ConditionalOnMissingBean(name = "cacheRedisTemplate")
-    public RedisTemplate<String, Object> cacheRedisTemplate(@Qualifier("cacheRedisConnectionFactory") RedisConnectionFactory cacheRedisConnectionFactory) {
-        KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(Object.class);
-
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(cacheRedisConnectionFactory);
-        // 设置值（value）的序列化采用FastJsonRedisSerializer。
-        template.setValueSerializer(kryoRedisSerializer);
-        template.setHashValueSerializer(kryoRedisSerializer);
-        // 设置键（key）的序列化采用StringRedisSerializer。
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setHashKeySerializer(new StringRedisSerializer());
-        return template;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public CacheManager cacheManager(@Qualifier("cacheRedisTemplate") RedisTemplate<String, Object> redisTemplate) {
-        LayeringCacheManager layeringCacheManager = new LayeringCacheManager(redisTemplate);
-        // 开启统计功能
-        layeringCacheManager.setStats(true);
-        return layeringCacheManager;
-    }
-
-    @Bean
-    public LayeringAspect layeringAspect() {
-        return new LayeringAspect();
-    }
-
     // @EnableRedisRepositories需要的属性配置
     @Bean(name = "dataRedisConnectionFactory")
     @ConditionalOnMissingBean(name = "dataRedisConnectionFactory")

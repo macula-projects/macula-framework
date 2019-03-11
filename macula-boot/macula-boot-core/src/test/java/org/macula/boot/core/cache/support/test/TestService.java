@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+@TestComponent
 public class TestService {
     Logger logger = LoggerFactory.getLogger(getClass());
 
