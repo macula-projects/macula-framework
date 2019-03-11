@@ -14,28 +14,25 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core.config;
+package org.macula.boot.web;
 
-import org.macula.boot.core.repository.jpa.support.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.PropertySource;
 
 /**
  * <p>
- * <b>Application</b> 测试启动类，不能直接启动，只是给SpringBootTest、DataJpaTest等使用
+ * <b>Application</b> 测试WEB启动类
  * </p>
  *
  * @author Rain
- * @since 2019-01-30
+ * @since 2019-02-26
  */
 
 @SpringBootApplication
 public class Application {
-
     public static void main(String[] args) {
+
         SpringApplication.run(Application.class, args);
+
     }
 }

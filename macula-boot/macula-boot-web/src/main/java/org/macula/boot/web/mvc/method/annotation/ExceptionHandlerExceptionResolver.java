@@ -14,26 +14,25 @@
  *  limitations under the License.
  */
 
-package org.macula.boot.core.uid.config;
+package org.macula.boot.web.mvc.method.annotation;
 
-import org.macula.boot.core.uid.support.service.DefaultWorkerIdAssigner;
-import org.macula.boot.core.uid.worker.WorkerIdAssigner;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.macula.boot.web.mvc.annotation.support.ExceptionResultReturnValueHandler;
 
 /**
  * <p>
- * <b>UidTestConfiguration</b> UID相关配置
+ * <b>ExceptionHandlerExceptionResolver</b> ExceptionHandlerExceptionResolver扩展
  * </p>
  *
  * @author Rain
- * @since 2019-03-05
+ * @since 2019-02-23
  */
+public class ExceptionHandlerExceptionResolver extends org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver {
 
-@TestConfiguration
-public class UidTestConfiguration {
-    @Bean
-    public WorkerIdAssigner workerIdAssigner() {
-        return new DefaultWorkerIdAssigner();
+    @Override
+    public void afterPropertiesSet() {
+        super.afterPropertiesSet();
+
+        ExceptionResultReturnValueHandler resultReturnValueHandler = new ExceptionResultReturnValueHandler(this.getMessageConverters());
+        this.getReturnValueHandlers().addHandler(resultReturnValueHandler);
     }
 }

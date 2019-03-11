@@ -13,26 +13,24 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package org.macula.boot.web.mvc.annotation;
 
-package org.macula.boot.core.config;
+import org.macula.boot.vo.ExecuteResponse;
+import org.macula.boot.vo.PageResponse;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import org.macula.boot.core.config.jdbc.DataSourceConfigurationRegistrar;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import java.lang.annotation.*;
 
 /**
- * <p>
- * <b>DataSourceConfiguration</b> 数据源自动配置，支持多数据源自动注册bean
- * </p>
+ * <p> <b>OpenApi</b> 标识是一个开放API的注解，标注该注解的方法的返回值会根据需要自动 包裹为 {@link ExecuteResponse}或者{@link PageResponse} </p>
  *
- * @author Rain
- * @since 2019-02-02
+ * @author Rain Wang
+ * @version $Id: OpenApi.java 3807 2012-11-21 07:31:51Z wilson $
+ * @since 2011-7-8
  */
-@Configuration
-@ConditionalOnClass(DruidDataSource.class)
-@Import({DataSourceConfigurationRegistrar.class})
-class DataSourceConfiguration {
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD})
+@Documented
+public @interface OpenApi {
 
 }
