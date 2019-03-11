@@ -18,7 +18,7 @@ package org.macula.boot.core.repository.jpa;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.macula.boot.core.cache.support.test.TestService;
+import org.macula.boot.core.cache.support.test.TestCacheService;
 import org.macula.boot.core.repository.jpa.config.RepositoryConfig;
 import org.macula.boot.core.repository.jpa.support.SoMasterRepository;
 import org.macula.boot.core.repository.jpa.support.domain.SoDetail;
@@ -89,8 +89,8 @@ public class SoMasterRepositoryTests {
     @TestConfiguration
     static class TestCfg {
         @Bean("testService-config")
-        public TestService testService() {
-            return new TestService();
+        public TestCacheService testService() {
+            return new TestCacheService();
         }
     }
 }

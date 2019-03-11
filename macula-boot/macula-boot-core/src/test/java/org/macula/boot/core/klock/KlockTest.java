@@ -19,11 +19,10 @@ package org.macula.boot.core.klock;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.macula.boot.core.klock.support.TestService;
+import org.macula.boot.core.klock.support.TestKlockService;
 import org.macula.boot.core.klock.support.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -48,7 +47,7 @@ import java.util.concurrent.Executors;
 public class KlockTest {
 
     @Autowired
-    TestService testService;
+    TestKlockService testKlockService;
 
     /**
      * 同一进程内多线程获取锁测试
@@ -63,7 +62,7 @@ public class KlockTest {
             final int num = i;
             executorService.submit(() -> {
                 try {
-                    String result = testService.getValue("sleep" + num);
+                    String result = testKlockService.getValue("sleep" + num);
                     System.err.println("线程:[" + Thread.currentThread().getName() + "]拿到结果=》" + result + new Date().toLocaleString());
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -82,7 +81,7 @@ public class KlockTest {
      */
     @Test
     public void jvm1() throws Exception {
-        String result = testService.getValue("sleep");
+        String result = testKlockService.getValue("sleep");
         Assert.assertEquals(result, "success");
     }
 
@@ -93,7 +92,7 @@ public class KlockTest {
      */
     @Test
     public void jvm2() throws Exception {
-        String result = testService.getValue("noSleep");
+        String result = testKlockService.getValue("noSleep");
         Assert.assertEquals(result, "success");
     }
 
@@ -104,7 +103,7 @@ public class KlockTest {
      */
     @Test
     public void jvm3() throws Exception {
-        String result = testService.getValue("noSleep");
+        String result = testKlockService.getValue("noSleep");
         Assert.assertEquals(result, "success");
     }
     //先后启动jvm1 和 jvm 2两个测试用例，会发现虽然 jvm2没休眠,因为getValue加锁了，
@@ -115,7 +114,7 @@ public class KlockTest {
      */
     @Test
     public void businessKeyJvm1() throws Exception {
-        String result = testService.getValue("user1", 1);
+        String result = testKlockService.getValue("user1", 1);
         Assert.assertEquals(result, "success");
     }
 
@@ -124,7 +123,7 @@ public class KlockTest {
      */
     @Test
     public void businessKeyJvm2() throws Exception {
-        String result = testService.getValue("user1", 1);
+        String result = testKlockService.getValue("user1", 1);
         Assert.assertEquals(result, "success");
     }
 
@@ -133,7 +132,7 @@ public class KlockTest {
      */
     @Test
     public void businessKeyJvm3() throws Exception {
-        String result = testService.getValue("user1", 2);
+        String result = testKlockService.getValue("user1", 2);
         Assert.assertEquals(result, "success");
     }
 
@@ -142,7 +141,7 @@ public class KlockTest {
      */
     @Test
     public void businessKeyJvm4() throws Exception {
-        String result = testService.getValue(new User(3, "kl"));
+        String result = testKlockService.getValue(new User(3, "kl"));
         Assert.assertEquals(result, "success");
     }
 }

@@ -3,20 +3,14 @@ package org.macula.boot.core.cache.config;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 import lombok.Data;
-import org.macula.boot.core.cache.aspect.LayeringAspect;
-import org.macula.boot.core.cache.manager.CacheManager;
-import org.macula.boot.core.cache.manager.LayeringCacheManager;
-import org.macula.boot.core.cache.support.test.TestService;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 
 @Data
 @TestConfiguration

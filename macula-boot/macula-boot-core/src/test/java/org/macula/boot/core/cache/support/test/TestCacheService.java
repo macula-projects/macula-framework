@@ -29,7 +29,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @TestComponent
-public class TestService {
+public class TestCacheService {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @Cacheable(value = "user:info", key = "#userId", ignoreException = false,

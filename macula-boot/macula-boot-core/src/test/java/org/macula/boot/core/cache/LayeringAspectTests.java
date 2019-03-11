@@ -22,18 +22,19 @@ import org.junit.runner.RunWith;
 import org.macula.boot.core.cache.manager.CacheManager;
 import org.macula.boot.core.cache.manager.LayeringCacheManager;
 import org.macula.boot.core.cache.support.CacheMode;
-import org.macula.boot.core.cache.config.CacheConfig;
 import org.macula.boot.core.cache.support.domain.User;
-import org.macula.boot.core.cache.support.test.TestService;
+import org.macula.boot.core.cache.support.test.TestCacheService;
 import org.macula.boot.core.utils.JSONUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter;
+import org.springframework.boot.context.TypeExcludeFilter;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -43,14 +44,14 @@ import java.util.List;
 import java.util.Set;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = LayeringAspectTests.class)
 @SpringBootConfiguration
 @ComponentScan
 public class LayeringAspectTests {
     private Logger logger = LoggerFactory.getLogger(LayeringAspectTests.class);
 
     @Autowired
-    private TestService testService;
+    private TestCacheService testCacheService;
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
@@ -62,18 +63,18 @@ public class LayeringAspectTests {
     public void testGetUserNameLongParam() {
         long userId = 111;
 
-        User user = testService.getUserById(userId);
-        user = testService.getUserById(userId);
+        User user = testCacheService.getUserById(userId);
+        user = testCacheService.getUserById(userId);
         sleep(5);
-        user = testService.getUserById(userId);
+        user = testCacheService.getUserById(userId);
         sleep(4);
-        user = testService.getUserById(userId);
+        user = testCacheService.getUserById(userId);
         sleep(10);
 
         Object result = redisTemplate.opsForValue().get("user:info:113:113");
         Assert.assertNull(result);
 
-        user = testService.getUserById(userId);
+        user = testCacheService.getUserById(userId);
         Assert.assertNotNull(user);
     }
 
@@ -82,17 +83,17 @@ public class LayeringAspectTests {
         String[] lastName = {"w", "y", "h"};
         long userId = 122;
 
-        User user = testService.getUserNoKey(userId, lastName);
-        user = testService.getUserNoKey(userId, lastName);
+        User user = testCacheService.getUserNoKey(userId, lastName);
+        user = testCacheService.getUserNoKey(userId, lastName);
         sleep(5);
-        user = testService.getUserNoKey(userId, lastName);
+        user = testCacheService.getUserNoKey(userId, lastName);
         sleep(4);
-        user = testService.getUserNoKey(userId, lastName);
+        user = testCacheService.getUserNoKey(userId, lastName);
         sleep(10);
         Object result = redisTemplate.opsForValue().get("user:info:113:113");
         Assert.assertNull(result);
 
-        user = testService.getUserNoKey(userId, lastName);
+        user = testCacheService.getUserNoKey(userId, lastName);
         Assert.assertNotNull(user);
     }
 
@@ -103,17 +104,17 @@ public class LayeringAspectTests {
         user.setAge(31);
         user.setLastName(new String[]{"w", "y", "h"});
 
-        user = testService.getUserObjectPram(user);
-        user = testService.getUserObjectPram(user);
+        user = testCacheService.getUserObjectPram(user);
+        user = testCacheService.getUserObjectPram(user);
         sleep(5);
-        user = testService.getUserObjectPram(user);
+        user = testCacheService.getUserObjectPram(user);
         sleep(4);
-        user = testService.getUserObjectPram(user);
+        user = testCacheService.getUserObjectPram(user);
         sleep(11);
         Object result = redisTemplate.opsForValue().get("user:info:113:113");
         Assert.assertNull(result);
 
-        user = testService.getUserObjectPram(user);
+        user = testCacheService.getUserObjectPram(user);
         Assert.assertNotNull(user);
     }
 
@@ -124,18 +125,18 @@ public class LayeringAspectTests {
         user.setAge(31);
         user.setLastName(new String[]{"w", "y", "h"});
 
-        testService.getUser(user, user.getAge());
-        user = testService.getUser(user, user.getAge());
+        testCacheService.getUser(user, user.getAge());
+        user = testCacheService.getUser(user, user.getAge());
         Assert.assertNotNull(user);
         sleep(5);
-        user = testService.getUser(user, user.getAge());
+        user = testCacheService.getUser(user, user.getAge());
         sleep(4);
-        user = testService.getUser(user, user.getAge());
+        user = testCacheService.getUser(user, user.getAge());
         sleep(11);
         Object result = redisTemplate.opsForValue().get("user:info:114:114");
         Assert.assertNull(result);
 
-        user = testService.getUser(user, user.getAge());
+        user = testCacheService.getUser(user, user.getAge());
         Assert.assertNotNull(user);
     }
 
@@ -143,204 +144,204 @@ public class LayeringAspectTests {
     public void testGetNullUser() {
         long userId = 115;
 
-        testService.getNullUser(userId);
-        User user = testService.getNullUser(userId);
+        testCacheService.getNullUser(userId);
+        User user = testCacheService.getNullUser(userId);
         Assert.assertNull(user);
 
         sleep(5);
-        user = testService.getNullUser(userId);
+        user = testCacheService.getNullUser(userId);
         sleep(4);
-        user = testService.getNullUser(userId);
+        user = testCacheService.getNullUser(userId);
         sleep(11);
         Object result = redisTemplate.opsForValue().get("user:info:115:115");
         Assert.assertNull(result);
 
-        user = testService.getNullUser(userId);
+        user = testCacheService.getNullUser(userId);
         Assert.assertNull(user);
     }
 
     @Test
     public void testGetUserNoParam() {
-        User user = testService.getUserNoParam();
+        User user = testCacheService.getUserNoParam();
         Assert.assertNotNull(user);
-        user = testService.getUserNoParam();
+        user = testCacheService.getUserNoParam();
         Assert.assertNotNull(user);
 
         sleep(5);
-        testService.getUserNoParam();
+        testCacheService.getUserNoParam();
         sleep(4);
-        testService.getUserNoParam();
+        testCacheService.getUserNoParam();
         sleep(11);
         Object result = redisTemplate.opsForValue().get("user:info:{params:[]}");
         Assert.assertNull(result);
 
-        user = testService.getUserNoParam();
+        user = testCacheService.getUserNoParam();
         Assert.assertNotNull(user);
     }
 
     @Test
     public void testGetString() {
-        String string = testService.getString(211);
+        String string = testCacheService.getString(211);
         Assert.assertNotNull(string);
-        string = testService.getString(211);
+        string = testCacheService.getString(211);
         Assert.assertNotNull(string);
         sleep(5);
-        string = testService.getString(211);
+        string = testCacheService.getString(211);
         Assert.assertNotNull(string);
     }
 
     @Test
     public void testGetInt() {
-        Integer anInt = testService.getInt(212);
+        Integer anInt = testCacheService.getInt(212);
         Assert.assertNotNull(anInt);
-        anInt = testService.getInt(212);
+        anInt = testCacheService.getInt(212);
         Assert.assertNotNull(anInt);
         sleep(5);
-        anInt = testService.getInt(212);
+        anInt = testCacheService.getInt(212);
         Assert.assertNotNull(anInt);
     }
 
     @Test
     public void testGetLong() {
-        Long aLong = testService.getLong(213);
+        Long aLong = testCacheService.getLong(213);
         Assert.assertNotNull(aLong);
-        aLong = testService.getLong(213);
+        aLong = testCacheService.getLong(213);
         Assert.assertNotNull(aLong);
         sleep(5);
-        testService.getLong(213);
+        testCacheService.getLong(213);
     }
 
     @Test
     public void testGetDouble() {
-        double aDouble = testService.getDouble(223);
+        double aDouble = testCacheService.getDouble(223);
         Assert.assertNotNull(aDouble);
-        aDouble = testService.getDouble(223);
+        aDouble = testCacheService.getDouble(223);
         Assert.assertNotNull(aDouble);
         sleep(5);
-        testService.getDouble(223);
+        testCacheService.getDouble(223);
     }
 
     @Test
     public void testGetFloat() {
-        float aFloat = testService.getFloat(224);
+        float aFloat = testCacheService.getFloat(224);
         Assert.assertNotNull(aFloat);
-        aFloat = testService.getFloat(224);
+        aFloat = testCacheService.getFloat(224);
         Assert.assertNotNull(aFloat);
         sleep(5);
-        testService.getFloat(224);
+        testCacheService.getFloat(224);
     }
 
     @Test
     public void testGetBigDecimal() {
-        BigDecimal bigDecimal = testService.getBigDecimal(225);
+        BigDecimal bigDecimal = testCacheService.getBigDecimal(225);
         Assert.assertNotNull(bigDecimal);
-        bigDecimal = testService.getBigDecimal(225);
+        bigDecimal = testCacheService.getBigDecimal(225);
         Assert.assertNotNull(bigDecimal);
         sleep(5);
-        testService.getBigDecimal(225);
+        testCacheService.getBigDecimal(225);
     }
 
     @Test
     public void testGetEnum() {
-        CacheMode cacheMode = testService.getEnum(214);
+        CacheMode cacheMode = testCacheService.getEnum(214);
         Assert.assertNotNull(cacheMode);
-        cacheMode = testService.getEnum(214);
+        cacheMode = testCacheService.getEnum(214);
         Assert.assertEquals(cacheMode, CacheMode.ONLY_FIRST);
         sleep(5);
-        cacheMode = testService.getEnum(214);
+        cacheMode = testCacheService.getEnum(214);
         Assert.assertEquals(cacheMode, CacheMode.ONLY_FIRST);
     }
 
     @Test
     public void testGetDate() {
-        Date date = testService.getDate(244);
+        Date date = testCacheService.getDate(244);
         Assert.assertNotNull(date);
-        date = testService.getDate(244);
+        date = testCacheService.getDate(244);
         Assert.assertTrue(date.getTime() <= System.currentTimeMillis());
         sleep(5);
-        date = testService.getDate(244);
+        date = testCacheService.getDate(244);
         Assert.assertTrue(date.getTime() <= System.currentTimeMillis());
     }
 
 
     @Test
     public void testGetArray() {
-        long[] array = testService.getArray(215);
+        long[] array = testCacheService.getArray(215);
         Assert.assertNotNull(array);
-        array = testService.getArray(215);
+        array = testCacheService.getArray(215);
         Assert.assertEquals(array.length, 3);
         sleep(5);
-        array = testService.getArray(215);
+        array = testCacheService.getArray(215);
         Assert.assertEquals(array.length, 3);
     }
 
     @Test
     public void testGetObjectArray() {
-        User[] array = testService.getObjectArray(216);
+        User[] array = testCacheService.getObjectArray(216);
         Assert.assertNotNull(array);
-        array = testService.getObjectArray(216);
+        array = testCacheService.getObjectArray(216);
         Assert.assertEquals(array.length, 3);
         sleep(5);
-        array = testService.getObjectArray(216);
+        array = testCacheService.getObjectArray(216);
         Assert.assertEquals(array.length, 3);
     }
 
     @Test
     public void testGetList() {
-        List<String> list = testService.getList(217);
+        List<String> list = testCacheService.getList(217);
         Assert.assertNotNull(list);
-        list = testService.getList(217);
+        list = testCacheService.getList(217);
         Assert.assertEquals(list.size(), 3);
         sleep(5);
-        list = testService.getList(217);
+        list = testCacheService.getList(217);
         Assert.assertEquals(list.size(), 3);
 
     }
 
     @Test
     public void testGetLinkList() {
-        LinkedList<String> list = testService.getLinkedList(235);
+        LinkedList<String> list = testCacheService.getLinkedList(235);
         Assert.assertNotNull(list);
-        list = testService.getLinkedList(235);
+        list = testCacheService.getLinkedList(235);
         Assert.assertEquals(list.size(), 3);
         sleep(5);
-        list = testService.getLinkedList(235);
+        list = testCacheService.getLinkedList(235);
         Assert.assertEquals(list.size(), 3);
 
     }
 
     @Test
     public void testGetListObject() {
-        List<User> list = testService.getListObject(236);
+        List<User> list = testCacheService.getListObject(236);
         Assert.assertNotNull(list);
-        list = testService.getListObject(236);
+        list = testCacheService.getListObject(236);
         Assert.assertEquals(list.size(), 3);
         sleep(5);
-        list = testService.getListObject(236);
+        list = testCacheService.getListObject(236);
         Assert.assertEquals(list.size(), 3);
 
     }
 
     @Test
     public void testGetSet() {
-        Set<String> set = testService.getSet(237);
+        Set<String> set = testCacheService.getSet(237);
         Assert.assertNotNull(set);
-        set = testService.getSet(237);
+        set = testCacheService.getSet(237);
         Assert.assertEquals(set.size(), 3);
         sleep(5);
-        set = testService.getSet(237);
+        set = testCacheService.getSet(237);
         Assert.assertEquals(set.size(), 3);
 
     }
 
     @Test
     public void testGetSetObject() {
-        Set<User> set = testService.getSetObject(238);
+        Set<User> set = testCacheService.getSetObject(238);
         Assert.assertNotNull(set);
-        set = testService.getSetObject(238);
+        set = testCacheService.getSetObject(238);
         Assert.assertEquals(set.size(), 1);
         sleep(5);
-        set = testService.getSetObject(238);
+        set = testCacheService.getSetObject(238);
         Assert.assertEquals(set.size(), 1);
 
     }
@@ -349,7 +350,7 @@ public class LayeringAspectTests {
     public void testGetException() {
         List<User> list = null;
         try {
-            list = testService.getException(219);
+            list = testCacheService.getException(219);
         } catch (Exception e) {
             Assert.assertNotNull(e);
             return;
@@ -360,30 +361,30 @@ public class LayeringAspectTests {
 
     @Test
     public void testGetNullPram() {
-        User user = testService.getNullUser(null);
-        user = testService.getNullUser(null);
+        User user = testCacheService.getNullUser(null);
+        user = testCacheService.getNullUser(null);
         sleep(5);
-        user = testService.getNullUser(null);
+        user = testCacheService.getNullUser(null);
 
         Assert.assertNull(user);
     }
 
     @Test
     public void testGetNullUserAllowNullValueTrueMagnification() {
-        User user = testService.getNullUserAllowNullValueTrueMagnification(1181L);
-        user = testService.getNullUserAllowNullValueTrueMagnification(1181L);
+        User user = testCacheService.getNullUserAllowNullValueTrueMagnification(1181L);
+        user = testCacheService.getNullUserAllowNullValueTrueMagnification(1181L);
         sleep(5);
-        user = testService.getNullUserAllowNullValueTrueMagnification(1181L);
+        user = testCacheService.getNullUserAllowNullValueTrueMagnification(1181L);
 
         Assert.assertNull(user);
     }
 
     @Test
     public void testGetNullUserAllowNullValueFalse() {
-        User user = testService.getNullUserAllowNullValueFalse(1182L);
-        user = testService.getNullUserAllowNullValueFalse(1182L);
+        User user = testCacheService.getNullUserAllowNullValueFalse(1182L);
+        user = testCacheService.getNullUserAllowNullValueFalse(1182L);
         sleep(5);
-        user = testService.getNullUserAllowNullValueFalse(1182L);
+        user = testCacheService.getNullUserAllowNullValueFalse(1182L);
 
         Assert.assertNull(user);
     }
@@ -392,7 +393,7 @@ public class LayeringAspectTests {
     @Test
     public void testGetNullObjectPram() {
         try {
-            User user = testService.getNullObjectPram(null);
+            User user = testCacheService.getNullObjectPram(null);
         } catch (Exception e) {
             Assert.assertNotNull(e);
             return;
@@ -402,15 +403,15 @@ public class LayeringAspectTests {
 
     @Test
     public void testGetNullObjectPramIgnoreException() {
-        User user = testService.getNullObjectPramIgnoreException(null);
+        User user = testCacheService.getNullObjectPramIgnoreException(null);
         Assert.assertNull(user);
     }
 
     @Test
     public void testPutUser() {
         long userId = 116;
-        testService.putUser(userId);
-        User user = testService.getUserById(userId);
+        testCacheService.putUser(userId);
+        User user = testCacheService.getUserById(userId);
         logger.debug(JSONUtils.objectToJson(user));
         Assert.assertNotNull(user);
         Assert.assertEquals(user.getUserId(), 11L);
@@ -418,7 +419,7 @@ public class LayeringAspectTests {
 
     @Test
     public void testPutUserNoParam() {
-        User user = testService.putUserNoParam();
+        User user = testCacheService.putUserNoParam();
         logger.debug(JSONUtils.objectToJson(user));
         Assert.assertNotNull(user);
         Assert.assertEquals(user.getUserId(), 11L);
@@ -427,9 +428,9 @@ public class LayeringAspectTests {
     @Test
     public void testPutNullUser() {
         long userId = 118_1117_10_1;
-        testService.putNullUser1118(userId);
+        testCacheService.putNullUser1118(userId);
         sleep(1);
-        User user = testService.getUserById118(userId);
+        User user = testCacheService.getUserById118(userId);
         logger.debug(JSONUtils.objectToJson(user));
         Assert.assertNull(user);
     }
@@ -438,23 +439,23 @@ public class LayeringAspectTests {
     @Test
     public void testPutNullUserAllowNullValueTrueMagnification() {
         long userId = 118_1117_1;
-        testService.putNullUserAllowNullValueTrueMagnification(userId);
-        User user = testService.getUserById(userId);
+        testCacheService.putNullUserAllowNullValueTrueMagnification(userId);
+        User user = testCacheService.getUserById(userId);
         logger.debug(JSONUtils.objectToJson(user));
         Assert.assertNull(user);
         sleep(3);
-        user = testService.getUserById(userId);
+        user = testCacheService.getUserById(userId);
         Assert.assertNull(user);
         sleep(2);
-        user = testService.getUserById(userId);
+        user = testCacheService.getUserById(userId);
         Assert.assertNotNull(user);
     }
 
     @Test
     public void testPutNullUserAllowNullValueFalse() {
         long userId = 118_1117_6;
-        testService.putNullUserAllowNullValueFalse(userId);
-        User user = testService.getUserById(userId);
+        testCacheService.putNullUserAllowNullValueFalse(userId);
+        User user = testCacheService.getUserById(userId);
         logger.debug(JSONUtils.objectToJson(user));
         Assert.assertNotNull(user);
     }
@@ -462,9 +463,9 @@ public class LayeringAspectTests {
     @Test
     public void testEvictUser() {
         long userId = 118;
-        User user = testService.putUser(userId);
+        User user = testCacheService.putUser(userId);
         sleep(3);
-        testService.evictUser(userId);
+        testCacheService.evictUser(userId);
         sleep(3);
         Object result = redisTemplate.opsForValue().get("user:info:118:118");
         Assert.assertNull(result);
@@ -474,11 +475,11 @@ public class LayeringAspectTests {
 
     @Test
     public void testEvictAllUser() {
-        testService.putUserById(119);
-        testService.putUserById(120);
-        testService.putUserById(121);
+        testCacheService.putUserById(119);
+        testCacheService.putUserById(120);
+        testCacheService.putUserById(121);
         sleep(5);
-        testService.evictAllUser();
+        testCacheService.evictAllUser();
         sleep(3);
         Object result1 = redisTemplate.opsForValue().get("user:info:119");
         Object result2 = redisTemplate.opsForValue().get("user:info:121");
@@ -488,13 +489,13 @@ public class LayeringAspectTests {
 
     @Test
     public void testEvictAllUserNoCacheMannger() {
-        testService.putUserById(119_119);
-        testService.putUserById(119_120);
-        testService.putUserById(119_121);
+        testCacheService.putUserById(119_119);
+        testCacheService.putUserById(119_120);
+        testCacheService.putUserById(119_121);
         sleep(2);
         ((LayeringCacheManager) cacheManager).getCacheContainer().clear();
         Assert.assertTrue(((LayeringCacheManager) cacheManager).getCacheContainer().size() == 0);
-        testService.evictUser(119_119);
+        testCacheService.evictUser(119_119);
         sleep(2);
         Object result1 = redisTemplate.opsForValue().get("user:info:119119");
         Object result2 = redisTemplate.opsForValue().get("user:info:119121");
@@ -503,7 +504,7 @@ public class LayeringAspectTests {
 
         ((LayeringCacheManager) cacheManager).getCacheContainer().clear();
         Assert.assertTrue(((LayeringCacheManager) cacheManager).getCacheContainer().size() == 0);
-        testService.evictAllUser();
+        testCacheService.evictAllUser();
         sleep(2);
         result2 = redisTemplate.opsForValue().get("user:info:119121");
         Object result3 = redisTemplate.opsForValue().get("user:info:119122");

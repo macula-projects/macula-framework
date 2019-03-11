@@ -22,14 +22,14 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- * <b>TestService</b> 测试服务类
+ * <b>TestKlockService</b> 测试服务类
  * </p>
  *
  * @author Rain
  * @since 2019-03-05
  */
 @Service
-public class TestService {
+public class TestKlockService {
 
     @Klock(waitTime = 10,leaseTime = 60,keys = {"#param"})
     public String getValue(String param) throws Exception {

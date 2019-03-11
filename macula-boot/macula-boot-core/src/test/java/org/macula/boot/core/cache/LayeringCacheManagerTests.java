@@ -46,7 +46,7 @@ import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = LayeringCacheManagerTests.class)
 @SpringBootConfiguration
 @ComponentScan
 public class LayeringCacheManagerTests {
