@@ -17,8 +17,10 @@
 package org.macula.boot.core.repository;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * <p>
@@ -30,7 +32,8 @@ import org.springframework.context.ApplicationContext;
  * @since 2019-01-30
  */
 
-@SpringBootApplication
+@SpringBootConfiguration
+@ComponentScan
 public class Application {
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);

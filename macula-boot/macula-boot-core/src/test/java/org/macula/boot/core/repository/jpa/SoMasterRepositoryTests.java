@@ -49,7 +49,6 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@Import(RepositoryConfig.class)
 public class SoMasterRepositoryTests {
 
     @Autowired
