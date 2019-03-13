@@ -21,8 +21,6 @@ import org.macula.boot.web.config.support.MaculaWebMvcConfigurer;
 import org.macula.boot.web.config.support.MaculaWebMvcRegistrations;
 import org.macula.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
 import org.macula.boot.web.mvc.convert.NumberToBooleanConverter;
-import org.macula.boot.web.mvc.convert.StringToDateConverter;
-import org.macula.boot.web.mvc.convert.StringToDateTimeConverter;
 import org.macula.boot.web.mvc.i18n.TimeZoneController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -56,16 +54,6 @@ public class WebAutoConfiguration {
     @Bean
     public MaculaWebMvcConfigurer maculaWebMvcConfigurer() {
         return new MaculaWebMvcConfigurer();
-    }
-
-    @Bean
-    public StringToDateConverter dateConverter() {
-        return new StringToDateConverter();
-    }
-
-    @Bean
-    public StringToDateTimeConverter dateTimeConverter() {
-        return new StringToDateTimeConverter();
     }
 
     @Bean
