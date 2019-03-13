@@ -20,9 +20,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.macula.boot.core.uid.config.UidConfiguration;
+import org.macula.boot.core.uid.config.UidTestConfiguration;
 import org.macula.boot.core.uid.impl.CachedUidGenerator;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
@@ -35,8 +38,8 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
-@ComponentScan(basePackages = "org.macula.boot.core.uid")
+@DataJpaTest // DataJpaTest不会加载普通的@Component组件
+@Import({UidTestConfiguration.class, UidConfiguration.class})
 public class CachedUidGeneratorTest {
 
     private static final int SIZE = 7000000; // 700w
