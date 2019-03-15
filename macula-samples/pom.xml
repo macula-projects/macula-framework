@@ -3,9 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <modules>
-        <module>macula-sample-boot-core</module>
-    </modules>
+
     <parent>
         <groupId>org.macula</groupId>
         <artifactId>macula-framework-build</artifactId>
@@ -15,5 +13,10 @@
 
     <artifactId>macula-samples</artifactId>
     <packaging>pom</packaging>
+
+    <modules>
+        <module>macula-samples-core</module>
+        <module>macula-samples-web</module>
+    </modules>
 
 </project>

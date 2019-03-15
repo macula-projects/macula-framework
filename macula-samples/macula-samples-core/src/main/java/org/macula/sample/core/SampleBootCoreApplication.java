@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package org.macula.sample.boot.core;
+package org.macula.sample.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
