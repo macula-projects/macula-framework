@@ -14,22 +14,22 @@
  *  limitations under the License.
  */
 
-package org.macula.sample.core;
+package org.macula.samples.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * <p>
- * <b>SampleBootCoreApplication</b> 启动类
+ * <b>SamplesBootCoreApplication</b> 启动类
  * </p>
  *
  * @author Rain
  * @since 2019-01-25
  */
 @SpringBootApplication
-public class SampleBootCoreApplication {
+public class SamplesBootCoreApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SampleBootCoreApplication.class, args);
+        SpringApplication.run(SamplesBootCoreApplication.class, args);
     }
 }
