@@ -1,6 +1,11 @@
 logging:
   level:
     root: debug
+
+jasypt:
+  encryptor:
+    password: G0CvDz7oJn6
+
 spring:
   messages:
     basename: classpath*:i18n/messages,classpath*i18n/validation
@@ -13,6 +18,7 @@ spring:
     template:
       fetch-size: -1
       max-rows: -1
+
 macula:
   config:
     enable-escape-xss: true
@@ -42,8 +48,8 @@ macula:
       - name: macula
         ## JDBC配置
         url: jdbc:mysql://127.0.0.1:3306/macula3?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
-        username: root
-        password: mysql
+        username: ENC(tGaaXgg22Bspz+cOeQEg7g==)
+        password: ENC(D1iF0Uk1NzNRB6wAKgNxaw==)
         ## 连接池配置
         max-active: 100
         initial-size: 1
@@ -63,8 +69,8 @@ macula:
       - name: gbss
         ## JDBC配置
         url: jdbc:mysql://127.0.0.1:3306/macula3?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
-        username: root
-        password: mysql
+        username: ENC(tGaaXgg22Bspz+cOeQEg7g==)
+        password: ENC(D1iF0Uk1NzNRB6wAKgNxaw==)
         ## 连接池配置
         max-active: 100
         initial-size: 1

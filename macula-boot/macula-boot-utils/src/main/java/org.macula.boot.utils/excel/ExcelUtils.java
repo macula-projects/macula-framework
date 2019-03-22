@@ -21,13 +21,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-
 import org.apache.commons.beanutils.DynaBean;
 import org.apache.commons.beanutils.LazyDynaBean;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.macula.utils.excel.parser.ExcelParser;
+import org.macula.boot.utils.excel.parser.ExcelParser;
 
 /**
  * <p>
@@ -41,78 +39,78 @@ import org.macula.utils.excel.parser.ExcelParser;
 public class ExcelUtils {
 	static ThreadLocal<DynaBean> context = new ThreadLocal<DynaBean>();
 
-	/**
-	 * parse the excel template and output excel to outputStream.
-	 * 
-	 * @param ctx ServletContext
-	 * @param config Excel Template Name
-	 * @param context All Data
-	 * @param out OutputStream
-	 * @throws ExcelException
-	 */
-	public static void export(ServletContext ctx, String config, Object context, OutputStream out) throws ExcelException {
-		try {
-			HSSFWorkbook wb = WorkbookUtils.openWorkbook(ctx, config);
-			parseWorkbook(context, wb);
-			wb.write(out);
-		} catch (Exception e) {
-			throw new ExcelException("export excel error: ", e);
-		}
-	}
-
-	/**
-	 * parse the excel template in a sheet and output excel to outputStream.
-	 * 
-	 * @param ctx
-	 * @param config
-	 * @param sheetIndex
-	 * @param context
-	 * @param out
-	 * @throws ExcelException
-	 */
-	public static void export(ServletContext ctx, String config, int sheetIndex, Object context, OutputStream out)
-			throws ExcelException {
-		try {
-			HSSFWorkbook wb = WorkbookUtils.openWorkbook(ctx, config);
-			parseWorkbook(context, wb, sheetIndex);
-			wb.write(out);
-		} catch (Exception e) {
-			throw new ExcelException("export excel error: ", e);
-		}
-	}
-
-	/**
-	 * parse the excel template and output excel to outputStream in default context.
-	 * 
-	 * @param ctx
-	 * @param config
-	 * @param out
-	 * @throws ExcelException
-	 */
-	public static void export(ServletContext ctx, String config, OutputStream out) throws ExcelException {
-		try {
-			export(ctx, config, getContext(), out);
-		} catch (Exception e) {
-			throw new ExcelException("export excel error: ", e);
-		}
-	}
-
-	/**
-	 * parse the excel template in a sheet and output excel to outputStream in default context.
-	 * 
-	 * @param ctx
-	 * @param config
-	 * @param sheetIndex
-	 * @param out
-	 * @throws ExcelException
-	 */
-	public static void export(ServletContext ctx, String config, int sheetIndex, OutputStream out) throws ExcelException {
-		try {
-			export(ctx, config, sheetIndex, getContext(), out);
-		} catch (Exception e) {
-			throw new ExcelException("export excel error: ", e);
-		}
-	}
+//	/**
+//	 * parse the excel template and output excel to outputStream.
+//	 *
+//	 * @param ctx ServletContext
+//	 * @param config Excel Template Name
+//	 * @param context All Data
+//	 * @param out OutputStream
+//	 * @throws ExcelException
+//	 */
+//	public static void export(ServletContext ctx, String config, Object context, OutputStream out) throws ExcelException {
+//		try {
+//			HSSFWorkbook wb = WorkbookUtils.openWorkbook(ctx, config);
+//			parseWorkbook(context, wb);
+//			wb.write(out);
+//		} catch (Exception e) {
+//			throw new ExcelException("export excel error: ", e);
+//		}
+//	}
+//
+//	/**
+//	 * parse the excel template in a sheet and output excel to outputStream.
+//	 *
+//	 * @param ctx
+//	 * @param config
+//	 * @param sheetIndex
+//	 * @param context
+//	 * @param out
+//	 * @throws ExcelException
+//	 */
+//	public static void export(ServletContext ctx, String config, int sheetIndex, Object context, OutputStream out)
+//			throws ExcelException {
+//		try {
+//			HSSFWorkbook wb = WorkbookUtils.openWorkbook(ctx, config);
+//			parseWorkbook(context, wb, sheetIndex);
+//			wb.write(out);
+//		} catch (Exception e) {
+//			throw new ExcelException("export excel error: ", e);
+//		}
+//	}
+//
+//	/**
+//	 * parse the excel template and output excel to outputStream in default context.
+//	 *
+//	 * @param ctx
+//	 * @param config
+//	 * @param out
+//	 * @throws ExcelException
+//	 */
+//	public static void export(ServletContext ctx, String config, OutputStream out) throws ExcelException {
+//		try {
+//			export(ctx, config, getContext(), out);
+//		} catch (Exception e) {
+//			throw new ExcelException("export excel error: ", e);
+//		}
+//	}
+//
+//	/**
+//	 * parse the excel template in a sheet and output excel to outputStream in default context.
+//	 *
+//	 * @param ctx
+//	 * @param config
+//	 * @param sheetIndex
+//	 * @param out
+//	 * @throws ExcelException
+//	 */
+//	public static void export(ServletContext ctx, String config, int sheetIndex, OutputStream out) throws ExcelException {
+//		try {
+//			export(ctx, config, sheetIndex, getContext(), out);
+//		} catch (Exception e) {
+//			throw new ExcelException("export excel error: ", e);
+//		}
+//	}
 
 	/**
 	 * parse excel and export

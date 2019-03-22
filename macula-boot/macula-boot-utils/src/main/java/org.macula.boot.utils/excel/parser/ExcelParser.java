@@ -38,10 +38,12 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.macula.boot.utils.excel.ExcelUtils;
 import org.macula.boot.utils.excel.WorkbookUtils;
-import org.macula.utils.excel.tags.ITag;
+import org.macula.boot.utils.excel.tags.ITag;
 
 /**
  * <p>
@@ -107,11 +109,11 @@ public class ExcelParser {
 			}
 
 			for (short colnum = row.getFirstCellNum(); colnum <= row.getLastCellNum(); colnum++) {
-				HSSFCell cell = row.getCell(colnum, HSSFRow.RETURN_NULL_AND_BLANK);
+				HSSFCell cell = row.getCell(colnum, Row.MissingCellPolicy.RETURN_NULL_AND_BLANK);
 				if (null == cell) {
 					continue;
 				}
-				if (cell.getCellType() != HSSFCell.CELL_TYPE_STRING) {
+				if (cell.getCellType() != CellType.STRING) {
 					continue;
 				}
 				// if the cell is null then continue
@@ -369,18 +371,18 @@ public class ExcelParser {
 		if (null != value) {
 			if (bJustExpr && "java.lang.Integer".equals(value.getClass().getName())) {
 				cell.setCellValue(Double.parseDouble(value.toString()));
-				cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+				cell.setCellType(CellType.NUMERIC);
 			} else if (bJustExpr && "java.lang.Double".equals(value.getClass().getName())) {
 				cell.setCellValue(((Double) value).doubleValue());
-				cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+				cell.setCellType(CellType.NUMERIC);
 			} else if (bJustExpr && "java.util.Date".equals(value.getClass().getName())) {
 				cell.setCellValue((Date) value);
 			} else if (bJustExpr && "java.lang.Boolean".equals(value.getClass().getName())) {
 				cell.setCellValue(((Boolean) value).booleanValue());
-				cell.setCellType(HSSFCell.CELL_TYPE_BOOLEAN);
+				cell.setCellType(CellType.BOOLEAN);
 			} else if (bJustExpr && Number.class.isAssignableFrom(value.getClass())) {
 				cell.setCellValue(((Number) (value)).doubleValue());
-				cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+				cell.setCellType(CellType.NUMERIC);
 			} else {
 				// cell.setEncoding(HSSFWorkbook.ENCODING_UTF_16); POI3.2以上自动处理
 				cell.setCellValue(value.toString());
@@ -396,13 +398,13 @@ public class ExcelParser {
 			boolean canMerge = false;
 			if (lastCell.getCellType() == cell.getCellType()) {
 				switch (cell.getCellType()) {
-				case HSSFCell.CELL_TYPE_STRING:
+				case STRING:
 					canMerge = lastCell.getStringCellValue().equals(cell.getStringCellValue());
 					break;
-				case HSSFCell.CELL_TYPE_BOOLEAN:
+				case BOOLEAN:
 					canMerge = lastCell.getBooleanCellValue() == cell.getBooleanCellValue();
 					break;
-				case HSSFCell.CELL_TYPE_NUMERIC:
+				case NUMERIC:
 					canMerge = lastCell.getNumericCellValue() == cell.getNumericCellValue();
 					break;
 				}

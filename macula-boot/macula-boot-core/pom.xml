@@ -66,6 +66,12 @@
             </exclusions>
         </dependency>
 
+        <!-- 加解密 -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+        </dependency>
+
         <!-- freemarker -->
         <dependency>
             <groupId>org.freemarker</groupId>
@@ -134,6 +140,7 @@
             <artifactId>druid</artifactId>
         </dependency>
 
+        <!-- bean转换 -->
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>

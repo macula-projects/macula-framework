@@ -12,6 +12,7 @@ import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.macula.boot.utils.excel.ExcelUtils;
 import org.macula.boot.utils.excel.parser.ExcelParser;
 
@@ -72,7 +73,7 @@ public class ImageTag implements ITag {
 			int imageType) {
 		HSSFClientAnchor anchor = new HSSFClientAnchor(0, 2, 0, 0, (short) column, row, (short) (column + width), row
 				+ height);
-		anchor.setAnchorType(HSSFClientAnchor.MOVE_DONT_RESIZE);
+		anchor.setAnchorType(ClientAnchor.AnchorType.MOVE_DONT_RESIZE);
 		pa.createPicture(anchor, wb.addPicture(data, imageType));
 	}
 

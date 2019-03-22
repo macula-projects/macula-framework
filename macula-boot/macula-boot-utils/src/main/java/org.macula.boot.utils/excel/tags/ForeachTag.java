@@ -25,6 +25,8 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.macula.boot.utils.excel.ExcelUtils;
 import org.macula.boot.utils.excel.WorkbookUtils;
@@ -58,10 +60,10 @@ public class ForeachTag implements ITag {
 			if (null == row)
 				continue;
 			for (short colnum = row.getFirstCellNum(); colnum <= row.getLastCellNum(); colnum++) {
-				HSSFCell cell = row.getCell(colnum, HSSFRow.RETURN_NULL_AND_BLANK);
+				HSSFCell cell = row.getCell(colnum, Row.MissingCellPolicy.RETURN_NULL_AND_BLANK);
 				if (null == cell)
 					continue;
-				if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
+				if (cell.getCellType() == CellType.STRING) {
 					String cellstr = cell.getStringCellValue();
 
 					// get the tag instance for the cellstr
