@@ -1,6 +1,5 @@
 package org.macula.boot.core.config.core;
 
-import lombok.Data;
 import org.macula.boot.MaculaConstants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

@@ -14,9 +14,4 @@
     <artifactId>macula-samples</artifactId>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>macula-samples-core</module>
-        <module>macula-samples-web</module>
-    </modules>
-
 </project>
