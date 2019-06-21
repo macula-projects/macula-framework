@@ -4,13 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.macula</groupId>
+        <groupId>org.maculaframework</groupId>
         <artifactId>macula-parent</artifactId>
         <relativePath>../macula-parent</relativePath>
         <version>${revision}</version>
     </parent>
 
-    <groupId>org.macula.cloud</groupId>
     <artifactId>macula-cloud</artifactId>
     <packaging>pom</packaging>
 
@@ -23,7 +22,6 @@
         <module>macula-cloud-stream</module>
         <module>macula-cloud-tx</module>
         <module>macula-cloud-msg</module>
-        <module>macula-cloud-security</module>
         <module>macula-cloud-base</module>
     </modules>
 
