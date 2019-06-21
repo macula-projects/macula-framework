@@ -1,15 +1,12 @@
-package org.macula.boot.core.config;
+package org.maculaframework.boot.core.config;
 
-import org.macula.boot.core.cache.config.CacheConfiguration;
-import org.macula.boot.core.config.core.CoreConfigProperties;
-import org.macula.boot.core.config.json.MaculaJackson2ObjectMapperBuilderCustomizer;
-import org.macula.boot.core.exception.config.ExceptionConfiguration;
-import org.macula.boot.core.exception.handler.ServiceExceptionAspect;
-import org.macula.boot.core.exception.translator.HibernateExceptionTranslator;
-import org.macula.boot.core.exception.translator.PersistenceExceptionTranslator;
-import org.macula.boot.core.klock.config.KlockConfiguration;
-import org.macula.boot.core.modelmapper.config.ModelMapperConfiguration;
-import org.macula.boot.core.uid.config.UidConfiguration;
+import org.maculaframework.boot.core.cache.config.CacheConfiguration;
+import org.maculaframework.boot.core.config.core.CoreConfigProperties;
+import org.maculaframework.boot.core.config.json.MaculaJackson2ObjectMapperBuilderCustomizer;
+import org.maculaframework.boot.core.exception.config.ExceptionConfiguration;
+import org.maculaframework.boot.core.klock.config.KlockConfiguration;
+import org.maculaframework.boot.core.modelmapper.config.ModelMapperConfiguration;
+import org.maculaframework.boot.core.uid.config.UidConfiguration;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -55,7 +52,7 @@ public class CoreAutoConfiguration implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        org.macula.boot.ApplicationContext.setContainer(applicationContext);
+        org.maculaframework.boot.ApplicationContext.setContainer(applicationContext);
     }
 }
 

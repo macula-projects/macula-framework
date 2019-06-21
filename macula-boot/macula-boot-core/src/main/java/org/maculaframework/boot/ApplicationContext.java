@@ -1,4 +1,4 @@
-package org.macula.boot;
+package org.maculaframework.boot;
 
 import org.springframework.context.ApplicationEvent;
 
@@ -13,6 +13,7 @@ public class ApplicationContext extends ApiApplicationContext {
      * @param name
      * @return Object
      */
+    @SuppressWarnings("unchecked")
     public static <T> T getBean(String name) {
         try {
             return (T) getContainer().getBean(name);
