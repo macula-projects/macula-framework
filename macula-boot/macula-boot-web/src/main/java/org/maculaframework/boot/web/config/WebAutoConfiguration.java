@@ -1,17 +1,17 @@
 /*
- *  Copyright (c) 2010-2019   the original author or authors.
+ * Copyright 2004-2019 the original author or authors.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *          http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.maculaframework.boot.web.config;
@@ -19,16 +19,21 @@ package org.maculaframework.boot.web.config;
 import org.maculaframework.boot.core.config.CoreAutoConfiguration;
 import org.maculaframework.boot.web.config.mvc.MaculaWebMvcConfigurer;
 import org.maculaframework.boot.web.config.mvc.MaculaWebMvcRegistrations;
+import org.maculaframework.boot.web.config.security.WebSecurityConfig;
+import org.maculaframework.boot.web.config.session.RedisHttpSessionConfig;
+import org.maculaframework.boot.web.filter.OrderedExceptionNegotiateFilter;
 import org.maculaframework.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
 import org.maculaframework.boot.web.mvc.convert.NumberToBooleanConverter;
 import org.maculaframework.boot.web.mvc.i18n.TimeZoneController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Validator;
@@ -41,10 +46,14 @@ import javax.annotation.PostConstruct;
 @Configuration
 @AutoConfigureAfter({CoreAutoConfiguration.class})
 @AutoConfigureBefore({WebMvcAutoConfiguration.class})
+@Import({WebSecurityConfig.class, RedisHttpSessionConfig.class})
 public class WebAutoConfiguration {
 
     @Autowired
     private WebMvcProperties webMvcProperties;
+
+    @Autowired
+    private SecurityProperties securityProperties;
 
     @Bean
     public MaculaWebMvcRegistrations maculaWebMvcRegistrations() {
@@ -84,6 +93,11 @@ public class WebAutoConfiguration {
         initializer.setValidator(validator);
         initializer.setAutoGrowCollectionLimit(1000);
         return initializer;
+    }
+
+    @Bean
+    public OrderedExceptionNegotiateFilter exceptionNegotiateFilter() {
+        return new OrderedExceptionNegotiateFilter();
     }
 
     @PostConstruct
