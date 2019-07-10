@@ -46,12 +46,12 @@ import java.util.*;
 @Slf4j
 public class ActionFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource, InitializingBean, Refreshable {
 	
-	private static final ConfigAttribute NO_PERMISSION_ROLE = new SecurityConfig("ROLE_PRIVATE_");
+	private static final ConfigAttribute NO_PERMISSION_ROLE = new MaculaSecurityConfigAttribute(new RoleVo("ROLE_PRIVATE_"));
 
 	@Autowired(required = false)
 	private SecurityResourceService securityResourceService;
 
-	private Map<RequestMatcher, Collection<ConfigAttribute>> requestMap;
+	private Map<RequestMatcher, Collection<ConfigAttribute>> requestMap = new LinkedHashMap<>();
 
 	@Override
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
@@ -81,7 +81,8 @@ public class ActionFilterInvocationSecurityMetadataSource implements FilterInvoc
 				return entry.getValue();
 			}
 		}
-		return Collections.singleton(NO_PERMISSION_ROLE);
+
+		return null;
 	}
 
 	@Override
@@ -91,28 +92,30 @@ public class ActionFilterInvocationSecurityMetadataSource implements FilterInvoc
 
 	@Override
 	public boolean refresh() {
-		List<ActionVo> actions = securityResourceService.findActions(ActionType.HTTP);
+		if (securityResourceService != null) {
+			List<ActionVo> actions = securityResourceService.findActions(ActionType.HTTP);
 
-		Map<RequestMatcher, Collection<ConfigAttribute>> tempRequestMap = new LinkedHashMap<>();
-		for (ActionVo action : actions) {
-			HttpMethod httpMethod = action.getHttpMethod();
-			RequestMatcher matcher = new RegexRequestMatcher(action.getUri(), httpMethod == null ? "" : httpMethod.name());
+			Map<RequestMatcher, Collection<ConfigAttribute>> tempRequestMap = new LinkedHashMap<>();
+			for (ActionVo action : actions) {
+				HttpMethod httpMethod = action.getHttpMethod();
+				RequestMatcher matcher = new RegexRequestMatcher(action.getUri(), httpMethod == null ? "" : httpMethod.name());
 
-			Collection<ConfigAttribute> attrs = new ArrayList<ConfigAttribute>();
-			for (RoleVo role : action.getRoleVoList()) {
-				attrs.add(new MaculaSecurityConfigAttribute(role));
+				Collection<ConfigAttribute> attrs = new ArrayList<ConfigAttribute>();
+				for (RoleVo role : action.getRoleVoList()) {
+					attrs.add(new MaculaSecurityConfigAttribute(role));
+				}
+				if (attrs.isEmpty()) {
+					attrs.add(NO_PERMISSION_ROLE);
+				}
+
+				// TODO 资源和用户直接关联怎么办？
+				tempRequestMap.put(matcher, attrs);
 			}
-			if (attrs.isEmpty()) {
-				attrs.add(NO_PERMISSION_ROLE);
-			}
 
-			// TODO 资源和用户直接关联怎么办？
-			tempRequestMap.put(matcher, attrs);
+			requestMap = tempRequestMap;
+
+			log.info("Action resources from database was loaded!");
 		}
-
-		requestMap = tempRequestMap;
-
-		log.info("Action resources from database was loaded!");
 		return true;
 	}
 }

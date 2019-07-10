@@ -21,6 +21,8 @@ spring:
   session:
     redis:
       namespace: spring:session:${spring.application.group}
+  mvc:
+    static-path-pattern: /static/**
 
 server:
   servlet:

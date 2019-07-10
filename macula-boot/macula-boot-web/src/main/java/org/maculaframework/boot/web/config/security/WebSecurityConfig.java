@@ -15,41 +15,28 @@
  */
 package org.maculaframework.boot.web.config.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.maculaframework.boot.web.config.WebConfigProperties;
+import org.maculaframework.boot.web.filter.KaptchaAuthenticationFilter;
 import org.maculaframework.boot.web.security.access.vote.MaculaRoleVoter;
 import org.maculaframework.boot.web.security.web.access.interceptor.ActionFilterInvocationSecurityMetadataSource;
+import org.maculaframework.boot.web.security.web.access.interceptor.DelegatingFilterInvocationSecurityMetadataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDecisionManager;
-import org.springframework.security.access.AccessDecisionVoter;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.SecurityMetadataSource;
-import org.springframework.security.access.vote.AffirmativeBased;
-import org.springframework.security.access.vote.RoleVoter;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.access.vote.AbstractAccessDecisionManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.session.data.redis.RedisOperationsSessionRepository;
+import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
 /**
  * <p>
@@ -63,93 +50,56 @@ import java.util.List;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${macula.web.ignoring-regex-pattern}")
-    private String ignoringRegexPattern = "/|/index.*|/resources.*|/views.*|/.*public.*|/error/.*|/.*/blank.*|/.*/ajaxforward.*|.*loginphoto.*";
-
-    protected WebSecurityConfig() {
-        super(true);
-    }
+    @Autowired
+    private WebConfigProperties webConfigProperties;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .regexMatchers(ignoringRegexPattern);
+                .regexMatchers(webConfigProperties.getIgnoringRegexPattern());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                // TODO 测试代码，未来需要删除
+                .mvcMatchers("/admin/index").hasRole("ADMIN")
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O o) {
-                        o.setSecurityMetadataSource(actionFilterInvocationSecurityMetadataSource());
-                        o.setAccessDecisionManager(accessDecisionManager());
+
+                        // 保留原来基于表达式的MetadataSource
+                        FilterInvocationSecurityMetadataSource expressionUrlMetadataSource = o.getSecurityMetadataSource();
+
+                        o.setSecurityMetadataSource(new DelegatingFilterInvocationSecurityMetadataSource(
+                                                            actionFilterInvocationSecurityMetadataSource(), expressionUrlMetadataSource));
+
+                        // 添加动态URL Voter
+                        AbstractAccessDecisionManager accessDecisionManager = (AbstractAccessDecisionManager)o.getAccessDecisionManager();
+                        accessDecisionManager.getDecisionVoters().add(0, new MaculaRoleVoter());
+
                         return o;
                     }
                 })
                 .and()
-                .sessionManagement()
+                    .csrf()
+                        .ignoringRequestMatchers(request -> "XMLHttpRequest".equals(request.getHeader("X-Requested-With")))
                 .and()
-                .securityContext()
+                    .sessionManagement()
+                        .sessionAuthenticationFailureHandler(authenticationFailureHandler())
+                        .maximumSessions(webConfigProperties.getMaximumSessions())
+                        .sessionRegistry(getApplicationContext().getBean(SessionRegistry.class))
+                        .expiredUrl(webConfigProperties.getExpiredUrl()).and()
                 .and()
-                .requestCache()
+                    .logout().permitAll()
                 .and()
-                .servletApi()
+                    .formLogin().permitAll()
+                        .failureHandler(authenticationFailureHandler())
                 .and()
-                .anonymous()
-                .and()
-                .csrf()
-                .and()
-                .cors()
-                .and()
-                .formLogin()
-                .failureHandler((HttpServletRequest request, HttpServletResponse response, AuthenticationException e) -> {
-                    response.setContentType("application/json;charset=utf-8");
-                    PrintWriter out = response.getWriter();
-                    StringBuffer sb = new StringBuffer();
-                    sb.append("{\"status\":\"error\",\"msg\":\"");
-                    if (e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
-                        sb.append("用户名或密码输入错误，登录失败!");
-                    } else if (e instanceof DisabledException) {
-                        sb.append("账户被禁用，登录失败，请联系管理员!");
-                    } else {
-                        sb.append("登录失败!");
-                    }
-                    sb.append("\"}");
-                    out.write(sb.toString());
-                    out.flush();
-                    out.close();
-                })
-                .successHandler((HttpServletRequest request, HttpServletResponse response, Authentication auth) -> {
-                    response.setContentType("application/json;charset=utf-8");
-                    PrintWriter out = response.getWriter();
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    String s = "{\"status\":\"success\",\"msg\":" + " TODO }";
-                    out.write(s);
-                    out.flush();
-                    out.close();
-                })
-                .and()
-                .logout()
-                .and()
-                .exceptionHandling()
-                .accessDeniedHandler((HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) -> {
-
-                });
-    }
+                    .addFilterBefore(new KaptchaAuthenticationFilter("/login", authenticationFailureHandler()),
+                                            UsernamePasswordAuthenticationFilter.class);
 
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
     }
 
     @Bean
@@ -157,9 +107,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new ActionFilterInvocationSecurityMetadataSource();
     }
 
-    private AccessDecisionManager accessDecisionManager() {
-        List<AccessDecisionVoter<? extends Object>> decisionVoters = new ArrayList<AccessDecisionVoter<? extends Object>>();
-        decisionVoters.add(new MaculaRoleVoter());
-        return new AffirmativeBased(decisionVoters);
+    @Bean
+    public SessionRegistry springSessionBackedSessionRegistry(RedisOperationsSessionRepository sessionRepository) {
+        return new SpringSessionBackedSessionRegistry(sessionRepository);
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new SimpleUrlAuthenticationFailureHandler(webConfigProperties.getFailureUrl());
     }
 }

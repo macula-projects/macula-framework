@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +45,7 @@ public class TimeZoneRedirectInterceptor extends HandlerInterceptorAdapter {
 
         TimeZone timeZone = RequestContextUtils.getTimeZone(request);
 
-        if (timeZone == null) {
+        if (timeZone == null && !DispatcherType.ERROR.equals(request.getDispatcherType())) {
             log.debug("Forwarding to js to get timezone offset");
             request.setAttribute("requestedUrl", request.getRequestURI());
             RequestDispatcher dispatcher = request.getRequestDispatcher("/timezone");

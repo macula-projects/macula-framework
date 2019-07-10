@@ -33,4 +33,12 @@ public class RoleVo {
     private String roleCode;
 
     private boolean opposite;
+
+    public RoleVo() {
+
+    }
+
+    public RoleVo(String roleCode) {
+        this.roleCode = roleCode;
+    }
 }

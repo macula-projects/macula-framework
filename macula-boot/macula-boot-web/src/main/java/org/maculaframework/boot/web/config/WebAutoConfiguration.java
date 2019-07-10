@@ -19,6 +19,9 @@ package org.maculaframework.boot.web.config;
 import org.maculaframework.boot.core.config.CoreAutoConfiguration;
 import org.maculaframework.boot.web.config.mvc.MaculaWebMvcConfigurer;
 import org.maculaframework.boot.web.config.mvc.MaculaWebMvcRegistrations;
+import org.maculaframework.boot.web.config.security.AuthenticationConfig;
+import org.maculaframework.boot.web.config.security.KaptchaConfig;
+import org.maculaframework.boot.web.config.security.MethodSecurityConfig;
 import org.maculaframework.boot.web.config.security.WebSecurityConfig;
 import org.maculaframework.boot.web.config.session.RedisHttpSessionConfig;
 import org.maculaframework.boot.web.filter.OrderedExceptionNegotiateFilter;
@@ -31,6 +34,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -46,7 +50,9 @@ import javax.annotation.PostConstruct;
 @Configuration
 @AutoConfigureAfter({CoreAutoConfiguration.class})
 @AutoConfigureBefore({WebMvcAutoConfiguration.class})
-@Import({WebSecurityConfig.class, RedisHttpSessionConfig.class})
+@EnableConfigurationProperties(WebConfigProperties.class)
+@Import({WebSecurityConfig.class, RedisHttpSessionConfig.class, KaptchaConfig.class,
+        AuthenticationConfig.class, MethodSecurityConfig.class, WebSecurityConfig.class})
 public class WebAutoConfiguration {
 
     @Autowired

@@ -42,6 +42,8 @@ public class MaculaConstants {
 
 	public static final String CONFIG_BOOT_CORE_PREFIX = "macula.config";
 
+	public static final String CONFIG_BOOT_WEB_PREFIX = "macula.web";
+
 	public static final String ERROR_HTTP_CODE_PREFIX = "http";
 
 	public enum ESCAPE_XSS_LEVEL{
