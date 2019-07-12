@@ -30,7 +30,11 @@ public class MaculaConstants {
 	/* 后台默认用户 */
 	public final static String BACKGROUND_USER = "*SYSADM";
 
-	public final static String EXCEPTION_CODE_DATABASE = "database";
+	public final static String EXCEPTION_CODE_DATABASE = "DATABASE";
+
+	public final static String EXCEPTION_CODE_UNKNOWN = "UNKNOWN";
+
+	public final static String EXCEPTION_CODE_RPC = "RPC";
 
 	public final static String CONFIG_DATASOURCE_PREFIX = "macula.datasource.druid";
 

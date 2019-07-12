@@ -90,7 +90,12 @@ public class ServiceExceptionAspect implements BeanFactoryAware {
                 }
             }
         }
-        return new ServiceException(MaculaConstants.EXCEPTION_CODE_DATABASE, message, ex);
+
+        if (ex.getClass().equals("org.apache.dubbo.rpc.RpcException")) {
+            return new ServiceException(MaculaConstants.EXCEPTION_CODE_RPC, message, ex);
+        }
+
+        return new ServiceException(MaculaConstants.EXCEPTION_CODE_UNKNOWN, message, ex);
     }
 
     @Override

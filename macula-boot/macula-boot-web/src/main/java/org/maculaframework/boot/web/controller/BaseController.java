@@ -17,8 +17,10 @@ package org.maculaframework.boot.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.maculaframework.boot.MaculaConstants;
 import org.maculaframework.boot.core.exception.MaculaArgumentException;
 import org.maculaframework.boot.core.exception.MaculaException;
+import org.maculaframework.boot.core.exception.ServiceException;
 import org.maculaframework.boot.vo.Response;
 import org.maculaframework.boot.web.mvc.annotation.support.FormBeanArgumentResolver;
 import org.maculaframework.boot.web.utils.HttpRequestUtils;
@@ -94,17 +96,24 @@ public abstract class BaseController {
     /**
      * 处理Controller的异常
      */
-    @ExceptionHandler(MaculaException.class)
-    public Response handlerCoreException(MaculaException ex, HttpServletRequest req) {
-        return new Response(ex);
-    }
+    @ExceptionHandler(Exception.class)
+    public Response handlerCoreException(Exception ex, HttpServletRequest req) {
 
-    /**
-     * 处理输入参数异常
-     */
-    @ExceptionHandler(IllegalArgumentException.class)
-    public Response hangdlerFormBindException(IllegalArgumentException ex, HttpServletRequest req) {
-        return new Response(new MaculaArgumentException(ex));
+        if (ex instanceof MaculaException) {
+            return new Response((MaculaException)ex);
+        }
+
+        if (ex instanceof IllegalArgumentException) {
+            return new Response(new MaculaArgumentException((IllegalArgumentException)ex));
+        }
+
+
+        if (ex.getClass().equals("org.apache.dubbo.rpc.RpcException")) {
+            return new Response(new ServiceException(MaculaConstants.EXCEPTION_CODE_RPC, "org.apache.dubbo.rpc.RpcException", ex));
+        }
+
+        ServiceException sex = new ServiceException(MaculaConstants.EXCEPTION_CODE_UNKNOWN, "org.maculaframework.boot.core.exception.ServiceException", ex);
+        return new Response(sex);
     }
 
     /**
