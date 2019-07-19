@@ -16,11 +16,11 @@
 package org.maculaframework.boot.web.security.access.method;
 
 import org.maculaframework.boot.core.service.Refreshable;
+import org.maculaframework.boot.web.security.CustomResourceService;
 import org.maculaframework.boot.web.security.access.MaculaSecurityConfigAttribute;
+import org.maculaframework.boot.web.security.support.Action;
 import org.maculaframework.boot.web.security.support.ActionType;
-import org.maculaframework.boot.web.security.support.SecurityResourceService;
-import org.maculaframework.boot.web.security.support.vo.ActionVo;
-import org.maculaframework.boot.web.security.support.vo.RoleVo;
+import org.maculaframework.boot.web.security.support.Role;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -48,7 +48,7 @@ public class ActionMethodSecurityMetadataSource extends AbstractMethodSecurityMe
 	private ConcurrentMap<String, Collection<ConfigAttribute>> cachedMethodMappings = new ConcurrentHashMap<String, Collection<ConfigAttribute>>();
 
 	@Autowired(required = false)
-	private SecurityResourceService securityResourceService;
+	private CustomResourceService securityResourceService;
 
 	@Override
 	public Collection<ConfigAttribute> getAttributes(Method method, Class<?> targetClass) {
@@ -69,10 +69,10 @@ public class ActionMethodSecurityMetadataSource extends AbstractMethodSecurityMe
 		ConcurrentMap<String, Collection<ConfigAttribute>> tmpCachedMethodMappings = new ConcurrentHashMap<String, Collection<ConfigAttribute>>();
 
 		if (securityResourceService != null) {
-			List<ActionVo> actions = securityResourceService.findActions(ActionType.METHOD);
-			for (ActionVo action : actions) {
+			List<Action> actions = securityResourceService.findActions(ActionType.METHOD);
+			for (Action action : actions) {
 				Collection<ConfigAttribute> attrs = new ArrayList<ConfigAttribute>();
-				for (RoleVo role : action.getRoleVoList()) {
+				for (Role role : action.getRoleVoList()) {
 					attrs.add(new MaculaSecurityConfigAttribute(role));
 				}
 				if (attrs.isEmpty()) {

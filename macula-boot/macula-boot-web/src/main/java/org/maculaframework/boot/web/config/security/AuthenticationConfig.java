@@ -16,14 +16,12 @@
 
 package org.maculaframework.boot.web.config.security;
 
+import org.maculaframework.boot.web.security.core.userdetails.JpaUserDetailsManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
  * <p>
@@ -44,17 +42,6 @@ public class AuthenticationConfig extends GlobalAuthenticationConfigurerAdapter 
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("admin")
-                        .password("admin")
-                        .roles("ADMIN")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
+        return new JpaUserDetailsManager();
     }
-
-    // TODO Bean PasswordEncoder
-
-    // TODO Bean UserDetailsPasswordService
 }

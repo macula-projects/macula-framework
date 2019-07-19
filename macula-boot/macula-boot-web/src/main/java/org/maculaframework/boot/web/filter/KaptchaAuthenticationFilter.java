@@ -24,6 +24,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -58,7 +60,8 @@ public class KaptchaAuthenticationFilter extends AbstractAuthenticationProcessin
         if ("POST".equalsIgnoreCase(req.getMethod()) && servletPath.equals(req.getServletPath())) {
             String expect = (String) req.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
             if (expect != null && !expect.equalsIgnoreCase(req.getParameter("kaptcha"))) {
-                unsuccessfulAuthentication(req, res, new InsufficientAuthenticationException("输入的验证码不正确"));
+                unsuccessfulAuthentication(req, res,
+                        new InsufficientAuthenticationException(messages.getMessage("KaptchaAuthenticationFilter.input.error", "输入验证码错误")));
                 return;
             }
         }

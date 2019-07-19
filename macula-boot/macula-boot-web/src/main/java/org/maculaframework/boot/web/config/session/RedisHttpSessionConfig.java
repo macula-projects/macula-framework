@@ -21,7 +21,6 @@ import org.maculaframework.boot.core.config.redis.LettuceConnectionConfiguration
 import org.maculaframework.boot.core.config.redis.MultiRedisProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.session.SessionAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.boot.web.servlet.server.Session;

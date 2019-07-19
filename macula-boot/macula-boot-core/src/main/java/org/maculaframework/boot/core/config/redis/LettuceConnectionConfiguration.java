@@ -24,6 +24,8 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.util.StringUtils;
 
+import java.time.Duration;
+
 /**
  * <p>
  * <b>LettuceConnectionConfiguration</b> 基于Lettuce驱动的redis连接
@@ -88,6 +90,10 @@ public class LettuceConnectionConfiguration extends RedisConnectionConfiguration
                         this.properties.getLettuce().getShutdownTimeout());
             }
         }
+
+        // TODO 如果不这么设置，关闭应用时会报错，不知为啥
+        builder.shutdownTimeout(Duration.ZERO);
+
         return builder;
     }
 

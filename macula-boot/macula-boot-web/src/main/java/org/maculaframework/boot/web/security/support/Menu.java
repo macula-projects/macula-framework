@@ -14,28 +14,15 @@
  * limitations under the License.
  */
 
-package org.maculaframework.boot.web.security.access;
-
-import org.maculaframework.boot.web.security.support.Role;
-import org.springframework.security.access.SecurityConfig;
+package org.maculaframework.boot.web.security.support;
 
 /**
  * <p>
- * <b>MaculaSecurityConfigAttribute</b> 角色配置
+ * <b>Menu</b> 菜单VO
  * </p>
  *
  * @author Rain
  * @since 2019-07-04
  */
-public class MaculaSecurityConfigAttribute extends SecurityConfig {
-    private boolean opposite;
-
-    public MaculaSecurityConfigAttribute(Role roleVo) {
-        super(roleVo.getRoleCode());
-        this.opposite = roleVo.isOpposite();
-    }
-
-    public boolean isOpposite() {
-        return this.opposite;
-    }
+public class Menu {
 }

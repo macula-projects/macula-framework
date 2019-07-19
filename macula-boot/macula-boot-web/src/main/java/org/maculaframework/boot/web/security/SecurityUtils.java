@@ -16,6 +16,7 @@
 
 package org.maculaframework.boot.web.security;
 
+import org.maculaframework.boot.web.security.support.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,6 +35,10 @@ import java.util.Collection;
  */
 public abstract class SecurityUtils {
 
+    /**
+     * 获取当前
+     * @return
+     */
     public static Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
@@ -50,5 +55,32 @@ public abstract class SecurityUtils {
                 authorities
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    /**
+     * 获取当前登录用户信息
+     * @return 返回继承自UserDetails的用户信息
+     */
+    public static User getCurrentUser() {
+        Authentication auth = getAuthentication();
+        Object principal = auth.getPrincipal();
+
+        if (principal instanceof User) {
+            return (User)principal;
+        }
+
+        return null;
+    }
+
+    /**
+     * 获取当前登录的用户名，匿名用户返回ANONYMOUS
+     * @return 当前用户名
+     */
+    public static String getCurrentUsername() {
+        Authentication auth = getAuthentication();
+        if (auth != null) {
+            return auth.getName();
+        }
+        return null;
     }
 }

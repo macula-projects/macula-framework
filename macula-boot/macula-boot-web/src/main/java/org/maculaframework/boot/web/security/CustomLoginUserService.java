@@ -14,28 +14,32 @@
  * limitations under the License.
  */
 
-package org.maculaframework.boot.web.security.access;
+package org.maculaframework.boot.web.security;
 
-import org.maculaframework.boot.web.security.support.Role;
-import org.springframework.security.access.SecurityConfig;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * <p>
- * <b>MaculaSecurityConfigAttribute</b> 角色配置
+ * <b>CustomLoginUserService</b> 获取登录用户的信息
  * </p>
  *
  * @author Rain
- * @since 2019-07-04
+ * @since 2019-07-18
  */
-public class MaculaSecurityConfigAttribute extends SecurityConfig {
-    private boolean opposite;
+public interface CustomLoginUserService {
 
-    public MaculaSecurityConfigAttribute(Role roleVo) {
-        super(roleVo.getRoleCode());
-        this.opposite = roleVo.isOpposite();
-    }
+    /**
+     * 根据用户名获取用户信息
+     * @param username 用户名
+     * @return 返回用户信息
+     */
+    UserDetails loadUserByUsername(String username);
 
-    public boolean isOpposite() {
-        return this.opposite;
-    }
+    /**
+     * 更新用户密码
+     * @param user
+     * @param newPassword
+     * @return 更新后的用户信息
+     */
+    UserDetails updatePassword(UserDetails user, String newPassword);
 }

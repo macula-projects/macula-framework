@@ -18,15 +18,14 @@ package org.maculaframework.boot.web.security.web.access.interceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.maculaframework.boot.core.service.Refreshable;
 import org.maculaframework.boot.web.security.access.MaculaSecurityConfigAttribute;
+import org.maculaframework.boot.web.security.support.Action;
 import org.maculaframework.boot.web.security.support.ActionType;
-import org.maculaframework.boot.web.security.support.SecurityResourceService;
-import org.maculaframework.boot.web.security.support.vo.ActionVo;
-import org.maculaframework.boot.web.security.support.vo.RoleVo;
+import org.maculaframework.boot.web.security.CustomResourceService;
+import org.maculaframework.boot.web.security.support.Role;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.ConfigAttribute;
-import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
@@ -46,10 +45,10 @@ import java.util.*;
 @Slf4j
 public class ActionFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource, InitializingBean, Refreshable {
 	
-	private static final ConfigAttribute NO_PERMISSION_ROLE = new MaculaSecurityConfigAttribute(new RoleVo("ROLE_PRIVATE_"));
+	private static final ConfigAttribute NO_PERMISSION_ROLE = new MaculaSecurityConfigAttribute(new Role("ROLE_PRIVATE_"));
 
 	@Autowired(required = false)
-	private SecurityResourceService securityResourceService;
+	private CustomResourceService securityResourceService;
 
 	private Map<RequestMatcher, Collection<ConfigAttribute>> requestMap = new LinkedHashMap<>();
 
@@ -93,15 +92,15 @@ public class ActionFilterInvocationSecurityMetadataSource implements FilterInvoc
 	@Override
 	public boolean refresh() {
 		if (securityResourceService != null) {
-			List<ActionVo> actions = securityResourceService.findActions(ActionType.HTTP);
+			List<Action> actions = securityResourceService.findActions(ActionType.HTTP);
 
 			Map<RequestMatcher, Collection<ConfigAttribute>> tempRequestMap = new LinkedHashMap<>();
-			for (ActionVo action : actions) {
+			for (Action action : actions) {
 				HttpMethod httpMethod = action.getHttpMethod();
 				RequestMatcher matcher = new RegexRequestMatcher(action.getUri(), httpMethod == null ? "" : httpMethod.name());
 
 				Collection<ConfigAttribute> attrs = new ArrayList<ConfigAttribute>();
-				for (RoleVo role : action.getRoleVoList()) {
+				for (Role role : action.getRoleVoList()) {
 					attrs.add(new MaculaSecurityConfigAttribute(role));
 				}
 				if (attrs.isEmpty()) {

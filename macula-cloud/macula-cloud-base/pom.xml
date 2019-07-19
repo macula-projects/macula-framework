@@ -13,5 +13,13 @@
 
     <artifactId>macula-cloud-base</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.maculaframework</groupId>
+            <artifactId>macula-boot-web</artifactId>
+            <version>${revision}</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

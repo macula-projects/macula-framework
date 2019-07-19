@@ -24,6 +24,8 @@ import org.maculaframework.boot.web.config.security.KaptchaConfig;
 import org.maculaframework.boot.web.config.security.MethodSecurityConfig;
 import org.maculaframework.boot.web.config.security.WebSecurityConfig;
 import org.maculaframework.boot.web.config.session.RedisHttpSessionConfig;
+import org.maculaframework.boot.web.controller.AppController;
+import org.maculaframework.boot.web.controller.KaptchaController;
 import org.maculaframework.boot.web.filter.OrderedExceptionNegotiateFilter;
 import org.maculaframework.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
 import org.maculaframework.boot.web.mvc.convert.NumberToBooleanConverter;
@@ -36,6 +38,7 @@ import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguratio
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.convert.ConversionService;
@@ -53,6 +56,7 @@ import javax.annotation.PostConstruct;
 @EnableConfigurationProperties(WebConfigProperties.class)
 @Import({WebSecurityConfig.class, RedisHttpSessionConfig.class, KaptchaConfig.class,
         AuthenticationConfig.class, MethodSecurityConfig.class, WebSecurityConfig.class})
+@ComponentScan(basePackages = "org.maculaframework.boot.web.controller")
 public class WebAutoConfiguration {
 
     @Autowired
