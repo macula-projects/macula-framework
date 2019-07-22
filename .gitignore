@@ -24,3 +24,16 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+# front vue
+backend/target
+macula-samples/macula-samples-vue/dist/
+macula-samples/macula-samples-vue/node/
+macula-samples/macula-samples-vue/node_modules/
+macula-samples/macula-samples-vue/npm-debug.log
+macula-samples/macula-samples-vue/target
+macula-samples/macula-samples-vue/test-output
+macula-samples/macula-samples-vue/tests/e2e/reports
+macula-samples/macula-samples-vue/tests/unit/coverage
+macula-samples/macula-samples-vue/yarn-error.log
+macula-samples/macula-samples-vue/yarn.lock
