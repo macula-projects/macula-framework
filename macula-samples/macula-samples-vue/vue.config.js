@@ -1,5 +1,11 @@
 const fs = require('fs')
 const glob = require('glob')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const WebpackCdnPlugin = require('webpack-cdn-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
+
+// 实际的CDN地址
+const cdnUrl = '//cdn.staticfile.org'
 
 function getPages () {
   const pages = {}
@@ -28,14 +34,11 @@ function getPages () {
 
 module.exports = {
   pages: getPages(),
-  baseUrl: '/',
+  publicPath: process.env.NODE_ENV === 'production' ? cdnUrl + '/' + require('./package.json').name : '/',
   outputDir: 'dist',
-  lintOnSave: true,
-  chainWebpack: (config) => {
-    // const env = process.env.VUE_APP_ENV
-    // console.log(`当前环境: ${env}`)
-  },
-  productionSourceMap: true,
+  assetsDir: 'static',
+  lintOnSave: process.env.NODE_ENV !== 'production',
+  productionSourceMap: process.env.NODE_ENV !== 'production',
   css: {
     extract: true,
     sourceMap: false,
@@ -43,6 +46,48 @@ module.exports = {
   },
   parallel: require('os').cpus().length > 1,
   pluginOptions: {},
+  chainWebpack: (config) => {
+    const env = process.env.NODE_ENV
+    const profile = process.env.VUE_APP_PROFILE
+    console.log(`当前环境: NODE_ENV=${env}，PROFILE=${profile}`)
+
+    config.resolve.alias
+      .set('@assets', '@/assets')
+      .set('@components', '@/components')
+  },
+  configureWebpack: (config) => {
+    // 生产环境开始gzip压缩
+    if (process.env.NODE_ENV === 'production') {
+      config.plugins.push(
+        new CompressionPlugin({
+          test: /\.js$|\.html$|.\css/, // 匹配文件名
+          threshold: 10240, // 对超过10k的数据压缩
+          deleteOriginalAssets: false // 不删除源文件
+        })
+      )
+    }
+
+    // 生产获取远程CDN，非生产获取本地node_modules
+    config.plugins.push(
+      new WebpackCdnPlugin({
+        modules: [
+          {
+            var: 'Vue',
+            name: 'vue',
+            version: '2.6.10',
+            path: 'vue.min.js'
+          },
+          {
+            var: 'VueRouter',
+            name: 'vue-router',
+            version: '3.0.3',
+            path: 'vue-router.min.js'
+          }
+        ],
+        prodUrl: cdnUrl + '/:name/:version/:path'
+      })
+    )
+  },
   devServer: {
     open: false,
     disableHostCheck: true,
@@ -50,7 +95,12 @@ module.exports = {
     port: 8000,
     https: false,
     hotOnly: false,
-    proxy: null, // string | Object
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:8082',
+    //     changeOrigin: true
+    //   }
+    // },
     before: (app) => {
     }
   }
