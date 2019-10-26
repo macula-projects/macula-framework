@@ -56,48 +56,56 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .regexMatchers(webConfigProperties.getIgnoringRegexPattern());
+            .regexMatchers(webConfigProperties.getIgnoringRegexPattern());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                // TODO 测试代码，未来需要删除
-                .mvcMatchers("/admin/index").hasRole("ADMIN")
-                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                    @Override
-                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+        http.
+            authorizeRequests(authorizeRequests ->
+                authorizeRequests
+                    // TODO 测试代码，未来需要删除
+                    .mvcMatchers("/admin/index").hasRole("ADMIN")
+                    .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                        @Override
+                        public <O extends FilterSecurityInterceptor> O postProcess(O o) {
 
-                        // 保留原来基于表达式的MetadataSource
-                        FilterInvocationSecurityMetadataSource expressionUrlMetadataSource = o.getSecurityMetadataSource();
+                            // 保留原来基于表达式的MetadataSource
+                            FilterInvocationSecurityMetadataSource expressionUrlMetadataSource = o.getSecurityMetadataSource();
 
-                        o.setSecurityMetadataSource(new DelegatingFilterInvocationSecurityMetadataSource(
-                                                            actionFilterInvocationSecurityMetadataSource(), expressionUrlMetadataSource));
+                            o.setSecurityMetadataSource(new DelegatingFilterInvocationSecurityMetadataSource(
+                                actionFilterInvocationSecurityMetadataSource(), expressionUrlMetadataSource));
 
-                        // 添加动态URL Voter
-                        AbstractAccessDecisionManager accessDecisionManager = (AbstractAccessDecisionManager)o.getAccessDecisionManager();
-                        accessDecisionManager.getDecisionVoters().add(0, new MaculaRoleVoter());
+                            // 添加动态URL Voter
+                            AbstractAccessDecisionManager accessDecisionManager = (AbstractAccessDecisionManager) o.getAccessDecisionManager();
+                            accessDecisionManager.getDecisionVoters().add(0, new MaculaRoleVoter());
 
-                        return o;
-                    }
-                })
-                .and()
-                    .csrf()
-                        .ignoringRequestMatchers(request -> "XMLHttpRequest".equals(request.getHeader("X-Requested-With")))
-                .and()
-                    .sessionManagement()
-                        .sessionAuthenticationFailureHandler(authenticationFailureHandler())
-                        .maximumSessions(webConfigProperties.getMaximumSessions())
-                        .sessionRegistry(getApplicationContext().getBean(SessionRegistry.class))
-                        .expiredUrl(webConfigProperties.getExpiredUrl()).and()
-                .and()
-                    .logout().permitAll()
-                .and()
-                    .formLogin().permitAll()
-                        .failureHandler(authenticationFailureHandler())
-                .and()
-                    .addFilterBefore(new KaptchaAuthenticationFilter("/login", authenticationFailureHandler()),
-                                            UsernamePasswordAuthenticationFilter.class);
+                            return o;
+                        }
+                    })
+            )
+            .csrf(csrf ->
+                csrf.ignoringRequestMatchers(request -> "XMLHttpRequest".equals(request.getHeader("X-Requested-With")))
+            )
+            .sessionManagement(sessionManagement ->
+                sessionManagement
+                    .sessionAuthenticationFailureHandler(authenticationFailureHandler())
+                    .maximumSessions(webConfigProperties.getMaximumSessions())
+                    .sessionRegistry(getApplicationContext().getBean(SessionRegistry.class))
+                    .expiredUrl(webConfigProperties.getExpiredUrl())
+            )
+            .logout(logout ->
+                logout.permitAll()
+            )
+            .formLogin(formLogin ->
+                formLogin.permitAll().failureHandler(authenticationFailureHandler())
+            )
+            .oauth2ResourceServer(oauth2Rs ->
+                oauth2Rs.opaqueToken()
+            )
+            .addFilterBefore(
+                new KaptchaAuthenticationFilter("/login", authenticationFailureHandler()), UsernamePasswordAuthenticationFilter.class
+            );
 
 
     }
