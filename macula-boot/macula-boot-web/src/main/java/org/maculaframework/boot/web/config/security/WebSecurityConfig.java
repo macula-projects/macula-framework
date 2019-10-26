@@ -35,7 +35,7 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.session.data.redis.RedisOperationsSessionRepository;
+import org.springframework.session.data.redis.RedisIndexedSessionRepository;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
 /**
@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private WebConfigProperties webConfigProperties;
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring()
                 .regexMatchers(webConfigProperties.getIgnoringRegexPattern());
     }
@@ -108,7 +108,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SessionRegistry springSessionBackedSessionRegistry(RedisOperationsSessionRepository sessionRepository) {
+    public SessionRegistry springSessionBackedSessionRegistry(RedisIndexedSessionRepository sessionRepository) {
         return new SpringSessionBackedSessionRegistry(sessionRepository);
     }
 

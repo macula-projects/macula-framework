@@ -17,7 +17,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdkLevel>1.8</jdkLevel>
-        <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
+        <spring-boot.version>2.2.0.RELEASE</spring-boot.version>
         <lombok.version>1.18.4</lombok.version>
         <commons-text.version>1.6</commons-text.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>

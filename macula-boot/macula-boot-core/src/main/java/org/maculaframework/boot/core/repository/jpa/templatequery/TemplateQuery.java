@@ -21,10 +21,7 @@ import org.maculaframework.boot.ApplicationContext;
 import org.maculaframework.boot.core.repository.jpa.templatequery.template.FreemarkerSqlTemplates;
 import org.maculaframework.boot.core.utils.AopTargetUtils;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.query.AbstractJpaQuery;
-import org.springframework.data.jpa.repository.query.JpaParameters;
-import org.springframework.data.jpa.repository.query.JpaQueryMethod;
-import org.springframework.data.jpa.repository.query.QueryUtils;
+import org.springframework.data.jpa.repository.query.*;
 import org.springframework.data.repository.query.ParameterAccessor;
 import org.springframework.data.repository.query.ParametersParameterAccessor;
 import org.springframework.data.util.ClassTypeInformation;
@@ -59,10 +56,11 @@ public class TemplateQuery extends AbstractJpaQuery {
 
     @Override
     @SuppressWarnings("deprecation")
-    protected Query doCreateQuery(Object[] values) {
+    protected Query doCreateQuery(JpaParametersParameterAccessor accessor) {
+        // TODO 已经从values改成了JpaParametersParameterAccessor,建议优化
+        Object[] values = accessor.getValues();
         String nativeQuery = getQueryFromTpl(values);
         JpaParameters parameters = getQueryMethod().getParameters();
-        ParameterAccessor accessor = new ParametersParameterAccessor(parameters, values);
         String sortedQueryString = QueryUtils.applySorting(nativeQuery, accessor.getSort(), QueryUtils.detectAlias(nativeQuery));
         Query query = bind(createJpaQuery(sortedQueryString), values);
         if (parameters.hasPageableParameter()) {
@@ -115,7 +113,9 @@ public class TemplateQuery extends AbstractJpaQuery {
 
     @Override
     @SuppressWarnings("unchecked")
-    protected TypedQuery<Long> doCreateCountQuery(Object[] values) {
+    protected TypedQuery<Long> doCreateCountQuery(JpaParametersParameterAccessor accessor) {
+        // TODO 已经从values改成了JpaParametersParameterAccessor,建议优化
+        Object[] values = accessor.getValues();
         TypedQuery<Long> query = (TypedQuery<Long>) getEntityManager().createNativeQuery(QueryBuilder.toCountQuery(getQueryFromTpl(values)));
         bind(query, values);
         return query;
