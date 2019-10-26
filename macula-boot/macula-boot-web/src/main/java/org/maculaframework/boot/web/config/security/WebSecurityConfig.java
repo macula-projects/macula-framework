@@ -29,6 +29,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
@@ -100,8 +101,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin(formLogin ->
                 formLogin.permitAll().failureHandler(authenticationFailureHandler())
             )
-            .oauth2ResourceServer(oauth2Rs ->
-                oauth2Rs.opaqueToken()
+            .oauth2ResourceServer(
+                s -> s.jwt().and().opaqueToken()
             )
             .addFilterBefore(
                 new KaptchaAuthenticationFilter("/login", authenticationFailureHandler()), UsernamePasswordAuthenticationFilter.class
