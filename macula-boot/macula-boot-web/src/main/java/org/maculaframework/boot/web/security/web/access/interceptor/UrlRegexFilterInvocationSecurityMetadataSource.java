@@ -17,19 +17,21 @@ package org.maculaframework.boot.web.security.web.access.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.maculaframework.boot.core.service.Refreshable;
+import org.maculaframework.boot.web.config.WebConfigProperties;
+import org.maculaframework.boot.web.security.CustomSecurityService;
 import org.maculaframework.boot.web.security.access.MaculaSecurityConfigAttribute;
-import org.maculaframework.boot.web.security.support.Action;
-import org.maculaframework.boot.web.security.support.ActionType;
-import org.maculaframework.boot.web.security.CustomResourceService;
+import org.maculaframework.boot.web.security.support.Menu;
 import org.maculaframework.boot.web.security.support.Role;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -43,12 +45,18 @@ import java.util.*;
  */
 
 @Slf4j
-public class ActionFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource, InitializingBean, Refreshable {
+public class UrlRegexFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource, InitializingBean, Refreshable {
 	
 	private static final ConfigAttribute NO_PERMISSION_ROLE = new MaculaSecurityConfigAttribute(new Role("ROLE_PRIVATE_"));
 
 	@Autowired(required = false)
-	private CustomResourceService securityResourceService;
+	private CustomSecurityService securityService;
+
+	@Value("spring.application.name")
+	private String appName;
+
+	@Autowired
+	private WebConfigProperties webConfigProperties;
 
 	private Map<RequestMatcher, Collection<ConfigAttribute>> requestMap = new LinkedHashMap<>();
 
@@ -91,24 +99,38 @@ public class ActionFilterInvocationSecurityMetadataSource implements FilterInvoc
 
 	@Override
 	public boolean refresh() {
-		if (securityResourceService != null) {
-			List<Action> actions = securityResourceService.findActions(ActionType.HTTP);
+		if (securityService != null) {
+			List<Menu> menus = securityService.findUrlRegexes(appName);
 
 			Map<RequestMatcher, Collection<ConfigAttribute>> tempRequestMap = new LinkedHashMap<>();
-			for (Action action : actions) {
-				HttpMethod httpMethod = action.getHttpMethod();
-				RequestMatcher matcher = new RegexRequestMatcher(action.getUri(), httpMethod == null ? "" : httpMethod.name());
+			for (Menu menu : menus) {
+				if (StringUtils.hasText(menu.getUrlRegex())) {
+					HttpMethod httpMethod = null;
+					String urlRegex = menu.getUrlRegex();
 
-				Collection<ConfigAttribute> attrs = new ArrayList<ConfigAttribute>();
-				for (Role role : action.getRoleVoList()) {
-					attrs.add(new MaculaSecurityConfigAttribute(role));
-				}
-				if (attrs.isEmpty()) {
-					attrs.add(NO_PERMISSION_ROLE);
-				}
+					// 前端配置的正则格式是：HTTPMETHOD:PATHRegex
+					String[] urlRegexes = menu.getUrlRegex().split(":");
+					if (urlRegexes.length > 1) {
+						httpMethod = HttpMethod.valueOf(urlRegexes[0].toUpperCase());
+						urlRegex = urlRegexes[1];
+					}
+					RequestMatcher matcher = new RegexRequestMatcher(urlRegex, httpMethod == null ? "" : httpMethod.name());
 
-				// TODO 资源和用户直接关联怎么办？
-				tempRequestMap.put(matcher, attrs);
+					Collection<ConfigAttribute> attrs = new ArrayList<ConfigAttribute>();
+					for (Role role : menu.getRoleVoList()) {
+						attrs.add(new MaculaSecurityConfigAttribute(role));
+					}
+
+					// 动作自己本身作为一个角色添加，以便可以针对这个功能单独授权
+					if (webConfigProperties.isMenuAsRole()) {
+						attrs.add(new MaculaSecurityConfigAttribute(new Role("ROLE_$" + menu.getCode())));
+					}
+
+					if (attrs.isEmpty()) {
+						attrs.add(NO_PERMISSION_ROLE);
+					}
+					tempRequestMap.put(matcher, attrs);
+				}
 			}
 
 			requestMap = tempRequestMap;

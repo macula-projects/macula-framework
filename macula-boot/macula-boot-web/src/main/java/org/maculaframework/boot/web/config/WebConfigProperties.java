@@ -33,15 +33,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class WebConfigProperties {
 
-    // 不经过安全拦截的URL正则
+    /** 不经过安全拦截的URL正则 */
     private String ignoringRegexPattern = "/public.*|/error.*|/static/.*|/favicon.ico.*|/timezone.*";
 
-    // 同一个用户登录的最大会话数
+    /** 同一个用户登录的最大会话数 */
     private int maximumSessions = 1;
 
-    // 会话过期后跳转的URL
+    /** 会话过期后跳转的URL */
     private String expiredUrl = "/login";
 
-    // 登录发生错误跳转的页面
+    /** 登录发生错误跳转的页面 */
     private String failureUrl = "/login?error";
+
+    /** 是否把Menu code当成自己的一个角色 */
+    private boolean isMenuAsRole = false;
 }

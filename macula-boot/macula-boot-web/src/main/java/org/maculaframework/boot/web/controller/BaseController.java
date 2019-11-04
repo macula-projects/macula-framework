@@ -25,6 +25,7 @@ import org.maculaframework.boot.vo.Response;
 import org.maculaframework.boot.web.mvc.annotation.support.FormBeanArgumentResolver;
 import org.maculaframework.boot.web.utils.HttpRequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +49,17 @@ public abstract class BaseController {
     private static final Map<Class<?>, String> controllerPathMapping = new ConcurrentHashMap<>();
     @Autowired
     private ObjectMapper mapper;
+
+    @Value("spring.application.name")
+    private String appName;
+
+    /**
+     * 获取当前应用名称
+     * @return String
+     */
+    protected String getAppName() {
+        return this.appName;
+    }
 
     /**
      * 判断绑定过程中是否出现错误

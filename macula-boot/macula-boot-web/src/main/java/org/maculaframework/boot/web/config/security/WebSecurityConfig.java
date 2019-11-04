@@ -18,7 +18,7 @@ package org.maculaframework.boot.web.config.security;
 import org.maculaframework.boot.web.config.WebConfigProperties;
 import org.maculaframework.boot.web.filter.KaptchaAuthenticationFilter;
 import org.maculaframework.boot.web.security.access.vote.MaculaRoleVoter;
-import org.maculaframework.boot.web.security.web.access.interceptor.ActionFilterInvocationSecurityMetadataSource;
+import org.maculaframework.boot.web.security.web.access.interceptor.UrlRegexFilterInvocationSecurityMetadataSource;
 import org.maculaframework.boot.web.security.web.access.interceptor.DelegatingFilterInvocationSecurityMetadataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -115,7 +115,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public FilterInvocationSecurityMetadataSource actionFilterInvocationSecurityMetadataSource() {
-        return new ActionFilterInvocationSecurityMetadataSource();
+        return new UrlRegexFilterInvocationSecurityMetadataSource();
     }
 
     @Bean

@@ -17,17 +17,14 @@
 package org.maculaframework.boot.web.controller;
 
 import org.maculaframework.boot.web.mvc.annotation.OpenApi;
-import org.maculaframework.boot.web.security.CustomResourceService;
+import org.maculaframework.boot.web.security.CustomSecurityService;
 import org.maculaframework.boot.web.security.SecurityUtils;
 import org.maculaframework.boot.web.security.support.Menu;
 import org.maculaframework.boot.web.security.support.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +41,13 @@ import java.util.List;
 public class AppController extends BaseController {
 
     @Autowired(required = false)
-    CustomResourceService resourceService;
+    CustomSecurityService securityService;
 
     @GetMapping("/**/menus/{root}/{level}")
     @OpenApi
     public List<Menu> listMenus(@PathVariable int root, @PathVariable int level) {
-        if (resourceService != null) {
-            return resourceService.findMenus(root, level);
+        if (securityService != null) {
+            return securityService.findMenus(getAppName(), root, level);
         }
         return new ArrayList<>();
     }

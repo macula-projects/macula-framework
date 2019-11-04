@@ -16,7 +16,7 @@
 
 package org.maculaframework.boot.web.security.core.userdetails;
 
-import org.maculaframework.boot.web.security.CustomLoginUserService;
+import org.maculaframework.boot.web.security.CustomSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
 
@@ -31,12 +31,12 @@ import org.springframework.security.core.userdetails.*;
 public class JpaUserDetailsManager implements UserDetailsService, UserDetailsPasswordService {
 
     @Autowired(required = false)
-    private CustomLoginUserService customUserLoginRepository;
+    private CustomSecurityService securityService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (customUserLoginRepository != null) {
-            return customUserLoginRepository.loadUserByUsername(username);
+        if (securityService != null) {
+            return securityService.loadUserByUsername(username);
         }
 
         // 演示使用的用户和密码
@@ -49,8 +49,8 @@ public class JpaUserDetailsManager implements UserDetailsService, UserDetailsPas
 
     @Override
     public UserDetails updatePassword(UserDetails user, String newPassword) {
-        if (customUserLoginRepository != null) {
-            return customUserLoginRepository.updatePassword(user, newPassword);
+        if (securityService != null) {
+            return securityService.updatePassword(user, newPassword);
         }
         return user;
     }

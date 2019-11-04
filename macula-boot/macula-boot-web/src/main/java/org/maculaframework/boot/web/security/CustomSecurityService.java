@@ -16,17 +16,35 @@
 
 package org.maculaframework.boot.web.security;
 
+import org.maculaframework.boot.web.security.support.Menu;
+import org.maculaframework.boot.web.security.support.Role;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.List;
 
 /**
  * <p>
- * <b>CustomLoginUserService</b> 获取登录用户的信息
+ * <b>CustomSecurityService</b> 安全服务接口
  * </p>
  *
  * @author Rain
- * @since 2019-07-18
+ * @since 2019-11-03
  */
-public interface CustomLoginUserService {
+public interface CustomSecurityService {
+    /**
+     * 查询菜单定义中包含URL正则的内容，主要给权限系统匹配每个URL对应的角色
+     * @param appName 应用名称
+     * @return
+     */
+    List<Menu> findUrlRegexes(String appName);
+
+    /**
+     * 获取菜单资源，不含ACTION，主要给前端显示菜单
+     * @param root 根ID
+     * @param level 层数
+     * @return 满足条件的菜单信息
+     */
+    List<Menu> findMenus(String appName, int root, int level);
 
     /**
      * 根据用户名获取用户信息

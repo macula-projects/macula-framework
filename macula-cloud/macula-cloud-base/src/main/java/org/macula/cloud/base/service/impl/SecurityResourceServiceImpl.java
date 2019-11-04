@@ -17,8 +17,6 @@
 package org.macula.cloud.base.service.impl;
 
 import org.maculaframework.boot.web.security.support.*;
-import org.maculaframework.boot.web.security.CustomResourceService;
-import org.maculaframework.boot.web.security.support.Action;
 
 import java.util.List;
 
@@ -33,7 +31,7 @@ import java.util.List;
 public class SecurityResourceServiceImpl implements CustomResourceService {
 
     @Override
-    public List<Resource> findResources(ResourceType resourceType) {
+    public List<Resource> findResources(MenuType resourceType) {
         return null;
     }
 

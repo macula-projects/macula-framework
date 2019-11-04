@@ -16,22 +16,14 @@
 
 package org.maculaframework.boot.web.security.support;
 
-import lombok.Data;
-import org.springframework.http.HttpMethod;
-
-import java.util.List;
-
 /**
  * <p>
- * <b>Action</b> Action的VO
+ * <b>ResourceType</b> 资源枚举
  * </p>
  *
  * @author Rain
- * @since 2019-07-04
+ * @since 2019-07-03
  */
-
-@Data
-public class Action extends Resource {
-    HttpMethod httpMethod;
-    List<Role> roleVoList;
+public enum MenuType {
+    GROUP, MENU, ACTION
 }

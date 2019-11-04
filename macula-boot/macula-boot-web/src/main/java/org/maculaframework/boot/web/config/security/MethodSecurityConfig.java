@@ -16,11 +16,7 @@
 
 package org.maculaframework.boot.web.config.security;
 
-import org.maculaframework.boot.web.security.access.method.ActionMethodSecurityMetadataSource;
 import org.maculaframework.boot.web.security.access.vote.MaculaRoleVoter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -28,11 +24,9 @@ import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.annotation.Jsr250Voter;
 import org.springframework.security.access.expression.method.ExpressionBasedPreInvocationAdvice;
-import org.springframework.security.access.method.MethodSecurityMetadataSource;
 import org.springframework.security.access.prepost.PreInvocationAuthorizationAdviceVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.AuthenticatedVoter;
-import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.util.Assert;
@@ -43,7 +37,7 @@ import java.util.Map;
 
 /**
  * <p>
- * <b>MethodSecurityConfig</b> 方法级安全配置
+ * <b>MethodSecurityConfig</b> 方法级安全配置，方法级的安全配置请使用注解，@PreAuthorities...
  * </p>
  *
  * @author Rain
@@ -55,14 +49,6 @@ import java.util.Map;
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
     private AnnotationAttributes enableMethodSecurity;
-
-    /**
-     * 添加基于数据库Action表配置方法的权限
-     */
-    @Override
-    protected MethodSecurityMetadataSource customMethodSecurityMetadataSource() {
-        return actionMethodSecurityMetadataSource();
-    }
 
     @Override
     protected AccessDecisionManager accessDecisionManager() {
@@ -100,10 +86,5 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
             this.enableMethodSecurity = AnnotationAttributes.fromMap(methodSecurityAttrs);
         }
         return this.enableMethodSecurity;
-    }
-
-    @Bean(name = "actionMethodSecurityMetadataSource")
-    public MethodSecurityMetadataSource actionMethodSecurityMetadataSource() {
-        return new ActionMethodSecurityMetadataSource();
     }
 }
