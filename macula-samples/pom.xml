@@ -19,7 +19,6 @@
         <module>macula-samples-dubbo</module>
         <module>macula-samples-web</module>
         <module>macula-samples-core</module>
-        <module>macula-samples-vue</module>
     </modules>
 
 </project>
