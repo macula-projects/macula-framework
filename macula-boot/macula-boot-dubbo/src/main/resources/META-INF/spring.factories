@@ -1,3 +1,0 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.maculaframework.boot.dubbo.DubboAutoConfiguration

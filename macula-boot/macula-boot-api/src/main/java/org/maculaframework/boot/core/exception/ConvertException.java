@@ -24,15 +24,15 @@ package org.maculaframework.boot.core.exception;
  * <b>ConvertException</b> 类型转换异常
  * </p>
  *
- * @since 2015年10月19日
  * @author Rain
  * @version $Id: ConvertException.java 5906 2015-10-19 09:40:12Z wzp $
+ * @since 2015年10月19日
  */
 public class ConvertException extends MaculaException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ConvertException(Throwable e) {
-		super("Convert Error", e);
-	}
+    public ConvertException(Throwable e) {
+        super("Convert Error", e);
+    }
 }

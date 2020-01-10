@@ -18,7 +18,6 @@
         <module>macula-boot-api</module>
         <module>macula-boot-utils</module>
         <module>macula-boot-core</module>
-        <module>macula-boot-dubbo</module>
         <module>macula-boot-web</module>
     </modules>
 
