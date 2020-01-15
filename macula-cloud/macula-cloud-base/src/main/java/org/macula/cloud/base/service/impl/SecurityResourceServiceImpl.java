@@ -16,7 +16,9 @@
 
 package org.macula.cloud.base.service.impl;
 
+import org.maculaframework.boot.web.security.CustomSecurityService;
 import org.maculaframework.boot.web.security.support.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -28,20 +30,25 @@ import java.util.List;
  * @author Rain
  * @since 2019-07-17
  */
-public class SecurityResourceServiceImpl implements CustomResourceService {
+public class SecurityResourceServiceImpl implements CustomSecurityService {
 
     @Override
-    public List<Resource> findResources(MenuType resourceType) {
+    public List<Menu> findUrlRegexes(String appName) {
         return null;
     }
 
     @Override
-    public List<Action> findActions(ActionType actionType) {
+    public List<Menu> findMenus(String appName, int root, int level) {
         return null;
     }
 
     @Override
-    public List<Menu> findMenus(int root, int level) {
+    public UserDetails loadUserByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public UserDetails updatePassword(UserDetails user, String newPassword) {
         return null;
     }
 }
