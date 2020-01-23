@@ -100,12 +100,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin(formLogin ->
                 formLogin.permitAll().failureHandler(authenticationFailureHandler())
             )
-            .oauth2ResourceServer(oAuth2ResourceServerConfigurer ->
-                oAuth2ResourceServerConfigurer
-                    .jwt()
-                    .and()
-                    .opaqueToken()
-            )
+//            .oauth2ResourceServer(oAuth2ResourceServerConfigurer ->
+//                oAuth2ResourceServerConfigurer
+//                    .jwt()
+//            )
             .addFilterBefore(
                 new KaptchaAuthenticationFilter("/login", authenticationFailureHandler()), UsernamePasswordAuthenticationFilter.class
             );

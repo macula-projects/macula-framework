@@ -23,6 +23,9 @@ spring:
       namespace: spring:session:${spring.application.group}
   mvc:
     static-path-pattern: /static/**
+  h2:
+    console:
+      enabled: false
 
 server:
   servlet:
@@ -79,9 +82,9 @@ macula:
     druid:
       - name: macula
         ## JDBC配置
-        url: jdbc:mysql://127.0.0.1:3306/macula3?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+        url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
         username: root
-        password: mysql
+        password:
         ## 连接池配置
         max-active: 100
         initial-size: 1
@@ -100,9 +103,9 @@ macula:
         filters: stat,wall
       - name: gbss
         ## JDBC配置
-        url: jdbc:mysql://127.0.0.1:3306/macula3?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+        url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
         username: root
-        password: mysql
+        password:
         ## 连接池配置
         max-active: 100
         initial-size: 1
@@ -143,9 +146,9 @@ macula:
     druid:
       - name: macula
         ## JDBC配置
-        url: jdbc:mysql://127.0.0.1:3306/macula3?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+        url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
         username: root
-        password: mysql
+        password:
         ## 连接池配置
         max-active: 100
         initial-size: 1
@@ -164,9 +167,9 @@ macula:
         filters: stat,wall
       - name: gbss
         ## JDBC配置
-        url: jdbc:mysql://127.0.0.1:3306/macula3?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+        url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
         username: root
-        password: mysql
+        password:
         ## 连接池配置
         max-active: 100
         initial-size: 1

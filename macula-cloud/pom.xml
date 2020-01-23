@@ -21,7 +21,7 @@
         <module>macula-cloud-oss</module>
         <module>macula-cloud-sentinel</module>
         <module>macula-cloud-stream</module>
-        <module>macula-cloud-tx</module>
+        <module>macula-cloud-seata</module>
         <module>macula-cloud-msg</module>
         <module>macula-cloud-base</module>
         <module>macula-cloud-dubbo</module>

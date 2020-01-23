@@ -19,6 +19,7 @@ package org.maculaframework.boot.web.config.session;
 import io.lettuce.core.resource.ClientResources;
 import org.maculaframework.boot.core.config.redis.LettuceConnectionConfiguration;
 import org.maculaframework.boot.core.config.redis.MultiRedisProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -48,10 +49,9 @@ public class RedisHttpSessionConfig {
 
     private static final String REMEMBER_ME_SERVICES_CLASS = "org.springframework.security.web.authentication.RememberMeServices";
 
-    @Value("${server.servlet.session.cookie.domain-name-pattern}")
-    private String domainNamePattern;
+//    @Value("${server.servlet.session.cookie.domain-name-pattern}")
+//    private String domainNamePattern;
 
-    // 会话Redis Connection Factory
     @Bean(name = "sessionRedisConnectionFactory")
     @ConditionalOnMissingBean(name = "sessionRedisConnectionFactory")
     @SpringSessionRedisConnectionFactory
@@ -74,9 +74,9 @@ public class RedisHttpSessionConfig {
         map.from(cookie::getSecure).to(cookieSerializer::setUseSecureCookie);
         map.from(cookie::getMaxAge).to((maxAge) -> cookieSerializer.setCookieMaxAge((int) maxAge.getSeconds()));
 
-        if (!StringUtils.isEmpty(domainNamePattern)) {
-            cookieSerializer.setDomainNamePattern(domainNamePattern);
-        }
+//        if (!StringUtils.isEmpty(domainNamePattern)) {
+//            cookieSerializer.setDomainNamePattern(domainNamePattern);
+//        }
 
         if (ClassUtils.isPresent(REMEMBER_ME_SERVICES_CLASS, getClass().getClassLoader())) {
             cookieSerializer.setRememberMeRequestAttribute(SpringSessionRememberMeServices.REMEMBER_ME_LOGIN_ATTR);

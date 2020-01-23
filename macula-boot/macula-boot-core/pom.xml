@@ -54,7 +54,7 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-        <!-- redis driver -->
+        <!-- redission -->
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>

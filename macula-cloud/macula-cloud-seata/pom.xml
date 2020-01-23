@@ -11,7 +11,7 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>macula-cloud-tx</artifactId>
+    <artifactId>macula-cloud-seata</artifactId>
 
 
 </project>

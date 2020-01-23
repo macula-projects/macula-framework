@@ -17,8 +17,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdkLevel>1.8</jdkLevel>
-        <spring-boot.version>2.2.0.RELEASE</spring-boot.version>
-        <lombok.version>1.18.4</lombok.version>
+        <spring-boot.version>2.2.4.RELEASE</spring-boot.version>
         <commons-text.version>1.6</commons-text.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-io.version>2.6</commons-io.version>
@@ -27,8 +26,8 @@
         <kryo.version>4.0.2</kryo.version>
         <jsoup.version>1.11.3</jsoup.version>
         <druid.version>1.1.14</druid.version>
-        <dubbo.version>2.7.2</dubbo.version>
-        <redisson.version>3.10.3</redisson.version>
+        <dubbo.version>2.7.5</dubbo.version>
+        <redisson.version>3.12.0</redisson.version>
         <modelmapper.version>2.3.0</modelmapper.version>
         <jasypt-spring-boot.version>2.1.1</jasypt-spring-boot.version>
     </properties>
@@ -122,21 +121,11 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <!-- Just hack for spring boot 2.1.x -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -145,6 +134,14 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Provider -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Optional -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
