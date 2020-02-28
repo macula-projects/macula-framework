@@ -26,7 +26,8 @@ package org.maculaframework.boot.core.service;
  */
 public interface Refreshable {
     /**
-     * 返回是否刷新成功
+     * 刷新
+     * @return 返回是否刷新成功
      */
     boolean refresh();
 }

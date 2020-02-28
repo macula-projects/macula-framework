@@ -17,7 +17,7 @@
 package org.maculaframework.boot.core.klock.model;
 
 /**
- * Created by kl on 2017/12/29.
+ * @author kl
  * Content :锁类型
  */
 public enum LockType {

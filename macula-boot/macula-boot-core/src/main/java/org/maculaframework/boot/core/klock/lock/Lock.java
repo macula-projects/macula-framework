@@ -18,10 +18,18 @@ package org.maculaframework.boot.core.klock.lock;
 
 /**
  * Created by kl on 2017/12/29.
+ * @author kl
  */
 public interface Lock {
 
+    /**
+     * 获取锁
+     * @return 是否获取成功
+     */
     boolean acquire();
 
+    /**
+     * 释放锁
+     */
     void release();
 }

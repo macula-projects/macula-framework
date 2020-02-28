@@ -34,11 +34,11 @@ public class FieldOption {
 
 	public static final String CODE = "code";
 	public static final String LABEL = "label";
-	public static final String ID = "id"; //Arron20151028
+	public static final String ID = "id";
 
 	private Object code;
 	private String label;
-	private BigDecimal id; //Arron20151028
+	private BigDecimal id;
 	private final Map<String, Object> extra = new HashMap<String, Object>();
 
 	public FieldOption(Object code, String label) {

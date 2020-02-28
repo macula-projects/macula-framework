@@ -24,10 +24,10 @@ package org.maculaframework.boot;
  */
 public class MaculaConstants {
 
-	/* 匿名用户 */
+	/** 匿名用户 */
 	public final static String ANONYMOUS_USER = "ANONYMOUS";
 
-	/* 后台默认用户 */
+	/** 后台默认用户 */
 	public final static String BACKGROUND_USER = "*SYSADM";
 
 	public final static String EXCEPTION_CODE_DATABASE = "DATABASE";
@@ -51,10 +51,13 @@ public class MaculaConstants {
 	public static final String ERROR_HTTP_CODE_PREFIX = "http";
 
 	public enum ESCAPE_XSS_LEVEL{
-
+		/** BASIC 基本登记 */
 		BASIC("BASIC"),
+		/** 基本+图像 */
 		BASICWITHIMAGES("BASICWITHIMAGES"),
+		/** SIMPLETEXT */
 		SIMPLETEXT("SIMPLETEXT"),
+		/** RELAXED */
 		RELAXED("RELAXED");
 		
 		private String value;

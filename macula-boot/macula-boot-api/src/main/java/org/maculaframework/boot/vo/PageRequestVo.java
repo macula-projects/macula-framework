@@ -39,13 +39,15 @@ public class PageRequestVo implements Serializable {
 
     private Integer pageSize;
 
-    // 需要排序的字段名称
+    /** 需要排序的字段名称 */
     private String sort;
 
-    // 排序的方向，ASC升序，DESC降序
+    /** 排序的方向，ASC升序，DESC降序 */
     private String order;
 
-    /*** PageInfo在ProductApi.getProductPageMap(priceGroupType,listTypeCode)中做为Map集合KEY对象存在 重写equals、hashCode方法 ***/
+    /***
+     * PageInfo在ProductApi.getProductPageMap(priceGroupType,listTypeCode)中做为Map集合KEY对象存在 重写equals、hashCode方法
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

@@ -28,5 +28,9 @@ import javax.persistence.EntityManager;
  * @since 2011-2-15
  */
 public interface JpaEntityManagerAware {
+    /**
+     * 设置EntityManager
+     * @param entityManager
+     */
     void setEntityManager(EntityManager entityManager);
 }

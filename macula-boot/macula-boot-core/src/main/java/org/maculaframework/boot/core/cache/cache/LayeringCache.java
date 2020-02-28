@@ -31,7 +31,7 @@ import java.util.concurrent.Callable;
 
 /**
  * 多级缓存
- *
+ * https://github.com/xiaolyuh/layering-cache/wiki/%E6%96%87%E6%A1%A3
  * @author yuhao.wang
  */
 public class LayeringCache extends AbstractValueAdaptingCache {

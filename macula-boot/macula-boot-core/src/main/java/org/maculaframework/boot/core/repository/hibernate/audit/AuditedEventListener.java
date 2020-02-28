@@ -140,7 +140,7 @@ public class AuditedEventListener implements PostUpdateEventListener, PostDelete
 		}
 	}
 	
-	/*
+	/**
 	 * 获取表名
 	 */
 	private String getTableName(Object entity) {
@@ -160,7 +160,7 @@ public class AuditedEventListener implements PostUpdateEventListener, PostDelete
 		return tableName;
 	}
 
-	/*
+	/**
 	 * 获取列名
 	 */
 	private String getColumnName(Object entity, String propertyName) {
@@ -193,7 +193,7 @@ public class AuditedEventListener implements PostUpdateEventListener, PostDelete
 		return columnName;
 	}
 
-	/*
+	/**
 	 * 判断实体是否需要记录日志
 	 */
 	private boolean isEntityAudited(Object entity) {
@@ -209,7 +209,7 @@ public class AuditedEventListener implements PostUpdateEventListener, PostDelete
 		return auditable;
 	}
 
-	/*
+	/**
 	 * 判断字段属性是否需要记录日志
 	 */
 	private boolean isPropertyAudited(Object entity, String propertyName) {
@@ -237,7 +237,7 @@ public class AuditedEventListener implements PostUpdateEventListener, PostDelete
 		return auditable;
 	}
 
-	/*
+	/**
 	 * 比较数据前后是否发生变化
 	 */
 	private boolean isChanged(Object oldValue, Object newValue) {

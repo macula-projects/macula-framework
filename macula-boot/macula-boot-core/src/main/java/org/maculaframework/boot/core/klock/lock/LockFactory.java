@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by kl on 2017/12/29.
  * Content :
+ * @author kl
  */
 public class LockFactory {
     Logger logger = LoggerFactory.getLogger(getClass());
@@ -41,8 +42,8 @@ public class LockFactory {
     public Lock getLock(ProceedingJoinPoint joinPoint, Klock klock) {
         LockInfo lockInfo = lockInfoProvider.get(joinPoint, klock);
         switch (lockInfo.getType()) {
-            case Reentrant:
-                return new ReentrantLock(redissonClient, lockInfo);
+            // case Reentrant:
+            //    return new ReentrantLock(redissonClient, lockInfo);
             case Fair:
                 return new FairLock(redissonClient, lockInfo);
             case Read:

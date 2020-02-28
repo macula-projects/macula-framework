@@ -94,13 +94,6 @@ public class MaculaJpaRepositoryFactory extends JpaRepositoryFactory {
         return super.getRepository(repositoryInterface, fragments);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.springframework.data.org.macula.boot.core.repository.repository.mvc.JpaRepositoryFactory#
-     * getRepositoryBaseClass(java.lang.Class)
-     */
     @Override
     protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
         return MaculaSimpleJpaRepository.class;
@@ -112,9 +105,11 @@ public class MaculaJpaRepositoryFactory extends JpaRepositoryFactory {
         return Optional.of(TemplateQueryLookupStrategy.create(entityManager, key, extractor, evaluationContextProvider));
     }
 
-    // for cat
+    /**
+     * 获取当前repository的接口和方法名称，放入threadlocal中给cat使用，标识对应SQL的名称
+     */
     enum CatRepositoryProxyPostProcessor implements RepositoryProxyPostProcessor {
-
+        /** */
         INSTANCE;
 
         @Override

@@ -28,9 +28,6 @@ import org.springframework.context.ApplicationListener;
  */
 public abstract class AbstractAuditChangedListener implements ApplicationListener<AuditChangedEvent> {
 
-	/* (non-Javadoc)
-	 * @see org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
-	 */
 	@Override
 	public void onApplicationEvent(AuditChangedEvent auditChangedEvent) {
 		onAuditChanged(auditChangedEvent.getSource());

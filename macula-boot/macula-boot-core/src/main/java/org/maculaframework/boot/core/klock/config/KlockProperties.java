@@ -21,18 +21,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Created by kl on 2017/12/29.
+ * @author kl
  */
 @ConfigurationProperties(prefix = "macula.redis.klock")
 @Data
 public class KlockProperties {
 
-    //redisson
     private String address;
     private String password;
     private int database = 15;
     private ClusterServer clusterServer;
     private String codec = "org.redisson.codec.JsonJacksonCodec";
-    //lock
     private long waitTime = 60;
     private long leaseTime = 60;
 

@@ -32,5 +32,9 @@ import java.io.Serializable;
  */
 @NoRepositoryBean
 public interface MaculaJpaRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
+    /**
+     * 获取当前的EntityManager
+     * @return 当前JPA的EntityManager
+     */
     EntityManager getEntityManager();
 }

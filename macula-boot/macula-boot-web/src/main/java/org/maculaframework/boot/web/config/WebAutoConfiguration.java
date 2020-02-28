@@ -19,14 +19,6 @@ package org.maculaframework.boot.web.config;
 import org.maculaframework.boot.core.config.CoreAutoConfiguration;
 import org.maculaframework.boot.web.config.mvc.MaculaWebMvcConfigurer;
 import org.maculaframework.boot.web.config.mvc.MaculaWebMvcRegistrations;
-import org.maculaframework.boot.web.config.security.AuthenticationConfig;
-import org.maculaframework.boot.web.config.security.KaptchaConfig;
-import org.maculaframework.boot.web.config.security.MethodSecurityConfig;
-import org.maculaframework.boot.web.config.security.WebSecurityConfig;
-import org.maculaframework.boot.web.config.session.RedisHttpSessionConfig;
-import org.maculaframework.boot.web.controller.AppController;
-import org.maculaframework.boot.web.controller.KaptchaController;
-import org.maculaframework.boot.web.filter.OrderedExceptionNegotiateFilter;
 import org.maculaframework.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
 import org.maculaframework.boot.web.mvc.convert.NumberToBooleanConverter;
 import org.maculaframework.boot.web.mvc.i18n.TimeZoneController;
@@ -40,7 +32,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Validator;
@@ -54,8 +45,6 @@ import javax.annotation.PostConstruct;
 @AutoConfigureAfter({CoreAutoConfiguration.class})
 @AutoConfigureBefore({WebMvcAutoConfiguration.class})
 @EnableConfigurationProperties(WebConfigProperties.class)
-@Import({WebSecurityConfig.class, RedisHttpSessionConfig.class, KaptchaConfig.class,
-        AuthenticationConfig.class, MethodSecurityConfig.class, WebSecurityConfig.class})
 @ComponentScan(basePackages = "org.maculaframework.boot.web.controller")
 public class WebAutoConfiguration {
 
@@ -103,11 +92,6 @@ public class WebAutoConfiguration {
         initializer.setValidator(validator);
         initializer.setAutoGrowCollectionLimit(1000);
         return initializer;
-    }
-
-    @Bean
-    public OrderedExceptionNegotiateFilter exceptionNegotiateFilter() {
-        return new OrderedExceptionNegotiateFilter();
     }
 
     @PostConstruct

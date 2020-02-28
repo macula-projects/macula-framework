@@ -41,6 +41,7 @@ public class MaculaWebMvcRegistrations implements WebMvcRegistrations, Applicati
      * processed by the MVC configuration.
      * @return the custom {@link RequestMappingHandlerMapping} instance
      */
+    @Override
     public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
         return null;
     }
@@ -50,6 +51,7 @@ public class MaculaWebMvcRegistrations implements WebMvcRegistrations, Applicati
      * processed by the MVC configuration.
      * @return the custom {@link RequestMappingHandlerAdapter} instance
      */
+    @Override
     public RequestMappingHandlerAdapter getRequestMappingHandlerAdapter() {
         return new org.maculaframework.boot.web.mvc.method.annotation.RequestMappingHandlerAdapter();
     }
@@ -59,6 +61,7 @@ public class MaculaWebMvcRegistrations implements WebMvcRegistrations, Applicati
      * processed by the MVC configuration.
      * @return the custom {@link ExceptionHandlerExceptionResolver} instance
      */
+    @Override
     public ExceptionHandlerExceptionResolver getExceptionHandlerExceptionResolver() {
         return new org.maculaframework.boot.web.mvc.method.annotation.ExceptionHandlerExceptionResolver();
     }

@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by kl on 2017/12/29.
+ * @author kl
  */
 public class FairLock implements Lock {
 

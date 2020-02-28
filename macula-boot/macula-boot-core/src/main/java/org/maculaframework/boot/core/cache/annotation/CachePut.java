@@ -23,6 +23,7 @@ import java.lang.annotation.*;
 
 /**
  * 将对应数据放到缓存中
+ * @author yuhao.wang
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

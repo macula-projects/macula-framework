@@ -49,7 +49,6 @@ class RedisConfiguration {
         return DefaultClientResources.create();
     }
 
-    // 缓存配置
     @Bean(name = "cacheRedisConnectionFactory")
     @ConditionalOnMissingBean(name = "cacheRedisConnectionFactory")
     public RedisConnectionFactory cacheRedisConnectionFactory(ClientResources clientResources, MultiRedisProperties multiRedisProperties) {
@@ -59,7 +58,7 @@ class RedisConfiguration {
         return lettuceCfg.createLettuceConnectionFactory(clientConfig);
     }
 
-    // @EnableRedisRepositories需要的属性配置
+    /** @EnableRedisRepositories需要的属性配置 */
     @Bean(name = "dataRedisConnectionFactory")
     @ConditionalOnMissingBean(name = "dataRedisConnectionFactory")
     public RedisConnectionFactory dataRedisConnectionFactory(ClientResources clientResources, MultiRedisProperties multiRedisProperties) {

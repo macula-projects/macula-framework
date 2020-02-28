@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by kl on 2017/12/29.
  * Content :给添加@KLock切面加锁处理
+ * @author kl
  */
 @Aspect
 @Component

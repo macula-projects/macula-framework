@@ -17,7 +17,7 @@
 package org.macula.cloud.base.service.impl;
 
 import org.maculaframework.boot.web.security.CustomSecurityService;
-import org.maculaframework.boot.web.security.support.*;
+import org.maculaframework.boot.security.web.support.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;

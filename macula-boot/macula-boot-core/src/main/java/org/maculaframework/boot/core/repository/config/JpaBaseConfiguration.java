@@ -84,13 +84,13 @@ public abstract class JpaBaseConfiguration {
     protected JpaVendorAdapter getJpaVendorAdapter() {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         adapter.setShowSql(this.jpaProperties.isShowSql());
-        adapter.setDatabase(this.jpaProperties.determineDatabase(this.dataSource));
+        // TODO 待验证是否可以不用设置，让JPA自己确认
+        // adapter.setDatabase(this.jpaProperties.determineDatabase(this.dataSource));
         adapter.setDatabasePlatform(this.jpaProperties.getDatabasePlatform());
         adapter.setGenerateDdl(this.jpaProperties.isGenerateDdl());
         return adapter;
     }
 
-    // JPA Audit配置
     @Bean
     @ConditionalOnMissingBean
     public AuditorAwareStub auditorAwareStub() {
@@ -103,7 +103,6 @@ public abstract class JpaBaseConfiguration {
         return new DbDateTimeProvider();
     }
 
-    // JPA TemplateQuery配置
     @Bean
     @ConditionalOnMissingBean
     public FreemarkerSqlTemplates freemarkerSqlTemplates() {

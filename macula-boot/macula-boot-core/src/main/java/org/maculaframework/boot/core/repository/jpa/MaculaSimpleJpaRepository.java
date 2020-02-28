@@ -44,9 +44,6 @@ public class MaculaSimpleJpaRepository<T, ID extends Serializable> extends Simpl
         this.em = entityManager;
     }
 
-    /* (non-Javadoc)
-     * @see org.macula.core.repository.MaculaJpaRepository#getEntityManager()
-     */
     @Override
     public EntityManager getEntityManager() {
         return this.em;
