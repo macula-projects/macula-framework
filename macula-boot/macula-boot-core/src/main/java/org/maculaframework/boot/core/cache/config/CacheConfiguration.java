@@ -42,7 +42,8 @@ public class CacheConfiguration {
     @Bean(name = "cacheRedisTemplate")
     @ConditionalOnMissingBean(name = "cacheRedisTemplate")
     public RedisTemplate<String, Object> cacheRedisTemplate(@Qualifier("cacheRedisConnectionFactory") RedisConnectionFactory cacheRedisConnectionFactory) {
-        KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(Object.class);
+        // TODO 建议采用配置方式
+        KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(new Class<?>[] {Object.class});
 
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(cacheRedisConnectionFactory);

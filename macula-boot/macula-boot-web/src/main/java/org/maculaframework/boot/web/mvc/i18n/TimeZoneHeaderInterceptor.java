@@ -17,13 +17,15 @@
 package org.maculaframework.boot.web.mvc.i18n;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.i18n.SimpleTimeZoneAwareLocaleContext;
+import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.support.RequestContextUtils;
+import org.thymeleaf.util.StringUtils;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.ZoneOffset;
 import java.util.TimeZone;
 
 /**
@@ -36,22 +38,26 @@ import java.util.TimeZone;
  */
 
 @Slf4j
-public class TimeZoneRedirectInterceptor extends HandlerInterceptorAdapter {
+public class TimeZoneHeaderInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle (HttpServletRequest request,
                               HttpServletResponse response,
                               Object handler) throws Exception {
 
-        TimeZone timeZone = RequestContextUtils.getTimeZone(request);
-
-        if (timeZone == null && !DispatcherType.ERROR.equals(request.getDispatcherType())) {
-            log.debug("Forwarding to js to get timezone offset");
-            request.setAttribute("requestedUrl", request.getRequestURI());
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/timezone");
-            dispatcher.forward(request, response);
-            return false;
+        // 获取请求的头的时区设置
+        String timeZoneOffsetStr = request.getHeader("timeZoneOffset");
+        int timeZoneOffset = 480;
+        if (!StringUtils.isEmpty(timeZoneOffsetStr)) {
+            timeZoneOffset = Integer.parseInt(timeZoneOffsetStr);
         }
+
+        ZoneOffset zoneOffset = ZoneOffset.ofTotalSeconds(-timeZoneOffset * 60);
+        TimeZone timeZone = TimeZone.getTimeZone(zoneOffset);
+
+        LocaleContextResolver localeResolver = (LocaleContextResolver) RequestContextUtils.getLocaleResolver(request);
+
+        localeResolver.setLocaleContext(request, response, new SimpleTimeZoneAwareLocaleContext(RequestContextUtils.getLocale(request), timeZone));
 
         return true;
     }

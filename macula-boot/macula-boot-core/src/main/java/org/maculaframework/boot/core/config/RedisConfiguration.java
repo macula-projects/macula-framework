@@ -71,7 +71,8 @@ class RedisConfiguration {
     @Bean(name = "redisTemplate")
     @ConditionalOnMissingBean(name = "dataRedisTemplate")
     public RedisTemplate<String, Object> dataRedisTemplate(@Qualifier("dataRedisConnectionFactory") RedisConnectionFactory dataRedisConnectionFactory) {
-        KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(Object.class);
+        // TODO 读取配置好点（Class）
+        KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(new Class<?> [] { Object.class});
 
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(dataRedisConnectionFactory);

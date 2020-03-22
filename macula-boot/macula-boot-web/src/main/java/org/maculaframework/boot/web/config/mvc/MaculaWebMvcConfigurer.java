@@ -16,7 +16,7 @@
 
 package org.maculaframework.boot.web.config.mvc;
 
-import org.maculaframework.boot.web.mvc.i18n.TimeZoneRedirectInterceptor;
+import org.maculaframework.boot.web.mvc.i18n.TimeZoneHeaderInterceptor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -44,9 +44,9 @@ public class MaculaWebMvcConfigurer implements WebMvcConfigurer, ApplicationCont
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        TimeZoneRedirectInterceptor interceptor = new TimeZoneRedirectInterceptor();
+        TimeZoneHeaderInterceptor interceptor = new TimeZoneHeaderInterceptor();
         InterceptorRegistration i = registry.addInterceptor(interceptor);
-        i.excludePathPatterns("/timezone");
+        i.excludePathPatterns("*.gif|*.jpg|*.js|*.png");
     }
 
     @Override

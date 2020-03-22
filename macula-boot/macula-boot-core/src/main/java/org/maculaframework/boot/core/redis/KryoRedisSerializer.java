@@ -33,11 +33,11 @@ import java.io.ByteArrayOutputStream;
 public class KryoRedisSerializer<T> implements RedisSerializer<T> {
     public static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
     private static final ThreadLocal<Kryo> kryos = ThreadLocal.withInitial(Kryo::new);
-    private Class<T> clazz;
+    private Class<?>[] clazzs;
 
-    public KryoRedisSerializer(Class<T> clazz) {
+    public KryoRedisSerializer(Class<?>[] clazzs) {
         super();
-        this.clazz = clazz;
+        this.clazzs = clazzs;
     }
 
     @Override
@@ -49,7 +49,9 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
         Kryo kryo = kryos.get();
         // 设置成false 序列化速度更快，但是遇到循环应用序列化器会报栈内存溢出
         kryo.setReferences(false);
-        kryo.register(clazz);
+        for (Class<?> clazz : clazzs) {
+            kryo.register(clazz);
+        }
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              Output output = new Output(baos)) {
@@ -73,7 +75,9 @@ public class KryoRedisSerializer<T> implements RedisSerializer<T> {
         Kryo kryo = kryos.get();
         // 设置成false 序列化速度更快，但是遇到循环应用序列化器会报栈内存溢出
         kryo.setReferences(false);
-        kryo.register(clazz);
+        for (Class<?> clazz : clazzs) {
+            kryo.register(clazz);
+        }
 
         try (Input input = new Input(bytes)) {
 

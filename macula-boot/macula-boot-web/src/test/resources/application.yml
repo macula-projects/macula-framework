@@ -47,6 +47,50 @@ macula:
       boost-power: 3          # RingBuffer size扩容参数, 可提高UID生成的吞吐量, 默认:3
       padding-factor: 50      # 指定何时向RingBuffer中填充UID, 取值为百分比(0, 100), 默认为50
       #schedule-interval: 60  # 默认:不配置此项, 即不实用Schedule线程. 如需使用, 请指定Schedule线程时间间隔, 单位:秒
+  datasource:
+    druid:
+      - name: macula
+        ## JDBC配置
+        url: ${macula.datasource.macula.url}
+        username: root
+        password:
+        ## 连接池配置
+        max-active: 100
+        initial-size: 1
+        max-wait: 60000
+        min-idle: 1
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: select '1'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: true
+        max-open-prepared-statements: 50
+        max-pool-prepared-statement-per-connection-size: 20
+        ## 过滤器配置
+        filters: stat,wall
+      - name: gbss
+        ## JDBC配置
+        url: ${macula.datasource.gbss.url}
+        username: root
+        password:
+        ## 连接池配置
+        max-active: 100
+        initial-size: 1
+        max-wait: 60000
+        min-idle: 1
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: select '1'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: true
+        max-open-prepared-statements: 50
+        max-pool-prepared-statement-per-connection-size: 20
+        ## 过滤器配置
+        filters: stat,wall
   jpa:
     repositories:
       - name: macula
@@ -79,50 +123,10 @@ macula:
       #cluster-server:
       #  node-addresses: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005
   datasource:
-    druid:
-      - name: macula
-        ## JDBC配置
-        url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
-        username: root
-        password:
-        ## 连接池配置
-        max-active: 100
-        initial-size: 1
-        max-wait: 60000
-        min-idle: 1
-        time-between-eviction-runs-millis: 60000
-        min-evictable-idle-time-millis: 300000
-        validation-query: select '1'
-        test-while-idle: true
-        test-on-borrow: false
-        test-on-return: false
-        pool-prepared-statements: true
-        max-open-prepared-statements: 50
-        max-pool-prepared-statement-per-connection-size: 20
-        ## 过滤器配置
-        filters: stat,wall
-      - name: gbss
-        ## JDBC配置
-        url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
-        username: root
-        password:
-        ## 连接池配置
-        max-active: 100
-        initial-size: 1
-        max-wait: 60000
-        min-idle: 1
-        time-between-eviction-runs-millis: 60000
-        min-evictable-idle-time-millis: 300000
-        validation-query: select '1'
-        test-while-idle: true
-        test-on-borrow: false
-        test-on-return: false
-        pool-prepared-statements: true
-        max-open-prepared-statements: 50
-        max-pool-prepared-statement-per-connection-size: 20
-        ## 过滤器配置
-        filters: stat,wall
-
+    macula:
+      url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+    gbss:
+      url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
 ---
 spring:
   profiles: test
@@ -143,46 +147,7 @@ macula:
       #cluster-server:
       #  node-addresses: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005
   datasource:
-    druid:
-      - name: macula
-        ## JDBC配置
-        url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
-        username: root
-        password:
-        ## 连接池配置
-        max-active: 100
-        initial-size: 1
-        max-wait: 60000
-        min-idle: 1
-        time-between-eviction-runs-millis: 60000
-        min-evictable-idle-time-millis: 300000
-        validation-query: select '1'
-        test-while-idle: true
-        test-on-borrow: false
-        test-on-return: false
-        pool-prepared-statements: true
-        max-open-prepared-statements: 50
-        max-pool-prepared-statement-per-connection-size: 20
-        ## 过滤器配置
-        filters: stat,wall
-      - name: gbss
-        ## JDBC配置
-        url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
-        username: root
-        password:
-        ## 连接池配置
-        max-active: 100
-        initial-size: 1
-        max-wait: 60000
-        min-idle: 1
-        time-between-eviction-runs-millis: 60000
-        min-evictable-idle-time-millis: 300000
-        validation-query: select '1'
-        test-while-idle: true
-        test-on-borrow: false
-        test-on-return: false
-        pool-prepared-statements: true
-        max-open-prepared-statements: 50
-        max-pool-prepared-statement-per-connection-size: 20
-        ## 过滤器配置
-        filters: stat,wall
+    macula:
+      url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+    gbss:
+      url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false

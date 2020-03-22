@@ -21,7 +21,6 @@ import org.maculaframework.boot.web.config.mvc.MaculaWebMvcConfigurer;
 import org.maculaframework.boot.web.config.mvc.MaculaWebMvcRegistrations;
 import org.maculaframework.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
 import org.maculaframework.boot.web.mvc.convert.NumberToBooleanConverter;
-import org.maculaframework.boot.web.mvc.i18n.TimeZoneController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -67,16 +66,6 @@ public class WebAutoConfiguration {
     @Bean
     public NumberToBooleanConverter numberToBooleanConverter() {
         return new NumberToBooleanConverter();
-    }
-
-    @Bean
-    public BeanNameUrlHandlerMapping beanNameUrlHandlerMapping() {
-        return new BeanNameUrlHandlerMapping();
-    }
-
-    @Bean(name = "/timezone")
-    public TimeZoneController timeZoneController() {
-        return new TimeZoneController();
     }
 
     @Bean

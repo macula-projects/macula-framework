@@ -25,6 +25,7 @@ public class User {
         this.userId = 11L;
         this.name = "name";
         this.address = new Address();
+        this.address.setAddredd("地址测试");
         this.lastName = new String[]{"w", "四川", "~！@#%……&*（）——+{}：“？》:''\">?《~!@#$%^&*()_+{}\\"};
         List<String> lastNameList = new ArrayList<>();
         lastNameList.add("W");

@@ -26,6 +26,7 @@ import org.maculaframework.boot.core.utils.XssCleaner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.jackson.JacksonProperties;
+import org.springframework.core.Ordered;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.util.StringUtils;
 
@@ -42,7 +43,7 @@ import java.util.TimeZone;
  * @author Rain
  * @since 2019-02-23
  */
-public class MaculaJackson2ObjectMapperBuilderCustomizer implements Jackson2ObjectMapperBuilderCustomizer {
+public class MaculaJackson2ObjectMapperBuilderCustomizer implements Jackson2ObjectMapperBuilderCustomizer, Ordered {
 
     @Autowired
     private JacksonProperties jacksonProperties;
@@ -71,6 +72,11 @@ public class MaculaJackson2ObjectMapperBuilderCustomizer implements Jackson2Obje
         if (CoreConfigProperties.isEnableEscapeXss()) {
             builder.serializers(new JsonXssEscapeSerializer());
         }
+    }
+
+    @Override
+    public int getOrder() {
+        return 100;
     }
 
     private static class JsonXssEscapeSerializer extends JsonSerializer<String> {
