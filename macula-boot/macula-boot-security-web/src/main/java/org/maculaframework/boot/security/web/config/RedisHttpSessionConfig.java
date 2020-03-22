@@ -19,7 +19,6 @@ package org.maculaframework.boot.security.web.config;
 import io.lettuce.core.resource.ClientResources;
 import org.maculaframework.boot.core.config.redis.LettuceConnectionConfiguration;
 import org.maculaframework.boot.core.config.redis.MultiRedisProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -55,7 +54,7 @@ public class RedisHttpSessionConfig {
     @Bean(name = "sessionRedisConnectionFactory")
     @ConditionalOnMissingBean(name = "sessionRedisConnectionFactory")
     @SpringSessionRedisConnectionFactory
-    public RedisConnectionFactory cacheRedisConnectionFactory(ClientResources clientResources, MultiRedisProperties multiRedisProperties) {
+    public RedisConnectionFactory sessionRedisConnectionFactory(ClientResources clientResources, MultiRedisProperties multiRedisProperties) {
         LettuceConnectionConfiguration lettuceCfg = new LettuceConnectionConfiguration(multiRedisProperties.getSession());
 
         LettuceClientConfiguration clientConfig = lettuceCfg.getLettuceClientConfiguration(clientResources, multiRedisProperties.getSession().getLettuce().getPool());
