@@ -16,11 +16,14 @@
 
 package org.maculaframework.boot.web.config.mvc;
 
-import org.maculaframework.boot.web.mvc.i18n.TimeZoneHeaderInterceptor;
+import org.maculaframework.boot.core.utils.DateFormatUtils;
+import org.maculaframework.boot.web.mvc.i18n.TimeZoneChangeInterceptor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.BufferedImageHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -32,6 +35,12 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,14 +49,61 @@ import java.util.List;
  */
 public class MaculaWebMvcConfigurer implements WebMvcConfigurer, ApplicationContextAware {
 
+    /**
+     * 默认日期时间格式
+     */
+    public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    /**
+     * 默认日期格式
+     */
+    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+    /**
+     * 默认时间格式
+     */
+    public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
+
     private ApplicationContext applicationContext;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        TimeZoneHeaderInterceptor interceptor = new TimeZoneHeaderInterceptor();
+        TimeZoneChangeInterceptor interceptor = new TimeZoneChangeInterceptor();
         InterceptorRegistration i = registry.addInterceptor(interceptor);
         i.excludePathPatterns("*.gif|*.jpg|*.js|*.png");
     }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        // 设置java8 time和Date默认的日期格式
+        registry.addConverter(new Converter<String, LocalDate>() {
+            @Override
+            public LocalDate convert(String source) {
+                return LocalDate.parse(source, DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT));
+            }
+        });
+        registry.addConverter(new Converter<String, LocalDateTime>() {
+            @Override
+            public LocalDateTime convert(String source) {
+                return LocalDateTime.parse(source, DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT));
+            }
+        });
+        registry.addConverter(new Converter<String, LocalTime>() {
+            @Override
+            public LocalTime convert(String source) {
+                return LocalTime.parse(source, DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT));
+            }
+        });
+        registry.addConverter(new Converter<String, Date>() {
+            @Override
+            public Date convert(String source) {
+                try {
+                    return DateFormatUtils.parseAll(source.trim());
+                } catch (ParseException e) {
+                }
+                return null;
+            }
+        });
+    }
+
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {

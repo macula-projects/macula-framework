@@ -31,14 +31,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.Validator;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-
-import javax.annotation.PostConstruct;
 
 @Configuration
 @AutoConfigureAfter({CoreAutoConfiguration.class})
@@ -81,12 +78,5 @@ public class WebAutoConfiguration {
         initializer.setValidator(validator);
         initializer.setAutoGrowCollectionLimit(1000);
         return initializer;
-    }
-
-    @PostConstruct
-    public void init() {
-        if (StringUtils.isEmpty(webMvcProperties.getDateFormat())) {
-            webMvcProperties.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-        }
     }
 }

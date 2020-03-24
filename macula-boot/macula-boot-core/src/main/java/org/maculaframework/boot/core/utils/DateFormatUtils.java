@@ -53,7 +53,7 @@ public final class DateFormatUtils {
         // nothing
     }
 
-    public synchronized static void setTimeZone(TimeZone timeZone) {
+    public static void setTimeZone(TimeZone timeZone) {
         dateTimeFormat.setTimeZone(timeZone);
         dateFormat.setTimeZone(timeZone);
         timeFormat.setTimeZone(timeZone);
@@ -66,7 +66,7 @@ public final class DateFormatUtils {
      * @param dateString 时期字符串
      * @throws ParseException 解析异常
      */
-    public synchronized static Date parseDate(String dateString) throws ParseException {
+    public static Date parseDate(String dateString) throws ParseException {
         return dateFormat.parse(dateString);
     }
 
@@ -76,7 +76,7 @@ public final class DateFormatUtils {
      * @param dateString 时间字符串
      * @throws ParseException 解析异常
      */
-    public synchronized static Date parseTime(String dateString) throws ParseException {
+    public static Date parseTime(String dateString) throws ParseException {
         return timeFormat.parse(dateString);
     }
 
@@ -86,7 +86,7 @@ public final class DateFormatUtils {
      * @param dateString 日期时间字符串
      * @throws ParseException 解析异常
      */
-    public synchronized static Date parseDateTime(String dateString) throws ParseException {
+    public static Date parseDateTime(String dateString) throws ParseException {
         return dateTimeFormat.parse(dateString);
     }
 
@@ -125,7 +125,7 @@ public final class DateFormatUtils {
      *
      * @param dateString
      */
-    public synchronized static Date parseAll(String dateString) throws ParseException {
+    public static Date parseAll(String dateString) throws ParseException {
         try {
             return parseISO8601(dateString);
         } catch (ParseException ex) {
@@ -146,7 +146,7 @@ public final class DateFormatUtils {
      *
      * @param date
      */
-    public synchronized static String formatDate(Date date) {
+    public static String formatDate(Date date) {
         return dateFormat.format(date);
     }
 
@@ -155,7 +155,7 @@ public final class DateFormatUtils {
      *
      * @param date
      */
-    public synchronized static String formatTime(Date date) {
+    public static String formatTime(Date date) {
         return timeFormat.format(date);
     }
 
@@ -164,7 +164,7 @@ public final class DateFormatUtils {
      *
      * @param date
      */
-    public synchronized static String formatDateTime(Date date) {
+    public static String formatDateTime(Date date) {
         return dateTimeFormat.format(date);
     }
 
@@ -174,7 +174,7 @@ public final class DateFormatUtils {
      * @param date
      * @return iso 8601 string
      */
-    public synchronized static String formatISO8601(Date date) {
+    public static String formatISO8601(Date date) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
         return df.format(date);
@@ -185,7 +185,7 @@ public final class DateFormatUtils {
      *
      * @param date
      */
-    public synchronized static String formatAll(Date date) {
+    public static String formatAll(Date date) {
         if (date instanceof java.sql.Timestamp) {
             return formatDateTime(date);
         } else if (date instanceof java.sql.Time) {

@@ -23,9 +23,13 @@ spring:
       namespace: spring:session:${spring.application.group}
   mvc:
     static-path-pattern: /static/**
+    date-format: yyyy-MM-dd
   h2:
     console:
       enabled: false
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
 
 server:
   servlet:
