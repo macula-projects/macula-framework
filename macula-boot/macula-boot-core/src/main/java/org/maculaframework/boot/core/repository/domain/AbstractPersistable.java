@@ -38,7 +38,7 @@ public abstract class AbstractPersistable<PK extends Serializable> implements Pe
 
     @Id
     @Column(name = "ID", length = 15)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private PK id;
 
     /**
