@@ -25,6 +25,7 @@
         <module>macula-cloud-msg</module>
         <module>macula-cloud-base</module>
         <module>macula-cloud-dubbo</module>
+        <module>macula-cloud-bus</module>
     </modules>
 
 </project>

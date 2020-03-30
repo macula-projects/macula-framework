@@ -12,5 +12,10 @@
 
     <artifactId>macula-cloud-dubbo</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-dubbo</artifactId>
+        </dependency>
+    </dependencies>
 </project>
