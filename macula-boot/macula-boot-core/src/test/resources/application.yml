@@ -42,15 +42,6 @@ macula:
   config:
     enable-escape-xss: true
     escape-xss-level: BASIC
-  uid:
-    time-bits: 29
-    worker-bits: 21
-    seq-bits: 13
-    epoch-str: "2018-11-26"
-    cached-uid-generator:
-      boost-power: 3          # RingBuffer size扩容参数, 可提高UID生成的吞吐量, 默认:3
-      padding-factor: 50      # 指定何时向RingBuffer中填充UID, 取值为百分比(0, 100), 默认为50
-      #schedule-interval: 60  # 默认:不配置此项, 即不实用Schedule线程. 如需使用, 请指定Schedule线程时间间隔, 单位:秒
   datasource:
     druid:
       - name: macula

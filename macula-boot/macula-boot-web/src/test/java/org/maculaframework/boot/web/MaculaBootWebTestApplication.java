@@ -21,7 +21,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * <p>
- * <b>Application</b> 测试WEB启动类
+ * <b>MaculaBootWebTestApplication</b> 测试WEB启动类
  * </p>
  *
  * @author Rain
@@ -29,10 +29,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
-public class BootWebTestApplication {
+public class MaculaBootWebTestApplication {
     public static void main(String[] args) {
 
-        SpringApplication.run(BootWebTestApplication.class, args);
+        SpringApplication.run(MaculaBootWebTestApplication.class, args);
 
     }
 }

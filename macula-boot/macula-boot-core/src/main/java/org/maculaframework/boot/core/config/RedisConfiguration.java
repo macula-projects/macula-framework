@@ -22,6 +22,7 @@ import org.maculaframework.boot.core.config.redis.LettuceConnectionConfiguration
 import org.maculaframework.boot.core.config.redis.MultiRedisProperties;
 import org.maculaframework.boot.core.redis.KryoRedisSerializer;
 import org.maculaframework.boot.core.redis.StringRedisSerializer;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -51,7 +52,7 @@ class RedisConfiguration {
 
     @Bean(name = "cacheRedisConnectionFactory")
     @ConditionalOnMissingBean(name = "cacheRedisConnectionFactory")
-    public RedisConnectionFactory cacheRedisConnectionFactory(ClientResources clientResources, MultiRedisProperties multiRedisProperties) {
+    public RedisConnectionFactory cacheRedisConnectionFactory(RedissonClient redissonClient, MultiRedisProperties multiRedisProperties) {
         LettuceConnectionConfiguration lettuceCfg = new LettuceConnectionConfiguration(multiRedisProperties.getCache());
 
         LettuceClientConfiguration clientConfig = lettuceCfg.getLettuceClientConfiguration(clientResources, multiRedisProperties.getCache().getLettuce().getPool());
