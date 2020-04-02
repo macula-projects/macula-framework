@@ -41,7 +41,7 @@ import java.util.NoSuchElementException;
 
 /**
  * <p>
- * <b>DataSourceConfigurationRegistrar</b>
+ * <b>DataSourceConfigurationRegistrar</b> 根据配置数据源动态注册
  * </p>
  *
  * @author Rain

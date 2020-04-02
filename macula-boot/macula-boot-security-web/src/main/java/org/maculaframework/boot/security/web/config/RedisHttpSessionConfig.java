@@ -17,8 +17,6 @@
 package org.maculaframework.boot.security.web.config;
 
 import io.lettuce.core.resource.ClientResources;
-import org.maculaframework.boot.core.config.redis.LettuceConnectionConfiguration;
-import org.maculaframework.boot.core.config.redis.MultiRedisProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.web.ServerProperties;

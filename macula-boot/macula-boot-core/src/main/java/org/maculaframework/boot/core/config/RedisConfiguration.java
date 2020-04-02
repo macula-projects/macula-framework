@@ -16,20 +16,13 @@
 
 package org.maculaframework.boot.core.config;
 
-import io.lettuce.core.resource.ClientResources;
-import io.lettuce.core.resource.DefaultClientResources;
-import org.maculaframework.boot.core.config.redis.LettuceConnectionConfiguration;
-import org.maculaframework.boot.core.config.redis.MultiRedisProperties;
 import org.maculaframework.boot.core.redis.KryoRedisSerializer;
 import org.maculaframework.boot.core.redis.StringRedisSerializer;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -42,32 +35,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @since 2019-01-31
  */
 @Configuration
-@EnableConfigurationProperties(MultiRedisProperties.class)
 class RedisConfiguration {
-    @Bean(destroyMethod = "shutdown")
-    @ConditionalOnMissingBean(ClientResources.class)
-    public DefaultClientResources lettuceClientResources() {
-        return DefaultClientResources.create();
-    }
-
-    @Bean(name = "cacheRedisConnectionFactory")
-    @ConditionalOnMissingBean(name = "cacheRedisConnectionFactory")
-    public RedisConnectionFactory cacheRedisConnectionFactory(RedissonClient redissonClient, MultiRedisProperties multiRedisProperties) {
-        LettuceConnectionConfiguration lettuceCfg = new LettuceConnectionConfiguration(multiRedisProperties.getCache());
-
-        LettuceClientConfiguration clientConfig = lettuceCfg.getLettuceClientConfiguration(clientResources, multiRedisProperties.getCache().getLettuce().getPool());
-        return lettuceCfg.createLettuceConnectionFactory(clientConfig);
-    }
-
-    /** @EnableRedisRepositories需要的属性配置 */
-    @Bean(name = "dataRedisConnectionFactory")
-    @ConditionalOnMissingBean(name = "dataRedisConnectionFactory")
-    public RedisConnectionFactory dataRedisConnectionFactory(ClientResources clientResources, MultiRedisProperties multiRedisProperties) {
-        LettuceConnectionConfiguration lettuceCfg = new LettuceConnectionConfiguration(multiRedisProperties.getData());
-
-        LettuceClientConfiguration clientConfig = lettuceCfg.getLettuceClientConfiguration(clientResources, multiRedisProperties.getData().getLettuce().getPool());
-        return lettuceCfg.createLettuceConnectionFactory(clientConfig);
-    }
 
     @Bean(name = "redisTemplate")
     @ConditionalOnMissingBean(name = "dataRedisTemplate")
