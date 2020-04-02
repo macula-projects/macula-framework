@@ -62,10 +62,10 @@ public class RedissonClientConfigurationRegistrar implements EnvironmentAware, I
     public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
         log.info("开始注册Redisson");
         try {
-            List<Config> list = binder.bind(MaculaConstants.CONFIG_REDIS_PREFIX, Bindable.listOf(Config.class)).get();
-            for (Config config : list) {
+            List<RedissonConfig> list = binder.bind(MaculaConstants.CONFIG_REDIS_PREFIX, Bindable.listOf(RedissonConfig.class)).get();
+            for (RedissonConfig config : list) {
                 RedissonClient redisson = Redisson.create(config);
-                Object name = dsPropMap.get("name");
+                Object name = config.getName();
                 if (name != null) {
                     String redisConnectionFactoryName = name + "RedisConnectionFactory";
                     if (!beanDefinitionRegistry.containsBeanDefinition(redisConnectionFactoryName)) {
