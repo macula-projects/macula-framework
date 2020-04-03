@@ -33,11 +33,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class LockFactory {
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
     private RedissonClient redissonClient;
 
-    @Autowired
     private LockInfoProvider lockInfoProvider;
+
+    public LockFactory(RedissonClient redissonClient, LockInfoProvider lockInfoProvider) {
+        this.redissonClient = redissonClient;
+        this.lockInfoProvider = lockInfoProvider;
+    }
 
     public Lock getLock(ProceedingJoinPoint joinPoint, Klock klock) {
         LockInfo lockInfo = lockInfoProvider.get(joinPoint, klock);

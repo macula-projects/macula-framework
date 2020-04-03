@@ -67,15 +67,15 @@ public class RedissonClientConfigurationRegistrar implements EnvironmentAware, I
                 RedissonClient redisson = Redisson.create(config);
                 Object name = config.getName();
                 if (name != null) {
-                    String redisConnectionFactoryName = name + "RedisConnectionFactory";
-                    if (!beanDefinitionRegistry.containsBeanDefinition(redisConnectionFactoryName)) {
+                    String redissonClientBeanName = name + "RedissonClient";
+                    if (!beanDefinitionRegistry.containsBeanDefinition(redissonClientBeanName)) {
                         // 注册 redisConnectionFactory
-                        BeanDefinition redissonConnectionFactoryBeanDef = BeanDefinitionBuilder.genericBeanDefinition(RedissonConnectionFactory.class)
+                        BeanDefinition redissonClientBeanDef = BeanDefinitionBuilder.genericBeanDefinition(RedissonClientFactoryBean.class)
                             .setDestroyMethodName("destroy")
                             .addConstructorArgValue(redisson)
                             .getBeanDefinition();
 
-                        beanDefinitionRegistry.registerBeanDefinition(redisConnectionFactoryName, redissonConnectionFactoryBeanDef);
+                        beanDefinitionRegistry.registerBeanDefinition(redissonClientBeanName, redissonClientBeanDef);
                     }
                 }
             }

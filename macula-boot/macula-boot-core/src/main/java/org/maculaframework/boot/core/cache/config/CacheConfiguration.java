@@ -21,6 +21,9 @@ import org.maculaframework.boot.core.cache.manager.CacheManager;
 import org.maculaframework.boot.core.cache.manager.LayeringCacheManager;
 import org.maculaframework.boot.core.redis.KryoRedisSerializer;
 import org.maculaframework.boot.core.redis.StringRedisSerializer;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.spring.data.connection.RedissonConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +42,19 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 @Configuration
 public class CacheConfiguration {
+    @Bean
+    @ConditionalOnMissingBean(name = "cacheRedissonClient")
+    public RedissonClient cacheRedissonClient() {
+        // 当什么都没有配置时默认连接本地redis
+        return Redisson.create();
+    }
+
+    @Bean(name = "cacheRedisConnectionFactory")
+    @ConditionalOnMissingBean(name = "cacheRedisConnectionFactory")
+    public RedisConnectionFactory cacheRedisConnectionFactory(@Qualifier("cacheRedissonClient") RedissonClient redissonClient) {
+        return new RedissonConnectionFactory(redissonClient);
+    }
+
     @Bean(name = "cacheRedisTemplate")
     @ConditionalOnMissingBean(name = "cacheRedisTemplate")
     public RedisTemplate<String, Object> cacheRedisTemplate(@Qualifier("cacheRedisConnectionFactory") RedisConnectionFactory cacheRedisConnectionFactory) {

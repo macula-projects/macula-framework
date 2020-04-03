@@ -56,7 +56,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @AutoConfigureBefore({MessageSourceAutoConfiguration.class, RedisAutoConfiguration.class,
         DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, })
 @Import({MessageSourceConfiguration.class, ExceptionConfiguration.class,
-        RedisConfiguration.class, CacheConfiguration.class, KlockConfiguration.class,
+        RedisConfiguration.class, CacheConfiguration.class, DataRedisConfiguration.class, KlockConfiguration.class,
         DataSourceConfiguration.class, JpaRepositoriesConfiguration.class, ModelMapperConfiguration.class})
 public class CoreAutoConfiguration implements ApplicationContextAware {
 

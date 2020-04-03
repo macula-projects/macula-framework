@@ -49,11 +49,10 @@ macula:
     - name: data
       single-server-config:
         address: redis://localhost:6379
-    - name: klock
-      single-server-config:
-        address: redis://localhost:6379
-      #cluster-server:
-      #  node-addresses: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005
+  klock:
+    address: redis://localhost:6379
+    #cluster-server:
+    #  node-addresses: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005
   datasource:
     druid:
       - name: macula

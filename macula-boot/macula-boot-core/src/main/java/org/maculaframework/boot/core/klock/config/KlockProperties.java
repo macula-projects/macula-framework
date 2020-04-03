@@ -23,11 +23,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Created by kl on 2017/12/29.
  * @author kl
  */
-@ConfigurationProperties(prefix = "macula.redis.klock")
+@ConfigurationProperties(prefix = "macula.klock")
 @Data
 public class KlockProperties {
 
-    private String address;
+    private String address = "redis://127.0.0.1:6379";
     private String password;
     private int database = 15;
     private ClusterServer clusterServer;

@@ -16,7 +16,9 @@
 
 package org.maculaframework.boot.security.web.config;
 
-import io.lettuce.core.resource.ClientResources;
+import org.redisson.api.RedissonClient;
+import org.redisson.spring.data.connection.RedissonConnectionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -25,7 +27,6 @@ import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.session.data.redis.config.annotation.SpringSessionRedisConnectionFactory;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.session.web.http.DefaultCookieSerializer;
@@ -52,11 +53,8 @@ public class RedisHttpSessionConfig {
     @Bean(name = "sessionRedisConnectionFactory")
     @ConditionalOnMissingBean(name = "sessionRedisConnectionFactory")
     @SpringSessionRedisConnectionFactory
-    public RedisConnectionFactory sessionRedisConnectionFactory(ClientResources clientResources, MultiRedisProperties multiRedisProperties) {
-        LettuceConnectionConfiguration lettuceCfg = new LettuceConnectionConfiguration(multiRedisProperties.getSession());
-
-        LettuceClientConfiguration clientConfig = lettuceCfg.getLettuceClientConfiguration(clientResources, multiRedisProperties.getSession().getLettuce().getPool());
-        return lettuceCfg.createLettuceConnectionFactory(clientConfig);
+    public RedisConnectionFactory sessionRedisConnectionFactory(@Qualifier("sessionRedissonClient") RedissonClient redissonClient) {
+        return new RedissonConnectionFactory(redissonClient);
     }
 
     @Bean

@@ -16,12 +16,19 @@
 
 package org.maculaframework.boot.core.config;
 
+import org.maculaframework.boot.core.config.jdbc.DataSourceConfigurationRegistrar;
+import org.maculaframework.boot.core.config.redis.RedissonClientConfigurationRegistrar;
 import org.maculaframework.boot.core.redis.KryoRedisSerializer;
 import org.maculaframework.boot.core.redis.StringRedisSerializer;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.spring.data.connection.RedissonConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -35,31 +42,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @since 2019-01-31
  */
 @Configuration
+@Import({RedissonClientConfigurationRegistrar.class})
 class RedisConfiguration {
 
-    @Bean(name = "redisTemplate")
-    @ConditionalOnMissingBean(name = "dataRedisTemplate")
-    public RedisTemplate<String, Object> dataRedisTemplate(@Qualifier("dataRedisConnectionFactory") RedisConnectionFactory dataRedisConnectionFactory) {
-        // TODO 读取配置好点（Class）
-        KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(new Class<?> [] { Object.class});
-
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(dataRedisConnectionFactory);
-
-        // 设置值（value）的序列化采用FastJsonRedisSerializer。
-        template.setValueSerializer(kryoRedisSerializer);
-        template.setHashValueSerializer(kryoRedisSerializer);
-        // 设置键（key）的序列化采用StringRedisSerializer。
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setHashKeySerializer(new StringRedisSerializer());
-        return template;
-    }
-
-    @Bean(name = "stringRedisTemplate")
-    @ConditionalOnMissingBean(name = "stringDataRedisTemplate")
-    public StringRedisTemplate dataStringRedisTemplate(@Qualifier("dataRedisConnectionFactory") RedisConnectionFactory dataRedisConnectionFactory) {
-        StringRedisTemplate template = new StringRedisTemplate();
-        template.setConnectionFactory(dataRedisConnectionFactory);
-        return template;
-    }
 }
