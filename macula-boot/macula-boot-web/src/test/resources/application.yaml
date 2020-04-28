@@ -2,10 +2,10 @@ spring:
   profiles:
     active: dev
   application:
-    name: MACULA
     group: MACULA
+    name: macula-boot-web
   messages:
-    basename: classpath*:i18n/messages,classpath*i18n/validation
+    basename: classpath*:i18n/**/messages,classpath*:i18n/**/validation
   jpa:
     generate-ddl: false
     show-sql: false
@@ -42,12 +42,12 @@ macula:
   redis:
     - name: cache
       single-server-config:
-        address: redis://localhost:6379
+        address: ${macula.redis.cache.url}
     - name: data
       single-server-config:
-        address: redis://localhost:6379
+        address: ${macula.redis.data.url}
   klock:
-    address: redis://localhost:6379
+    address: ${macula.redis.klock.url}
     #cluster-server:
     #  node-addresses: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005
   datasource:
@@ -55,8 +55,8 @@ macula:
       - name: macula
         ## JDBC配置
         url: ${macula.datasource.macula.url}
-        username: root
-        password:
+        username: ${macula.datasource.macula.username}
+        password: ${macula.datasource.macula.password}
         ## 连接池配置
         max-active: 100
         initial-size: 1
@@ -76,8 +76,8 @@ macula:
       - name: gbss
         ## JDBC配置
         url: ${macula.datasource.gbss.url}
-        username: root
-        password:
+        username: ${macula.datasource.gbss.username}
+        password: ${macula.datasource.gbss.password}
         ## 连接池配置
         max-active: 100
         initial-size: 1
@@ -111,18 +111,40 @@ spring:
     show-sql: true
 
 macula:
+  redis:
+    cache:
+      url: redis://localhost:6379
+    data:
+      url: redis://localhost:6379
+    klock:
+      url: redis://localhost:6379
   datasource:
     macula:
       url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+      username: root
+      password:
     gbss:
       url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+      username: root
+      password:
 ---
 spring:
   profiles: test
 
 macula:
+  redis:
+    cache:
+      url: redis://localhost:6379
+    data:
+      url: redis://localhost:6379
+    klock:
+      url: redis://localhost:6379
   datasource:
     macula:
       url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+      username: root
+      password:
     gbss:
       url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+      username: root
+      password:

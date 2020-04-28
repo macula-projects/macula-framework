@@ -1,0 +1,3 @@
+consumerAttachmentFilter=org.macula.cloud.dubbo.rpc.filter.ConsumerAttachmentFilter
+providerAttachmentFilter=org.macula.cloud.dubbo.rpc.filter.ProviderAttachmentFilter
+exceptionFilter=org.macula.cloud.dubbo.rpc.filter.ExceptionFilter

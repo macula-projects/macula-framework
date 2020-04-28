@@ -17,5 +17,10 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-dubbo</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.maculaframework</groupId>
+            <artifactId>macula-boot-core</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 </project>

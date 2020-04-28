@@ -13,5 +13,23 @@
 
     <artifactId>macula-samples-web</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.maculaframework</groupId>
+            <artifactId>macula-samples-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.maculaframework</groupId>
+            <artifactId>macula-cloud-nacos</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.maculaframework</groupId>
+            <artifactId>macula-cloud-dubbo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.maculaframework</groupId>
+            <artifactId>macula-boot-web</artifactId>
+        </dependency>
+    </dependencies>
 </project>

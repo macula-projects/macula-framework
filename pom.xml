@@ -22,6 +22,7 @@
         <module>macula-docs</module>
         <module>macula-parent</module>
         <module>macula-samples</module>
+        <module>macula-samples</module>
     </modules>
 
 </project>
