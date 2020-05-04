@@ -62,7 +62,7 @@ public class DataSourceConfigurationRegistrar implements EnvironmentAware, Impor
         try {
             List<Map> list = binder.bind(MaculaConstants.CONFIG_DATASOURCE_PREFIX, Bindable.listOf(Map.class)).get();
 
-            JdbcProperties jdbcProperties = binder.bind("spring.jdbc", JdbcProperties.class).get();
+            JdbcProperties jdbcProperties = binder.bind("spring.jdbc", JdbcProperties.class).orElse(new JdbcProperties());
 
             for (Map dsPropMap : list) {
                 Object name = dsPropMap.get("name");

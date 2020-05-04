@@ -130,8 +130,6 @@ spring:
     show-sql: false
 
 macula:
-  nacos:
-    url: 127.0.0.1:8848
   redis:
     cache:
       url: redis://localhost:6379
@@ -144,3 +142,5 @@ macula:
       url: jdbc:mysql://127.0.0.1:3306/macula-samples?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
       username: root
       password:
+  nacos:
+    url: 127.0.0.1:8848

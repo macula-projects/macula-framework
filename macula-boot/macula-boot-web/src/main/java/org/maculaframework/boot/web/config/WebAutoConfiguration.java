@@ -22,6 +22,7 @@ import org.maculaframework.boot.web.config.mvc.MaculaWebMvcRegistrations;
 import org.maculaframework.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
 import org.maculaframework.boot.web.mvc.convert.NumberToBooleanConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -71,7 +72,7 @@ public class WebAutoConfiguration {
     }
 
     @Bean
-    public ConfigurableWebBindingInitializer configurableWebBindingInitializer(ConversionService conversionService,
+    public ConfigurableWebBindingInitializer configurableWebBindingInitializer(@Qualifier("mvcConversionService") ConversionService conversionService,
                                                                                Validator validator) {
         ConfigurableWebBindingInitializer initializer = new ConfigurableWebBindingInitializer();
         initializer.setConversionService(conversionService);
