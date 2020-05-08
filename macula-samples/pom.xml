@@ -24,6 +24,11 @@
         <module>macula-samples-stream-proceduer</module>
         <module>macula-samples-bus</module>
         <module>macula-samples-bus2</module>
+        <module>macula-samples-sentinel</module>
+        <module>macula-samples-seata-account</module>
+        <module>macula-samples-seata-storage</module>
+        <module>macula-samples-seata-order</module>
+        <module>macula-samples-seata-business</module>
     </modules>
 
 </project>

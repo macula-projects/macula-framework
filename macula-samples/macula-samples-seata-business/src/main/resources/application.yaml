@@ -1,0 +1,134 @@
+spring:
+  profiles:
+    active: dev
+  # 应用配置
+  application:
+    group: MACULA
+    name: macula-samples-seata-business
+  messages:
+    basename: classpath*:i18n/**/messages,classpath*:i18n/**/validation
+  jpa:
+    generate-ddl: false
+    show-sql: false
+    hibernate:
+      ddl-auto: create-drop
+  jdbc:
+    template:
+      fetch-size: -1
+      max-rows: -1
+  h2:
+    console:
+      enabled: false
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  ##########for dubbo##########
+  main:
+    # Spring Boot 2.1 及以上需要设定
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      # Nacos 服务发现与注册配置
+      discovery:
+        server-addr: ${macula.nacos.url}
+    zookeeper:
+      enabled: false
+    consul:
+      enabled: false
+eureka:
+  client:
+    enabled: false
+
+server:
+  port: 18081
+
+macula:
+  redis:
+    - name: cache
+      single-server-config:
+        address: ${macula.redis.cache.url}
+    - name: data
+      single-server-config:
+        address: ${macula.redis.data.url}
+  klock:
+    address: ${macula.redis.klock.url}
+    #cluster-server:
+    #  node-addresses: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005
+  datasource:
+    druid:
+      - name: macula-samples
+        ## JDBC配置
+        url: ${macula.datasource.macula-samples.url}
+        username: ${macula.datasource.macula-samples.username}
+        password: ${macula.datasource.macula-samples.password}
+        ## 连接池配置
+        max-active: 100
+        initial-size: 1
+        max-wait: 60000
+        min-idle: 1
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: select '1'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: true
+        max-open-prepared-statements: 50
+        max-pool-prepared-statement-per-connection-size: 20
+        ## 过滤器配置
+        filters: stat,wall
+  jpa:
+    repositories:
+      - name: macula-samples
+        entity-packages: org.macula.samples
+        repository-packages: org.macula.samples
+        service-package: org.macula.samples
+
+###########dubbo配置###############
+dubbo:
+  registry:
+    # 挂载到 Spring Cloud 注册中心
+    address: spring-cloud://localhost
+  cloud:
+    subscribed-services: none
+  scan:
+    # dubbo 服务扫描基准包
+    base-packages: org.macula.samples
+  protocol:
+    # dubbo 协议
+    name: dubbo
+    # dubbo 协议端口（ -1 表示自增端口，从 20880 开始）
+    port: -1
+
+###########seata配置##############
+seata:
+  enabled: true
+  tx-service-group: business_service
+  service:
+    vgroup-mapping:
+      business_service: default
+  grouplist:
+    default: 127.0.0.1:8091
+  disable-global-transaction: false
+
+---
+spring:
+  profiles: dev
+  jpa:
+    show-sql: false
+
+macula:
+  redis:
+    cache:
+      url: redis://localhost:6379
+    data:
+      url: redis://localhost:6379
+    klock:
+      url: redis://localhost:6379
+  datasource:
+    macula-samples:
+      url: jdbc:mysql://127.0.0.1:3306/macula-samples?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+      username: root
+      password:
+  nacos:
+    url: 127.0.0.1:8848
