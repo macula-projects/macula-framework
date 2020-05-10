@@ -91,11 +91,8 @@ public class MaculaJpaRepositoriesConfigurationRegistar extends AbstractReposito
 
         // 注册各持久化层相关的Bean(EntityManagerFactory, TransactionManager，TxAdvice，TxAdvisor)
 
-        // 注册EntityManagerFactoryBeanBuilder
-        DataSource dataSource = beanFactory.getBean(dataSourceBeanName, DataSource.class);
-
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(EntityManagerFactoryBeanBuilder.class);
-        builder.addConstructorArgValue(dataSource);
+        builder.addConstructorArgReference(dataSourceBeanName);
         builder.addConstructorArgValue(repositoryConfig);
         registry.registerBeanDefinition("entityManagerFactoryBeanBuilder-" + name, builder.getBeanDefinition());
 

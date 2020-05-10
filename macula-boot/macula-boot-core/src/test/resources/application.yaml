@@ -24,9 +24,6 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
 macula:
-  config:
-    enable-escape-xss: true
-    escape-xss-level: BASIC
   redis:
     - name: cache
       single-server-config:
