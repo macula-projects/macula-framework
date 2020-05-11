@@ -90,7 +90,8 @@ public class EntityManagerFactoryBeanBuilder {
         return getEntityManagerFactoryBuilder()
                 .dataSource(dataSource)
                 .properties(getVendorProperties())
-                .packages(repositoryConfig.getEntityPackages()) //设置实体类所在位置
+                // 设置实体类所在位置
+                .packages(repositoryConfig.getEntityPackages())
                 .persistenceUnit(repositoryConfig.getName())
                 .build();
     }

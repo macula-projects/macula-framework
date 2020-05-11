@@ -88,7 +88,7 @@ public abstract class AbstractRepositoryConfigurationSourceSupport implements Be
 
     private AnnotationRepositoryConfigurationSource getConfigurationSource(RepositoryConfig repositoryConfig, BeanDefinitionRegistry beanDefinitionRegistry) {
 
-        StandardAnnotationMetadata metadata = new StandardAnnotationMetadata(getConfiguration(), true);
+        AnnotationMetadata metadata = AnnotationMetadata.introspect(getConfiguration());
 
         return new MaculaAnnotationRepositoryConfigurationSource(metadata, getAnnotation(),
                 this.resourceLoader, this.environment, beanDefinitionRegistry, repositoryConfig) {
