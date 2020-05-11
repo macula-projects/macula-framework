@@ -161,12 +161,5 @@
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
         </dependency>
-
-        <!-- seata optional -->
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-            <optional>true</optional>
-        </dependency>
     </dependencies>
 </project>
