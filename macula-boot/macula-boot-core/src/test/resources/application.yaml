@@ -26,15 +26,19 @@ spring:
 macula:
   redis:
     - name: cache
+    #  cluster-servers-config:
+    #    node-addresses: ${macula.redis.cache.url}
       single-server-config:
         address: ${macula.redis.cache.url}
     - name: data
+    #  cluster-servers-config:
+    #    node-addresses: ${macula.redis.cache.url}
       single-server-config:
         address: ${macula.redis.data.url}
   klock:
     address: ${macula.redis.klock.url}
     #cluster-server:
-    #  node-addresses: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005
+    #  node-addresses: ${macula.redis.klock.url}
   datasource:
     druid:
       - name: macula
@@ -97,10 +101,13 @@ spring:
 macula:
   redis:
     cache:
+      #url: redis://10.87.132.158:6380, redis://10.87.132.159:6380, redis://10.87.132.160:6380, redis://10.87.132.161:6380, redis://10.87.132.163:6380, redis://10.87.132.162:6380
       url: redis://localhost:6379
     data:
+      #url: redis://10.87.132.158:6380, redis://10.87.132.159:6380, redis://10.87.132.160:6380, redis://10.87.132.161:6380, redis://10.87.132.163:6380, redis://10.87.132.162:6380
       url: redis://localhost:6379
     klock:
+      #url: redis://10.87.132.158:6380, redis://10.87.132.159:6380, redis://10.87.132.160:6380, redis://10.87.132.161:6380, redis://10.87.132.163:6380, redis://10.87.132.162:6380
       url: redis://localhost:6379
   datasource:
     macula:

@@ -29,7 +29,7 @@
         <jsoup.version>1.11.3</jsoup.version>
         <druid.version>1.1.14</druid.version>
         <dubbo.version>2.7.5</dubbo.version>
-        <redisson.version>3.12.4</redisson.version>
+        <redisson.version>3.13.0</redisson.version>
         <modelmapper.version>2.3.0</modelmapper.version>
         <jasypt-spring-boot.version>2.1.1</jasypt-spring-boot.version>
     </properties>

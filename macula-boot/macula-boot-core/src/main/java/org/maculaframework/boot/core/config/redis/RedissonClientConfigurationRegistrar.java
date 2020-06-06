@@ -53,7 +53,6 @@ import java.util.Map;
 @Slf4j
 public class RedissonClientConfigurationRegistrar implements EnvironmentAware, ImportBeanDefinitionRegistrar {
 
-    private final static ConfigurationPropertyNameAliases aliases = new ConfigurationPropertyNameAliases();
     private Environment env;
     private Binder binder;
 

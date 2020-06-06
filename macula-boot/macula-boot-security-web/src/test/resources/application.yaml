@@ -46,6 +46,9 @@ macula:
     - name: data
       single-server-config:
         address: ${macula.redis.data.url}
+    - name: session
+      single-server-config:
+        address: ${macula.redis.data.url}
   klock:
     address: ${macula.redis.klock.url}
     #cluster-server:

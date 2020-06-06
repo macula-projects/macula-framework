@@ -47,16 +47,6 @@ public abstract class SecurityUtils {
         SecurityContextHolder.getContext().setAuthentication(null);
     }
 
-    public static void configureAuthentication(String... role) {
-        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(role);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                "user",
-                role,
-                authorities
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-
     /**
      * 获取当前登录用户信息
      * @return 返回继承自UserDetails的用户信息

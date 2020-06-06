@@ -51,7 +51,6 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class DataSourceConfigurationRegistrar implements EnvironmentAware, ImportBeanDefinitionRegistrar {
 
-    private final static ConfigurationPropertyNameAliases aliases = new ConfigurationPropertyNameAliases();
     private Environment env;
     private Binder binder;
 
