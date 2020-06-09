@@ -85,6 +85,10 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests(authorize -> authorize
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/static/**").permitAll()
+                .antMatchers("/js/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/img/**").permitAll()
+                .antMatchers("assets/**").permitAll()
                 .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2
