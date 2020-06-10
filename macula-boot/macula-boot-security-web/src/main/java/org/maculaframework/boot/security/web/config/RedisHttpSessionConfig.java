@@ -18,6 +18,7 @@ package org.maculaframework.boot.security.web.config;
 
 import org.redisson.api.RedissonClient;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
+import org.redisson.spring.session.RedissonSessionRepository;
 import org.redisson.spring.session.config.EnableRedissonHttpSession;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,15 +26,21 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportAware;
+import org.springframework.core.annotation.AnnotationAttributes;
+import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.session.config.annotation.web.http.SpringHttpSessionConfiguration;
 import org.springframework.session.data.redis.config.annotation.SpringSessionRedisConnectionFactory;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -45,19 +52,23 @@ import org.springframework.util.StringUtils;
  */
 
 @Configuration
-@EnableRedisHttpSession
-public class RedisHttpSessionConfig {
+public class RedisHttpSessionConfig extends SpringHttpSessionConfiguration {
 
     private static final String REMEMBER_ME_SERVICES_CLASS = "org.springframework.security.web.authentication.RememberMeServices";
 
     @Value("${server.servlet.session.cookie.domain-name-pattern}")
     private String domainNamePattern;
+    @Value("${spring.session.redis.maxInactiveIntervalInSeconds:1800}")
+    private Integer maxInactiveIntervalInSeconds;
+    @Value("${spring.session.redis.namespace:spring:session:}")
+    private String keyPrefix;
 
-    @Bean(name = "sessionRedisConnectionFactory")
-    @ConditionalOnMissingBean(name = "sessionRedisConnectionFactory")
-    @SpringSessionRedisConnectionFactory
-    public RedisConnectionFactory sessionRedisConnectionFactory(@Qualifier("sessionRedissonClient") RedissonClient redissonClient) {
-        return new RedissonConnectionFactory(redissonClient);
+    @Bean
+    public RedissonSessionRepository sessionRepository(
+        @Qualifier("sessionRedissonClient")RedissonClient redissonClient, ApplicationEventPublisher eventPublisher) {
+        RedissonSessionRepository repository = new RedissonSessionRepository(redissonClient, eventPublisher, keyPrefix);
+        repository.setDefaultMaxInactiveInterval(maxInactiveIntervalInSeconds);
+        return repository;
     }
 
     @Bean
@@ -81,5 +92,4 @@ public class RedisHttpSessionConfig {
         }
         return cookieSerializer;
     }
-
 }
