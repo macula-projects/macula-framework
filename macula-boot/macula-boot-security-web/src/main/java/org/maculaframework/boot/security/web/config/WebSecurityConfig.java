@@ -48,7 +48,6 @@ import org.springframework.session.security.SpringSessionBackedSessionRegistry;
  * @since 2019-06-20
  */
 @Configuration
-@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final WebConfigProperties webConfigProperties;

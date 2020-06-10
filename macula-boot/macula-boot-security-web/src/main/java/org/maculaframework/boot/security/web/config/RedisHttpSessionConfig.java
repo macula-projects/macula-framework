@@ -18,6 +18,7 @@ package org.maculaframework.boot.security.web.config;
 
 import org.redisson.api.RedissonClient;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
+import org.redisson.spring.session.config.EnableRedissonHttpSession;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -28,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.session.data.redis.config.annotation.SpringSessionRedisConnectionFactory;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.util.ClassUtils;
@@ -43,6 +45,7 @@ import org.springframework.util.StringUtils;
  */
 
 @Configuration
+@EnableRedisHttpSession
 public class RedisHttpSessionConfig {
 
     private static final String REMEMBER_ME_SERVICES_CLASS = "org.springframework.security.web.authentication.RememberMeServices";

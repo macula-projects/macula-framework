@@ -9,7 +9,7 @@ spring:
     stream:
       rocketmq:
         binder:
-          name-server: 127.0.0.1:9876
+          name-server: ${macula.rocketmq.url}
         bindings:
           input1:
             consumer:
@@ -98,4 +98,4 @@ macula:
       username: root
       password:
   rocketmq:
-    url: 192.168.1.44:9876
+    url: 127.0.0.1:9876

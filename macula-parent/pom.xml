@@ -32,6 +32,7 @@
         <redisson.version>3.13.0</redisson.version>
         <modelmapper.version>2.3.0</modelmapper.version>
         <jasypt-spring-boot.version>2.1.1</jasypt-spring-boot.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
     </properties>
 
     <dependencies>
@@ -175,7 +176,11 @@
                 <artifactId>javase</artifactId>
                 <version>${zxing.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.github.penggle</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
