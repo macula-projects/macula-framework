@@ -17,7 +17,6 @@
 package org.maculaframework.boot.core.config;
 
 import org.maculaframework.boot.core.redis.KryoRedisSerializer;
-import org.maculaframework.boot.core.redis.StringRedisSerializer;
 import org.redisson.api.RedissonClient;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +27,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
  * <p>
@@ -61,8 +61,8 @@ public class DataRedisConfiguration {
         template.setValueSerializer(kryoRedisSerializer);
         template.setHashValueSerializer(kryoRedisSerializer);
         // 设置键（key）的序列化采用StringRedisSerializer。
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setHashKeySerializer(new StringRedisSerializer());
+        template.setKeySerializer(RedisSerializer.string());
+        template.setHashKeySerializer(RedisSerializer.string());
         return template;
     }
 

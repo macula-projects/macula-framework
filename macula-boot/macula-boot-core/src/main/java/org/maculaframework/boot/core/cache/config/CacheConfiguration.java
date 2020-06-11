@@ -20,7 +20,6 @@ import org.maculaframework.boot.core.cache.aspect.LayeringAspect;
 import org.maculaframework.boot.core.cache.manager.CacheManager;
 import org.maculaframework.boot.core.cache.manager.LayeringCacheManager;
 import org.maculaframework.boot.core.redis.KryoRedisSerializer;
-import org.maculaframework.boot.core.redis.StringRedisSerializer;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
@@ -30,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
  * <p>
@@ -67,8 +67,8 @@ public class CacheConfiguration {
         template.setValueSerializer(kryoRedisSerializer);
         template.setHashValueSerializer(kryoRedisSerializer);
         // 设置键（key）的序列化采用StringRedisSerializer。
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setHashKeySerializer(new StringRedisSerializer());
+        template.setKeySerializer(RedisSerializer.string());
+        template.setHashKeySerializer(RedisSerializer.string());
         return template;
     }
 
