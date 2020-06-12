@@ -19,21 +19,14 @@
  */
 package org.maculaframework.boot.core.repository.jpa.support.domain;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.maculaframework.boot.core.repository.domain.AbstractAuditable;
+
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * <p>

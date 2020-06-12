@@ -18,28 +18,19 @@ package org.maculaframework.boot.core.config.redis;
 
 import lombok.extern.slf4j.Slf4j;
 import org.maculaframework.boot.MaculaConstants;
-import org.maculaframework.boot.core.config.jdbc.DruidDataSourceWrapper;
-import org.maculaframework.boot.core.utils.StringUtils;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
-import org.redisson.config.Config;
-import org.redisson.spring.data.connection.RedissonConnectionFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.boot.autoconfigure.jdbc.JdbcProperties;
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
-import org.springframework.boot.context.properties.source.ConfigurationPropertyNameAliases;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>

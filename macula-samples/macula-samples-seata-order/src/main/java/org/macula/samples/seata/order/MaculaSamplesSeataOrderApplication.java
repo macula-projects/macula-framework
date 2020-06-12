@@ -22,8 +22,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-import javax.crypto.Mac;
-
 /**
  * <p>
  * <b>MaculaSamplesSeataOrderApplication</b> Order服务

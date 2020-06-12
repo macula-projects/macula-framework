@@ -18,7 +18,6 @@ package org.maculaframework.boot.security.web.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
-import lombok.extern.apachecommons.CommonsLog;
 import lombok.extern.slf4j.Slf4j;
 import org.maculaframework.boot.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;

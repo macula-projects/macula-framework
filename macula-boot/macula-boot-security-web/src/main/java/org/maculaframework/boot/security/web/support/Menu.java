@@ -18,7 +18,6 @@ package org.maculaframework.boot.security.web.support;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.http.HttpMethod;
 
 import java.util.List;
 

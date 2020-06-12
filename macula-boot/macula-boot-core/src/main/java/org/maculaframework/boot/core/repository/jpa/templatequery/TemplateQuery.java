@@ -22,8 +22,6 @@ import org.maculaframework.boot.core.repository.jpa.templatequery.template.Freem
 import org.maculaframework.boot.core.utils.AopTargetUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.query.*;
-import org.springframework.data.repository.query.ParameterAccessor;
-import org.springframework.data.repository.query.ParametersParameterAccessor;
 import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.CollectionUtils;

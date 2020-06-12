@@ -19,7 +19,7 @@
  */
 package org.maculaframework.boot.utils.zxing;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * <p>

@@ -17,7 +17,6 @@
 package org.maculaframework.boot.security.web;
 
 import org.maculaframework.boot.security.web.support.Menu;
-import org.maculaframework.boot.security.web.support.Role;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;

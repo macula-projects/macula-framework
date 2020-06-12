@@ -15,11 +15,11 @@
  */
 package org.maculaframework.boot.vo;
 
-import java.util.List;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * <p> <b>PageResponse</b> 是数据集的Result实现. </p>

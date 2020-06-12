@@ -20,8 +20,8 @@ import org.hibernate.PessimisticLockException;
 import org.hibernate.QueryTimeoutException;
 import org.hibernate.exception.*;
 import org.maculaframework.boot.core.exception.HibernateDataAccessException;
-import org.maculaframework.boot.core.utils.ExceptionUtils;
 import org.maculaframework.boot.core.exception.MaculaException;
+import org.maculaframework.boot.core.utils.ExceptionUtils;
 
 import java.sql.BatchUpdateException;
 

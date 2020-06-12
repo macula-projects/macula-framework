@@ -15,16 +15,15 @@
  */
 package org.maculaframework.boot.core.repository.domain;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Optional;
+import org.springframework.data.domain.Auditable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-
-import org.springframework.data.domain.Auditable;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * Abstract base class for auditable entities. Stores the audition values in

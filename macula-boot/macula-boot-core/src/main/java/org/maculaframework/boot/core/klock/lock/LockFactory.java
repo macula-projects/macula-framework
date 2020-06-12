@@ -23,7 +23,6 @@ import org.maculaframework.boot.core.klock.model.LockInfo;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by kl on 2017/12/29.

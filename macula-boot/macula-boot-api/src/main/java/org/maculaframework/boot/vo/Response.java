@@ -15,12 +15,12 @@
  */
 package org.maculaframework.boot.vo;
 
+import lombok.Data;
+import org.maculaframework.boot.core.exception.MaculaException;
+import org.maculaframework.boot.core.exception.ServiceException;
+
 import java.io.Serializable;
 import java.util.List;
-
-import lombok.Data;
-import org.maculaframework.boot.core.exception.ServiceException;
-import org.maculaframework.boot.core.exception.MaculaException;
 
 /**
  * <p>

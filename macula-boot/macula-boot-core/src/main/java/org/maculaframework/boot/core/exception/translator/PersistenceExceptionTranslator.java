@@ -16,8 +16,8 @@
 package org.maculaframework.boot.core.exception.translator;
 
 import org.maculaframework.boot.core.exception.JpaDataAccessException;
-import org.maculaframework.boot.core.utils.ExceptionUtils;
 import org.maculaframework.boot.core.exception.MaculaException;
+import org.maculaframework.boot.core.utils.ExceptionUtils;
 
 import javax.persistence.*;
 

@@ -15,9 +15,6 @@
  */
 package org.maculaframework.boot.security.web.exception;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.maculaframework.boot.ApplicationContext;
 import org.maculaframework.boot.core.exception.MaculaException;
 import org.springframework.util.StringUtils;
@@ -27,6 +24,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p> <b>OpenApiAuthenticationException</b> OpenAPI认证异常 </p>

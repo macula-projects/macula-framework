@@ -19,14 +19,14 @@
  */
 package org.maculaframework.boot.core.repository.jpa.templatequery;
 
-import java.lang.reflect.Method;
-
 import org.maculaframework.boot.core.repository.jpa.TemplateQuery;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.data.jpa.provider.QueryExtractor;
 import org.springframework.data.jpa.repository.query.JpaQueryMethod;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.repository.core.RepositoryMetadata;
+
+import java.lang.reflect.Method;
 
 /**
  * <p>

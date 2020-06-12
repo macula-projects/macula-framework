@@ -15,7 +15,6 @@
  */
 package org.maculaframework.boot.core.repository.jpa.support.domain;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;

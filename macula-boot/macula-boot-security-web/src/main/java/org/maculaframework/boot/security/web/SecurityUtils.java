@@ -17,13 +17,8 @@
 package org.maculaframework.boot.security.web;
 
 import org.maculaframework.boot.security.web.support.User;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.util.Collection;
 
 /**
  * <p>

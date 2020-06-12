@@ -15,12 +15,12 @@
  */
 package org.maculaframework.boot.security.web.config;
 
-import org.maculaframework.boot.security.web.filter.OrderedExceptionNegotiateFilter;
-import org.maculaframework.boot.web.config.WebConfigProperties;
-import org.maculaframework.boot.security.web.filter.KaptchaAuthenticationFilter;
 import org.maculaframework.boot.security.web.access.vote.MaculaRoleVoter;
-import org.maculaframework.boot.security.web.interceptor.UrlRegexFilterInvocationSecurityMetadataSource;
+import org.maculaframework.boot.security.web.filter.KaptchaAuthenticationFilter;
+import org.maculaframework.boot.security.web.filter.OrderedExceptionNegotiateFilter;
 import org.maculaframework.boot.security.web.interceptor.DelegatingFilterInvocationSecurityMetadataSource;
+import org.maculaframework.boot.security.web.interceptor.UrlRegexFilterInvocationSecurityMetadataSource;
+import org.maculaframework.boot.web.config.WebConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +28,6 @@ import org.springframework.security.access.vote.AbstractAccessDecisionManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;

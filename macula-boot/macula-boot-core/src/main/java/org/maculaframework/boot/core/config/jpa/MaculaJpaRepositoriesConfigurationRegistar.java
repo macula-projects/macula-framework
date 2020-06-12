@@ -34,7 +34,6 @@ import org.springframework.transaction.annotation.AnnotationTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springframework.util.Assert;
 
-import javax.sql.DataSource;
 import java.lang.annotation.Annotation;
 
 /**

@@ -15,15 +15,12 @@
  */
 package org.maculaframework.boot.core.repository.domain;
 
-import java.io.Serializable;
-
-import javax.persistence.*;
-
-import lombok.EqualsAndHashCode;
 import org.springframework.data.domain.Persistable;
-
 import org.springframework.data.util.ProxyUtils;
 import org.springframework.lang.Nullable;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Abstract base class for entities. Allows parameterization of id type, chooses

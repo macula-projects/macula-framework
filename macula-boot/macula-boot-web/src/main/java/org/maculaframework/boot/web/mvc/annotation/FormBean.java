@@ -15,11 +15,7 @@
  */
 package org.maculaframework.boot.web.mvc.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * <p> <b>FormBean</b> 是用于Spring MVC的Controller中的方法参数的注解，标识与HTML页面中Form 的对应关系，该标注会自动绑定页面Form传递进来的参数 </p>

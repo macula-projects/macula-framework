@@ -15,9 +15,9 @@
  */
 package org.maculaframework.boot.core.repository.hibernate.audit;
 
-import java.io.Serializable;
-
 import org.springframework.data.domain.Persistable;
+
+import java.io.Serializable;
 
 /**
  * <p>

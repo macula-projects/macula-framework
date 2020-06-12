@@ -18,8 +18,6 @@ package org.maculaframework.boot.security.web.access.vote;
 
 import org.maculaframework.boot.security.web.access.MaculaSecurityConfigAttribute;
 import org.springframework.security.access.ConfigAttribute;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.access.vote.RoleHierarchyVoter;
 import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

@@ -15,14 +15,13 @@
  */
 package org.maculaframework.boot.core.repository.jpa.support;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
 import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.maculaframework.boot.core.repository.jpa.support.domain.User;
 import org.maculaframework.boot.core.repository.jpa.support.domain.UserVo2;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.List;
 
 /**
  * <p>

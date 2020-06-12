@@ -17,8 +17,8 @@
 package org.maculaframework.boot.core.cache.support.test;
 
 import org.maculaframework.boot.core.cache.annotation.*;
-import org.maculaframework.boot.core.cache.support.domain.User;
 import org.maculaframework.boot.core.cache.support.CacheMode;
+import org.maculaframework.boot.core.cache.support.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.TestComponent;

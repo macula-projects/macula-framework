@@ -17,15 +17,11 @@
 package org.maculaframework.boot.security.web.filter;
 
 import com.google.code.kaptcha.Constants;
-import org.springframework.boot.devtools.restart.FailureHandler;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

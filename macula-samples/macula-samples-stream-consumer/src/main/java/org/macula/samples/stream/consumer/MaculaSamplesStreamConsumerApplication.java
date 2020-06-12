@@ -24,7 +24,6 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.binder.PollableMessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.messaging.SubscribableChannel;
 
 /**

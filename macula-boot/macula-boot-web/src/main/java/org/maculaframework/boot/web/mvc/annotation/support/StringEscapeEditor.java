@@ -19,10 +19,10 @@
  */
 package org.maculaframework.boot.web.mvc.annotation.support;
 
-import java.beans.PropertyEditorSupport;
-
 import org.springframework.web.util.HtmlUtils;
 import org.springframework.web.util.JavaScriptUtils;
+
+import java.beans.PropertyEditorSupport;
 
 /**
  * 在使用StringEscapeUtils时需要注意escapeHtml和escapeJavascript方法会把中文字符转换成Unicode编码，

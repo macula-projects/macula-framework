@@ -16,7 +16,6 @@
 
 package org.maculaframework.boot.security.web.config;
 
-import org.maculaframework.boot.core.config.CoreAutoConfiguration;
 import org.maculaframework.boot.web.config.WebAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Configuration;

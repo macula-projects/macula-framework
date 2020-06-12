@@ -18,7 +18,6 @@ package org.maculaframework.boot.web.mvc.bind;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.context.request.WebRequest;
 
 /**
  * <p> <b>ConfigurableWebBindingInitializer</b> 是扩展的ConfigurableWebBindingInitializer，增加了设置autoGrowCollectionLimit的处理。
