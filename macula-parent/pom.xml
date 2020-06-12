@@ -96,6 +96,108 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-boot-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-boot-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-boot-security-oauth2</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-boot-security-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-boot-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-boot-utils</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-cloud-apm</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-cloud-base</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-cloud-batch</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-cloud-bus</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-cloud-dubbo</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-cloud-msg</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-cloud-nacos</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-cloud-oss</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-cloud-seata</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-cloud-sentinel</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
+                <artifactId>macula-cloud-stream</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
             <!-- jsoup HTML parser library @ https://jsoup.org/ -->
             <dependency>
                 <groupId>org.jsoup</groupId>
