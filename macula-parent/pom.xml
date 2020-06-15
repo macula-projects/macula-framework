@@ -358,4 +358,32 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>macula-repo</id>
+            <name>macula-repo</name>
+            <url>http://maven.infinitus.com.cn:8081/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>macula-repo</id>
+            <name>macula-repo</name>
+            <url>http://maven.infinitus.com.cn:8081/nexus/content/groups/public</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>ReleasesProxy</name>
+            <url>http://maven.infinitus.com.cn:8081/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>SnapshotsProxy</name>
+            <url>http://maven.infinitus.com.cn:8081/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
