@@ -46,19 +46,19 @@ public @interface Action {
      *
      * @return 是否拥有此权限
      */
-    boolean permissionLogin() default false;
+    boolean actionLogin() default false;
 
     /**
      * 公共权限
      *
      * @return 是否拥有此权限
      */
-    boolean permissionPublic() default false;
+    boolean actionPublic() default false;
 
     /**
      * 接口类型
      *
      * @return 是否为内部接口
      */
-    boolean permissionWithin() default false;
+    boolean actionWithin() default false;
 }

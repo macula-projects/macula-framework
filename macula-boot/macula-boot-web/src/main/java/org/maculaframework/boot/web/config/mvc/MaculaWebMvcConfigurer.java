@@ -17,11 +17,13 @@
 package org.maculaframework.boot.web.config.mvc;
 
 import org.maculaframework.boot.core.utils.DateFormatUtils;
+import org.maculaframework.boot.web.filter.OrderedExceptionNegotiateFilter;
 import org.maculaframework.boot.web.mvc.i18n.TimeZoneChangeInterceptor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.BufferedImageHttpMessageConverter;
@@ -136,5 +138,10 @@ public class MaculaWebMvcConfigurer implements WebMvcConfigurer, ApplicationCont
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    @Bean
+    public OrderedExceptionNegotiateFilter orderedExceptionNegotiateFilter() {
+        return new OrderedExceptionNegotiateFilter();
     }
 }

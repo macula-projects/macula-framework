@@ -17,7 +17,6 @@ package org.maculaframework.boot.security.web.config;
 
 import org.maculaframework.boot.security.web.access.vote.MaculaRoleVoter;
 import org.maculaframework.boot.security.web.filter.KaptchaAuthenticationFilter;
-import org.maculaframework.boot.security.web.filter.OrderedExceptionNegotiateFilter;
 import org.maculaframework.boot.security.web.interceptor.DelegatingFilterInvocationSecurityMetadataSource;
 import org.maculaframework.boot.security.web.interceptor.UrlRegexFilterInvocationSecurityMetadataSource;
 import org.maculaframework.boot.web.config.WebConfigProperties;
@@ -120,10 +119,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {
         return new SimpleUrlAuthenticationFailureHandler(webConfigProperties.getFailureUrl());
-    }
-
-    @Bean
-    public OrderedExceptionNegotiateFilter exceptionNegotiateFilter() {
-        return new OrderedExceptionNegotiateFilter();
     }
 }

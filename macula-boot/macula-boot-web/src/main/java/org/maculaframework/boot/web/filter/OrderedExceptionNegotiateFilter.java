@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.maculaframework.boot.security.web.filter;
+package org.maculaframework.boot.web.filter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -23,8 +23,6 @@ import org.maculaframework.boot.MaculaConstants;
 import org.maculaframework.boot.core.exception.MaculaException;
 import org.maculaframework.boot.core.exception.translator.MaculaExceptionTranslator;
 import org.maculaframework.boot.core.utils.ExceptionUtils;
-import org.maculaframework.boot.security.web.exception.OpenApiAuthenticationException;
-import org.maculaframework.boot.security.web.exception.OpenApiParameterException;
 import org.maculaframework.boot.vo.Response;
 import org.maculaframework.boot.web.utils.HttpRequestUtils;
 import org.slf4j.LoggerFactory;
@@ -122,12 +120,6 @@ public class OrderedExceptionNegotiateFilter extends OncePerRequestFilter implem
         Exception t = null;
         try {
             chain.doFilter(request, negotiateResponse);
-        } catch (OpenApiAuthenticationException at) {
-            t = at;
-            negotiateResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        } catch (OpenApiParameterException ae) {
-            t = ae;
-            negotiateResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             if (shouldLogException(e)) {
                 log.error(StringUtils.EMPTY, e);
