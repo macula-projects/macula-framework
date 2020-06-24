@@ -16,6 +16,7 @@
 
 package org.maculaframework.boot.security.oauth2.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +42,7 @@ import org.springframework.security.oauth2.server.resource.introspection.NimbusO
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -75,6 +77,9 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
     @Value("${spring.security.oauth2.resourceserver.opaque.introspection-client-secret}")
     String clientSecret;
 
+    @Autowired
+    RequestMappingHandlerMapping handlerMapping;
+
     private final static String AUTHORITIES = "authorities";
 
     private final static String AUTHORITIES_PREFIX = "";
@@ -88,11 +93,16 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/img/**").permitAll()
                 .antMatchers("assets/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().access("@actionParser.extractor(request)")
             )
             .oauth2ResourceServer(oauth2 -> oauth2
                 .authenticationManagerResolver(tokenAuthenticationManagerResolver())
             );
+    }
+
+    @Bean
+    public RequestActionParser actionParser() {
+        return new RequestActionParser(handlerMapping);
     }
 
     @Bean

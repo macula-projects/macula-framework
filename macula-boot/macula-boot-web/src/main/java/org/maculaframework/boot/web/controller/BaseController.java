@@ -47,8 +47,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class BaseController {
 
     private static final Map<Class<?>, String> controllerPathMapping = new ConcurrentHashMap<>();
-    @Autowired
-    private ObjectMapper mapper;
 
     @Value("spring.application.name")
     private String appName;
@@ -106,29 +104,6 @@ public abstract class BaseController {
     }
 
     /**
-     * 处理Controller的异常
-     */
-    @ExceptionHandler(Exception.class)
-    public Response handlerCoreException(Exception ex, HttpServletRequest req) {
-
-        if (ex instanceof MaculaException) {
-            return new Response((MaculaException)ex);
-        }
-
-        if (ex instanceof IllegalArgumentException) {
-            return new Response(new MaculaArgumentException((IllegalArgumentException)ex));
-        }
-
-
-        if (ex.getClass().equals("org.apache.dubbo.rpc.RpcException")) {
-            return new Response(new ServiceException(MaculaConstants.EXCEPTION_CODE_RPC, "org.apache.dubbo.rpc.RpcException", ex));
-        }
-
-        ServiceException sex = new ServiceException(MaculaConstants.EXCEPTION_CODE_UNKNOWN, "org.maculaframework.boot.core.exception.ServiceException", ex);
-        return new Response(sex);
-    }
-
-    /**
      * 相对于Controller中的RequestMapping所指定的路径
      *
      * @param path URL路径
@@ -154,19 +129,5 @@ public abstract class BaseController {
             controllerPathMapping.put(clz, controllerPath);
         }
         return controllerPath + path;
-    }
-
-    /**
-     * 将对象转为JSON格式的数据
-     *
-     * @param value
-     * @return String
-     */
-    protected String toJson(Object value) {
-        try {
-            return mapper.writeValueAsString(value);
-        } catch (Exception e) {
-        }
-        return null;
     }
 }
