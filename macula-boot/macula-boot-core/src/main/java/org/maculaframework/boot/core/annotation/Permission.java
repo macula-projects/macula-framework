@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Action {
+public @interface Permission {
 
     /**
      * 角色
@@ -46,19 +46,19 @@ public @interface Action {
      *
      * @return 是否拥有此权限
      */
-    boolean actionLogin() default false;
+    boolean permissionLogin() default false;
 
     /**
      * 公共权限
      *
      * @return 是否拥有此权限
      */
-    boolean actionPublic() default false;
+    boolean permissionPublic() default false;
 
     /**
      * 接口类型
      *
      * @return 是否为内部接口
      */
-    boolean actionWithin() default false;
+    boolean permissionWithin() default false;
 }

@@ -16,12 +16,11 @@
 
 package org.maculaframework.boot.security.oauth2.config;
 
-import org.maculaframework.boot.core.annotation.Action;
+import org.maculaframework.boot.core.annotation.Permission;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -30,17 +29,17 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
- * <b>RequestActionParser</b> 请求权限解析
+ * <b>PermissionParser</b> 请求权限解析
  * </p>
  *
  * @author Rain
  * @since 2020-06-24
  */
-public class RequestActionParser {
+public class PermissionParser {
 
     private final RequestMappingHandlerMapping handlerMapping;
 
-    public RequestActionParser(RequestMappingHandlerMapping handlerMapping) {
+    public PermissionParser(RequestMappingHandlerMapping handlerMapping) {
         this.handlerMapping = handlerMapping;
     }
 
@@ -50,8 +49,8 @@ public class RequestActionParser {
             if (handlerExecutionChain != null) {
                 HandlerMethod method = (HandlerMethod) handlerExecutionChain.getHandler();
                 if (method != null) {
-                    Action action = AnnotationUtils.getAnnotation(method.getMethod(), Action.class);
-                    if (action.actionPublic()) {
+                    Permission permission = AnnotationUtils.getAnnotation(method.getMethod(), Permission.class);
+                    if (permission.permissionPublic()) {
                         return true;
                     }
                 }

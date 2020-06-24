@@ -93,7 +93,7 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/img/**").permitAll()
                 .antMatchers("/assets/**").permitAll()
-                .anyRequest().access("@actionParser.extractor(request)")
+                .anyRequest().access("@permissionParser.extractor(request)")
             )
             .oauth2ResourceServer(oauth2 -> oauth2
                 .authenticationManagerResolver(tokenAuthenticationManagerResolver())
@@ -101,8 +101,8 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public RequestActionParser actionParser() {
-        return new RequestActionParser(handlerMapping);
+    public PermissionParser permissionParser() {
+        return new PermissionParser(handlerMapping);
     }
 
     @Bean
