@@ -139,9 +139,4 @@ public class MaculaWebMvcConfigurer implements WebMvcConfigurer, ApplicationCont
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
-
-    @Bean
-    public OrderedExceptionNegotiateFilter orderedExceptionNegotiateFilter() {
-        return new OrderedExceptionNegotiateFilter();
-    }
 }

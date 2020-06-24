@@ -17,10 +17,12 @@
 package org.maculaframework.boot.security.oauth2.config;
 
 import org.maculaframework.boot.core.annotation.Action;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -46,9 +48,9 @@ public class RequestActionParser {
         try {
             HandlerExecutionChain handlerExecutionChain = handlerMapping.getHandler(request);
             if (handlerExecutionChain != null) {
-                Object controller = handlerExecutionChain.getHandler();
-                if (controller != null) {
-                    Action action = controller.getClass().getAnnotation(Action.class);
+                HandlerMethod method = (HandlerMethod) handlerExecutionChain.getHandler();
+                if (method != null) {
+                    Action action = AnnotationUtils.getAnnotation(method.getMethod(), Action.class);
                     if (action.actionPublic()) {
                         return true;
                     }

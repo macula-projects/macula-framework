@@ -20,6 +20,7 @@ import org.maculaframework.boot.core.config.CoreAutoConfiguration;
 import org.maculaframework.boot.web.config.mvc.MaculaWebMvcConfigurer;
 import org.maculaframework.boot.web.config.mvc.MaculaWebMvcRegistrations;
 import org.maculaframework.boot.web.controller.ControllerExceptionHandler;
+import org.maculaframework.boot.web.filter.OrderedExceptionNegotiateFilter;
 import org.maculaframework.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
 import org.maculaframework.boot.web.mvc.convert.NumberToBooleanConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,11 @@ public class WebAutoConfiguration {
     @Bean
     public ControllerExceptionHandler controllerExceptionHandler() {
         return new ControllerExceptionHandler();
+    }
+
+    @Bean
+    public OrderedExceptionNegotiateFilter orderedExceptionNegotiateFilter() {
+        return new OrderedExceptionNegotiateFilter();
     }
 
     @Bean
