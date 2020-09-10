@@ -21,7 +21,7 @@
         <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
         <spring-cloud-openfeign.version>2.2.2.RELEASE</spring-cloud-openfeign.version>
         <commons-text.version>1.6</commons-text.version>
-        <commons-beanutils.version>1.9.3</commons-beanutils.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-io.version>2.6</commons-io.version>
         <poi.version>4.0.1</poi.version>
         <zxing.version>3.3.3</zxing.version>
