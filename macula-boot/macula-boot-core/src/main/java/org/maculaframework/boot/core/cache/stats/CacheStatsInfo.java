@@ -27,7 +27,6 @@ import java.io.Serializable;
  */
 public class CacheStatsInfo implements Serializable {
 
-    private static final long serialVersionUID = -5303718439470659068L;
     /**
      * 缓存名称
      */
@@ -207,5 +206,21 @@ public class CacheStatsInfo implements Serializable {
         int result = cacheName != null ? cacheName.hashCode() : 0;
         result = 31 * result + (internalKey != null ? internalKey.hashCode() : 0);
         return result;
+    }
+
+    /**
+     * 清空统计信息
+     */
+    public void clearStatsInfo() {
+        this.setRequestCount(0);
+        this.setMissCount(0);
+        this.setTotalLoadTime(0);
+        this.setHitRate(0);
+
+        this.setFirstCacheRequestCount(0);
+        this.setFirstCacheMissCount(0);
+
+        this.setSecondCacheRequestCount(0);
+        this.setSecondCacheMissCount(0);
     }
 }

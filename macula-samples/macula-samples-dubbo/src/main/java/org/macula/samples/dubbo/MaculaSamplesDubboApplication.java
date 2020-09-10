@@ -17,6 +17,7 @@
 package org.macula.samples.dubbo;
 
 import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.macula.samples.api.EchoService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -33,6 +34,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableDubbo
 public class MaculaSamplesDubboApplication {
     public static void main(String[] args) {
         SpringApplication.run(MaculaSamplesDubboApplication.class);

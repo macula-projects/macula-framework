@@ -25,8 +25,6 @@ import java.util.concurrent.atomic.LongAdder;
  * @author yuhao.wang3
  */
 public final class CacheStats implements Serializable {
-
-    private static final long serialVersionUID = -9114499674701073483L;
     /**
      * 请求缓存总数
      */

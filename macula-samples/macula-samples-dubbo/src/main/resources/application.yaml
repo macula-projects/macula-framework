@@ -31,6 +31,9 @@ spring:
       # Nacos 服务发现与注册配置
       discovery:
         server-addr: ${macula.nacos.url}
+        username: ${macula.nacos.username}
+        password: ${macula.nacos.password}
+        namespace: ${macula.nacos.namespace}
     zookeeper:
       enabled: false
     consul:
@@ -88,7 +91,9 @@ macula:
 dubbo:
   registry:
     # 挂载到 Spring Cloud 注册中心
-    address: spring-cloud://localhost
+    #address: spring-cloud://localhost
+    # 挂载到 Dubbo注册中心
+    address: nacos://${macula.nacos.url}/?username=${macula.nacos.username}&password=${macula.nacos.password}&namespace=${macula.nacos.namespace}
   cloud:
     subscribed-services: none
   scan:
@@ -119,4 +124,7 @@ macula:
       username: root
       password:
   nacos:
-    url: 127.0.0.1:8848
+    url: 10.87.132.65:7083
+    username: macula
+    password: macula123
+    namespace: MACULA
