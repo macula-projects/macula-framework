@@ -80,8 +80,12 @@ public class EntityManagerFactoryBeanBuilder {
     private JpaVendorAdapter getJpaVendorAdapter() {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         adapter.setShowSql(this.jpaProperties.isShowSql());
-        adapter.setDatabase(this.jpaProperties.determineDatabase(this.dataSource));
-        adapter.setDatabasePlatform(this.jpaProperties.getDatabasePlatform());
+        if (this.jpaProperties.getDatabase() != null) {
+            adapter.setDatabase(this.jpaProperties.getDatabase());
+        }
+        if (this.jpaProperties.getDatabasePlatform() != null) {
+            adapter.setDatabasePlatform(this.jpaProperties.getDatabasePlatform());
+        }
         adapter.setGenerateDdl(this.jpaProperties.isGenerateDdl());
         return adapter;
     }

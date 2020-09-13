@@ -23,7 +23,7 @@
         <groupId>org.maculaframework</groupId>
         <artifactId>macula-samples</artifactId>
         <version>${revision}</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <packaging>pom</packaging>
@@ -32,8 +32,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdkLevel>1.8</jdkLevel>
-        <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
-        <spring-cloud.version>2.2.1.RELEASE</spring-cloud.version>
+        <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
         <maculaframework.version>${revision}</maculaframework.version>
     </properties>
 

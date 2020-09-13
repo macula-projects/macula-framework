@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User>, UserRepositoryCustom {
 
-    @Query("select new org.macula.boot.core.repository.jpa.support.domain.UserVo(u.firstName,u.lastName) from User u where u.lastName = ?1")
+    @Query("select new org.maculaframework.boot.core.repository.jpa.support.domain.UserVo(u.firstName,u.lastName) from User u where u.lastName = ?1")
     Page<UserVo> findByLastName(String lastName, Pageable pageable);
 
     @Query("select u.contactInfo from User u where u.lastName = ?1")

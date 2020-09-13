@@ -23,7 +23,7 @@
         <groupId>org.maculaframework</groupId>
         <artifactId>macula-boot</artifactId>
         <version>${revision}</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>macula-boot-security-web</artifactId>

@@ -8,7 +8,7 @@
         <groupId>org.maculaframework</groupId>
         <artifactId>macula-framework-build</artifactId>
         <version>${revision}</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>macula-parent</artifactId>
@@ -17,9 +17,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdkLevel>1.8</jdkLevel>
-        <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
-        <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
-        <spring-cloud-openfeign.version>2.2.2.RELEASE</spring-cloud-openfeign.version>
+        <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+        <spring-cloud-alibaba.version>2.2.2.RELEASE</spring-cloud-alibaba.version>
+        <spring-cloud-openfeign.version>2.2.5.RELEASE</spring-cloud-openfeign.version>
+        <sentinel.version>1.8.0</sentinel.version>
         <commons-text.version>1.6</commons-text.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-io.version>2.6</commons-io.version>
@@ -28,7 +29,6 @@
         <kryo.version>4.0.2</kryo.version>
         <jsoup.version>1.11.3</jsoup.version>
         <druid.version>1.1.14</druid.version>
-        <dubbo.version>2.7.5</dubbo.version>
         <redisson.version>3.13.0</redisson.version>
         <modelmapper.version>2.3.0</modelmapper.version>
         <jasypt-spring-boot.version>2.1.1</jasypt-spring-boot.version>

@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.maculaframework</groupId>
         <artifactId>macula-samples-parent</artifactId>
-        <relativePath>../macula-samples-parent</relativePath>
+        <relativePath>../macula-samples-parent/pom.xml</relativePath>
         <version>${revision}</version>
     </parent>
 

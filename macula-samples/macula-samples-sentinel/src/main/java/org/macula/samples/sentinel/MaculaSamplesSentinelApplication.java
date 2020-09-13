@@ -14,38 +14,24 @@
  * limitations under the License.
  */
 
-package org.macula.samples.dubbo;
+package org.macula.samples.sentinel;
 
-import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.macula.samples.api.EchoService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * <p>
- * <b>MaculaSamplesDubbo</b> 启动类
+ * <b>SentinelDemoApp</b> Sentinel演示
  * </p>
  *
  * @author Rain
- * @since 2020-04-28
+ * @since 2020-09-11
  */
-
 @SpringBootApplication
 @EnableDiscoveryClient
-public class MaculaSamplesDubboApplication {
+public class MaculaSamplesSentinelApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MaculaSamplesDubboApplication.class);
+        SpringApplication.run(MaculaSamplesSentinelApplication.class, args);
     }
-}
-
-@DubboService
-class EchoServiceImpl implements EchoService {
-
-    @Override
-    public String echo(String message) {
-        return "[echo] Hello, " + message;
-    }
-
 }

@@ -14,6 +14,6 @@
 # limitations under the License.
 #
 
-http\://www.maculaframework.org/schema/repository/macula-repository-1.0.xsd=../org/maculaframework/boot/core/repository/config/macula-repository-1.0.xsd
-http\://www.maculaframework.org/schema/repository/macula-repository.xsd=../org/maculaframework/boot/core/repository/config/macula-repository-1.0.xsd
-http\://macula.top/schema/repository/macula-repository.xsd=../org/maculaframework/boot/core/repository/config/macula-repository-1.0.xsd
+http\://www.maculaframework.org/schema/repository/macula-repository-1.0.xsd=/org/maculaframework/boot/core/repository/config/macula-repository-1.0.xsd
+http\://www.maculaframework.org/schema/repository/macula-repository.xsd=/org/maculaframework/boot/core/repository/config/macula-repository-1.0.xsd
+http\://macula.top/schema/repository/macula-repository.xsd=/org/maculaframework/boot/core/repository/config/macula-repository-1.0.xsd

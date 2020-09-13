@@ -5,6 +5,9 @@ spring:
   application:
     group: MACULA
     name: macula-samples-dubbo
+  main:
+    # Spring Boot 2.1 及以上需要设定
+    allow-bean-definition-overriding: true
   messages:
     basename: classpath*:i18n/**/messages,classpath*:i18n/**/validation
   jpa:
@@ -23,21 +26,67 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
   ##########for dubbo##########
-  main:
-    # Spring Boot 2.1 及以上需要设定
-    allow-bean-definition-overriding: true
   cloud:
     nacos:
       # Nacos 服务发现与注册配置
       discovery:
         server-addr: ${macula.nacos.url}
+        namespace: MACULA
         username: ${macula.nacos.username}
         password: ${macula.nacos.password}
-        namespace: ${macula.nacos.namespace}
     zookeeper:
       enabled: false
     consul:
       enabled: false
+    ##### for sentinel########
+    sentinel:
+      transport:
+        port: 8721
+        dashboard: ${macula.sentinel.dashboard}
+      datasource:
+        # 名称随意
+        flow:
+          nacos:
+            server-addr: ${macula.nacos.url}
+            dataId: ${spring.application.name}-flow-rules
+            namespace: SENTINEL
+            username: ${macula.nacos.username}
+            password: ${macula.nacos.password}
+            # 规则类型，取值见：
+            # org.springframework.cloud.alibaba.sentinel.datasource.RuleType
+            rule-type: flow
+        degrade:
+          nacos:
+            server-addr: ${macula.nacos.url}
+            dataId: ${spring.application.name}-degrade-rules
+            namespace: SENTINEL
+            username: ${macula.nacos.username}
+            password: ${macula.nacos.password}
+            rule-type: degrade
+        system:
+          nacos:
+            server-addr: ${macula.nacos.url}
+            dataId: ${spring.application.name}-system-rules
+            namespace: SENTINEL
+            username: ${macula.nacos.username}
+            password: ${macula.nacos.password}
+            rule-type: system
+        authority:
+          nacos:
+            server-addr: ${macula.nacos.url}
+            dataId: ${spring.application.name}-authority-rules
+            namespace: SENTINEL
+            username: ${macula.nacos.username}
+            password: ${macula.nacos.password}
+            rule-type: authority
+        param-flow:
+          nacos:
+            server-addr: ${macula.nacos.url}
+            dataId: ${spring.application.name}-param-flow-rules
+            namespace: SENTINEL
+            username: ${macula.nacos.username}
+            password: ${macula.nacos.password}
+            rule-type: param-flow
 eureka:
   client:
     enabled: false
@@ -91,9 +140,9 @@ macula:
 dubbo:
   registry:
     # 挂载到 Spring Cloud 注册中心
-    #address: spring-cloud://localhost
+    address: spring-cloud://localhost
     # 挂载到 Dubbo注册中心
-    address: nacos://${macula.nacos.url}/?username=${macula.nacos.username}&password=${macula.nacos.password}&namespace=${macula.nacos.namespace}
+    #address: nacos://${macula.nacos.url}/?username=${macula.nacos.username}&password=${macula.nacos.password}&namespace=${macula.nacos.namespace}
   cloud:
     subscribed-services: none
   scan:
@@ -124,7 +173,8 @@ macula:
       username: root
       password:
   nacos:
-    url: 10.87.132.65:7083
+    url: 127.0.0.1:8848
     username: macula
     password: macula123
-    namespace: MACULA
+  sentinel:
+    dashboard: 127.0.0.1:8080

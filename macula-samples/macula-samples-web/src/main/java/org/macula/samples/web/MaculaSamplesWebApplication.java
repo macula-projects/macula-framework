@@ -16,9 +16,8 @@
 
 package org.macula.samples.web;
 
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.macula.samples.api.EchoService;
-import org.maculaframework.boot.core.annotation.Permission;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -40,11 +39,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MaculaSamplesWebApplication {
 
-    @Reference
+    @DubboReference
     private EchoService echoService;
 
     @GetMapping("/echo/{message}")
-    @Permission(permissionPublic = true)
     public String echo(@PathVariable("message") String message) {
         return echoService.echo(message);
     }

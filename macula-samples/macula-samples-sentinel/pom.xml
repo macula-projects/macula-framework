@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.maculaframework</groupId>
         <artifactId>macula-samples-parent</artifactId>
-        <relativePath>../macula-samples-parent</relativePath>
+        <relativePath>../macula-samples-parent/pom.xml</relativePath>
         <version>${revision}</version>
     </parent>
 
@@ -36,6 +36,19 @@
         <dependency>
             <groupId>org.maculaframework</groupId>
             <artifactId>macula-cloud-sentinel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.maculaframework</groupId>
+            <artifactId>macula-cloud-nacos</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.maculaframework</groupId>
+            <artifactId>macula-cloud-dubbo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.maculaframework</groupId>
+            <artifactId>macula-samples-api</artifactId>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 </project>

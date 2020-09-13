@@ -9,7 +9,7 @@
         <groupId>org.maculaframework</groupId>
         <artifactId>macula-framework-build</artifactId>
         <version>${revision}</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>macula-samples</artifactId>

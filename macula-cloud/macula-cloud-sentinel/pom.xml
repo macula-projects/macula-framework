@@ -8,7 +8,7 @@
         <groupId>org.maculaframework</groupId>
         <artifactId>macula-cloud</artifactId>
         <version>${revision}</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>macula-cloud-sentinel</artifactId>
@@ -21,6 +21,17 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-apache-dubbo-adapter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-apache-httpclient-adapter</artifactId>
+            <version>${sentinel.version}</version>
         </dependency>
     </dependencies>
 </project>

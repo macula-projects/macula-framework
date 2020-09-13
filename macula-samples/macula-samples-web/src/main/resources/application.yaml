@@ -5,6 +5,9 @@ spring:
   application:
     group: MACULA
     name: macula-samples-web
+  main:
+    # Spring Boot 2.1 及以上需要设定
+    allow-bean-definition-overriding: true
   messages:
     basename: classpath*:i18n/**/messages,classpath*:i18n/**/validation
   jpa:
@@ -40,17 +43,14 @@ spring:
           introspection-client-id: client
           introspection-client-secret: secret
   ##########for dubbo##########
-  main:
-    # Spring Boot 2.1 及以上需要设定
-    allow-bean-definition-overriding: true
   cloud:
     nacos:
       # Nacos 服务发现与注册配置
       discovery:
         server-addr: ${macula.nacos.url}
+        namespace: MACULA
         username: ${macula.nacos.username}
         password: ${macula.nacos.password}
-        namespace: ${macula.nacos.namespace}
     zookeeper:
       enabled: false
     consul:
@@ -146,7 +146,6 @@ macula:
       username: root
       password:
   nacos:
-    url: 10.87.132.65:7083
+    url: 127.0.0.1:8848
     username: macula
     password: macula123
-    namespace: MACULA

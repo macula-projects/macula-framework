@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.maculaframework</groupId>
         <artifactId>macula-samples-parent</artifactId>
-        <relativePath>../macula-samples-parent</relativePath>
+        <relativePath>../macula-samples-parent/pom.xml</relativePath>
         <version>${revision}</version>
     </parent>
 
@@ -28,9 +28,8 @@
             <artifactId>macula-cloud-dubbo</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo</artifactId>
-            <version>2.7.8</version>
+            <groupId>org.maculaframework</groupId>
+            <artifactId>macula-cloud-sentinel</artifactId>
         </dependency>
     </dependencies>
 </project>

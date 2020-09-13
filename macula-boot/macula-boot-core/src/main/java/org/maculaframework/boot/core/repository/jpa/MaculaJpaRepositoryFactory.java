@@ -19,8 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.maculaframework.boot.core.repository.jpa.templatequery.TemplateQueryLookupStrategy;
+import org.maculaframework.boot.core.repository.jpa.templatequery.TemplateQueryMethodFactory;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.data.jpa.provider.PersistenceProvider;
+import org.springframework.data.jpa.repository.query.DefaultJpaQueryMethodFactory;
+import org.springframework.data.jpa.repository.query.JpaQueryMethodFactory;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.core.RepositoryMetadata;
@@ -51,6 +54,7 @@ import java.util.Optional;
 public class MaculaJpaRepositoryFactory extends JpaRepositoryFactory {
 
     private final PersistenceProvider extractor;
+    private final JpaQueryMethodFactory queryMethodFactory;
     private EntityManager entityManager;
     private List<RepositoryProxyPostProcessor> postProcessors;
 
@@ -61,6 +65,7 @@ public class MaculaJpaRepositoryFactory extends JpaRepositoryFactory {
         super(entityManager);
         this.entityManager = entityManager;
         this.extractor = PersistenceProvider.fromEntityManager(entityManager);
+        this.queryMethodFactory = new TemplateQueryMethodFactory(extractor);
 
         // add advise for cat
         addRepositoryProxyPostProcessor(CatRepositoryProxyPostProcessor.INSTANCE);
@@ -102,7 +107,7 @@ public class MaculaJpaRepositoryFactory extends JpaRepositoryFactory {
     @Override
     protected Optional<QueryLookupStrategy> getQueryLookupStrategy(@Nullable QueryLookupStrategy.Key key,
                                                                    QueryMethodEvaluationContextProvider evaluationContextProvider) {
-        return Optional.of(TemplateQueryLookupStrategy.create(entityManager, key, extractor, evaluationContextProvider));
+        return Optional.of(TemplateQueryLookupStrategy.create(entityManager, queryMethodFactory, key, evaluationContextProvider));
     }
 
     /**

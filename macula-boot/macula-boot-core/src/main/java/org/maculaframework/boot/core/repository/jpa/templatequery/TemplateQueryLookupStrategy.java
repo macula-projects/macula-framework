@@ -19,6 +19,7 @@ package org.maculaframework.boot.core.repository.jpa.templatequery;
 import org.springframework.data.jpa.provider.QueryExtractor;
 import org.springframework.data.jpa.repository.query.EscapeCharacter;
 import org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy;
+import org.springframework.data.jpa.repository.query.JpaQueryMethodFactory;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.repository.core.NamedQueries;
 import org.springframework.data.repository.core.RepositoryMetadata;
@@ -42,18 +43,18 @@ public class TemplateQueryLookupStrategy implements QueryLookupStrategy {
 
     private QueryLookupStrategy jpaQueryLookupStrategy;
 
-    private QueryExtractor extractor;
+    private JpaQueryMethodFactory queryMethodFactory;
 
     private EscapeCharacter escapeCharacter = EscapeCharacter.of('\\');
 
-    public TemplateQueryLookupStrategy(EntityManager entityManager, Key key, QueryExtractor extractor, QueryMethodEvaluationContextProvider evaluationContextProvider) {
-        this.jpaQueryLookupStrategy = JpaQueryLookupStrategy.create(entityManager, key, extractor, evaluationContextProvider, escapeCharacter);
-        this.extractor = extractor;
+    public TemplateQueryLookupStrategy(EntityManager entityManager, JpaQueryMethodFactory queryMethodFactory, Key key, QueryMethodEvaluationContextProvider evaluationContextProvider) {
+        this.jpaQueryLookupStrategy = JpaQueryLookupStrategy.create(entityManager, queryMethodFactory, key, evaluationContextProvider, escapeCharacter);;
+        this.queryMethodFactory = queryMethodFactory;
         this.entityManager = entityManager;
     }
 
-    public static QueryLookupStrategy create(EntityManager entityManager, Key key, QueryExtractor extractor, QueryMethodEvaluationContextProvider evaluationContextProvider) {
-        return new TemplateQueryLookupStrategy(entityManager, key, extractor, evaluationContextProvider);
+    public static QueryLookupStrategy create(EntityManager entityManager, JpaQueryMethodFactory queryMethodFactory,  Key key,  QueryMethodEvaluationContextProvider evaluationContextProvider) {
+        return new TemplateQueryLookupStrategy(entityManager, queryMethodFactory, key, evaluationContextProvider);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class TemplateQueryLookupStrategy implements QueryLookupStrategy {
         if (method.getAnnotation(org.maculaframework.boot.core.repository.jpa.TemplateQuery.class) == null) {
             return jpaQueryLookupStrategy.resolveQuery(method, metadata, factory, namedQueries);
         } else {
-            return new TemplateQuery(new TemplateQueryMethod(method, metadata, factory, extractor), entityManager);
+            return new TemplateQuery(queryMethodFactory.build(method, metadata, factory), entityManager);
         }
     }
 

@@ -43,7 +43,7 @@ import javax.sql.DataSource;
 
 @TestConfiguration
 @EnableJpaRepositories(
-        basePackages = "org.macula.boot.core.repository.jpa.mvc",
+        basePackages = "org.maculaframework.boot.core.repository.jpa",
         repositoryFactoryBeanClass = MaculaJpaRepositoryFactoryBean.class,
         entityManagerFactoryRef = "maculaEntityManagerFactory",
         transactionManagerRef = "maculaTransactionManager")
@@ -62,7 +62,7 @@ public class RepositoryConfig extends JpaBaseConfiguration {
         return getEntityManagerFactoryBuilder()
                 .dataSource(dataSource)
                 .properties(getVendorProperties())
-                .packages("org.macula.**.domain") //设置实体类所在位置
+                .packages("org.maculaframework.**.domain") //设置实体类所在位置
                 .persistenceUnit("maculaPersistenceUnit")
                 .build();
     }
@@ -86,7 +86,7 @@ public class RepositoryConfig extends JpaBaseConfiguration {
     public AspectJExpressionPointcutAdvisor pointcutAdvisor(@Qualifier("maculaTxAdvice") TransactionInterceptor txAdvice) {
         AspectJExpressionPointcutAdvisor pointcutAdvisor = new AspectJExpressionPointcutAdvisor();
         pointcutAdvisor.setAdvice(txAdvice);
-        pointcutAdvisor.setExpression("execution(* org.macula..*.*(..)) and @within(org.springframework.stereotype.Service)");
+        pointcutAdvisor.setExpression("execution(* org.maculaframework..*.*(..)) and @within(org.springframework.stereotype.Service)");
         return pointcutAdvisor;
     }
 }
