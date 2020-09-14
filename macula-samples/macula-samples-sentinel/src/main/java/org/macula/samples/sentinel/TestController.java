@@ -16,6 +16,7 @@
 
 package org.macula.samples.sentinel;
 
+import com.alibaba.cloud.sentinel.annotation.SentinelRestTemplate;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.macula.samples.api.EchoService;
@@ -38,7 +39,8 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class TestController {
 
-    private RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
 
     @DubboReference
     private EchoService echoService;

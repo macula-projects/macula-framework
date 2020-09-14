@@ -16,9 +16,12 @@
 
 package org.macula.samples.sentinel;
 
+import com.alibaba.cloud.sentinel.annotation.SentinelRestTemplate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * <p>
@@ -33,5 +36,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class MaculaSamplesSentinelApplication {
     public static void main(String[] args) {
         SpringApplication.run(MaculaSamplesSentinelApplication.class, args);
+    }
+
+    @Bean
+    @SentinelRestTemplate
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }
