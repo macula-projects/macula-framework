@@ -102,10 +102,9 @@ macula:
     - name: data
       single-server-config:
         address: ${macula.redis.data.url}
-  klock:
-    address: ${macula.redis.klock.url}
-    #cluster-server:
-    #  node-addresses: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005
+    - name: klock
+      single-server-config:
+        address: ${macula.redis.klock.url}
   datasource:
     druid:
       - name: macula-samples
@@ -142,7 +141,7 @@ dubbo:
     # 挂载到 Spring Cloud 注册中心
     address: spring-cloud://localhost
     # 挂载到 Dubbo注册中心
-    #address: nacos://${macula.nacos.url}/?username=${macula.nacos.username}&password=${macula.nacos.password}&namespace=${macula.nacos.namespace}
+    #address: nacos://${macula.nacos.url}/?username=${macula.nacos.username}&password=${macula.nacos.password}&namespace=MACULA
   cloud:
     subscribed-services: none
   scan:
