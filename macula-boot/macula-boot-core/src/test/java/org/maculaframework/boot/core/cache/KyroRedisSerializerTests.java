@@ -20,6 +20,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.maculaframework.boot.core.cache.support.domain.User;
+import org.redisson.api.RBucket;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,6 +46,9 @@ public class KyroRedisSerializerTests {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+    @Autowired
+    private RedissonClient redissonClient;
+
     @Test
     public void testPutGetUser() {
         User user = new User();
@@ -52,5 +57,10 @@ public class KyroRedisSerializerTests {
         User userCache = (User)redisTemplate.opsForValue().get(key);
         Assert.assertEquals(user.getUserId(), userCache.getUserId());
         Assert.assertEquals(user.getAddress().getAddredd(), userCache.getAddress().getAddredd());
+
+        RBucket<User> bucket = redissonClient.getBucket(key);
+        User user2 = bucket.get();
+        Assert.assertEquals(user.getUserId(), user2.getUserId());
+        Assert.assertEquals(user.getAddress().getAddredd(), user2.getAddress().getAddredd());
     }
 }

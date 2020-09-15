@@ -26,18 +26,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "macula.klock")
 @Data
 public class KlockProperties {
-
-    private String address = "redis://127.0.0.1:6379";
-    private String password;
-    private int database = 15;
-    private ClusterServer clusterServer;
-    private String codec = "org.redisson.codec.JsonJacksonCodec";
     private long waitTime = 60;
     private long leaseTime = 60;
-
-    @Data
-    public static class ClusterServer {
-
-        private String[] nodeAddresses;
-    }
 }

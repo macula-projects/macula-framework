@@ -35,10 +35,11 @@ macula:
     #    node-addresses: ${macula.redis.cache.url}
       single-server-config:
         address: ${macula.redis.data.url}
-  klock:
-    address: ${macula.redis.klock.url}
-    #cluster-server:
-    #  node-addresses: ${macula.redis.klock.url}
+    - name: klock
+      #  cluster-servers-config:
+      #    node-addresses: ${macula.redis.cache.url}
+      single-server-config:
+        address: ${macula.redis.data.url}
   datasource:
     druid:
       - name: macula
@@ -113,11 +114,11 @@ macula:
     macula:
       url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
       username: root
-      password:
+      password: mysql
     gbss:
       url: jdbc:mysql://127.0.0.1:3306/macula4?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
       username: root
-      password:
+      password: mysql
 ---
 spring:
   profiles: test

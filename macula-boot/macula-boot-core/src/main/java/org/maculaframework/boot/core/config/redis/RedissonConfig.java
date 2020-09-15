@@ -18,6 +18,7 @@ package org.maculaframework.boot.core.config.redis;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.redisson.codec.KryoCodec;
 import org.redisson.config.Config;
 
 /**

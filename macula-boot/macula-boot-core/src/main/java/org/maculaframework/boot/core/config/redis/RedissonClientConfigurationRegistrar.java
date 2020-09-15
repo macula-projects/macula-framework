@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.maculaframework.boot.MaculaConstants;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
+import org.redisson.codec.KryoCodec;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -54,6 +55,10 @@ public class RedissonClientConfigurationRegistrar implements EnvironmentAware, I
         try {
             List<RedissonConfig> list = binder.bind(MaculaConstants.CONFIG_REDIS_PREFIX, Bindable.listOf(RedissonConfig.class)).get();
             for (RedissonConfig config : list) {
+                // 默认使用KryoCodec
+                if (config.getCodec() == null) {
+                    config.setCodec(new KryoCodec());
+                }
                 RedissonClient redisson = Redisson.create(config);
                 Object name = config.getName();
                 if (name != null) {

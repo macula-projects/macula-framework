@@ -22,6 +22,8 @@ import org.maculaframework.boot.core.cache.manager.LayeringCacheManager;
 import org.maculaframework.boot.core.redis.KryoRedisSerializer;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
+import org.redisson.codec.KryoCodec;
+import org.redisson.config.Config;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -46,7 +48,12 @@ public class CacheConfiguration {
     @ConditionalOnMissingBean(name = "cacheRedissonClient")
     public RedissonClient cacheRedissonClient() {
         // 当什么都没有配置时默认连接本地redis
-        return Redisson.create();
+        Config config = new Config();
+        config.useSingleServer()
+            .setTimeout(1000000)
+            .setAddress("redis://127.0.0.1:6379");
+        config.setCodec(new KryoCodec());
+        return Redisson.create(config);
     }
 
     @Bean(name = "cacheRedisConnectionFactory")

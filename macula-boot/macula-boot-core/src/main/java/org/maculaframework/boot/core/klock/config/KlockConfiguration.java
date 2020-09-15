@@ -16,6 +16,7 @@
 
 package org.maculaframework.boot.core.klock.config;
 
+import com.querydsl.core.annotations.QueryInit;
 import io.netty.channel.nio.NioEventLoopGroup;
 import org.maculaframework.boot.core.klock.core.BusinessKeyProvider;
 import org.maculaframework.boot.core.klock.core.KlockAspectHandler;
@@ -26,6 +27,7 @@ import org.redisson.api.RedissonClient;
 import org.redisson.client.codec.Codec;
 import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -41,27 +43,10 @@ import org.springframework.util.ClassUtils;
  */
 
 @Configuration
+@ConditionalOnBean(name = "klockRedissonClient")
 @EnableConfigurationProperties(KlockProperties.class)
 @Import({KlockAspectHandler.class})
 public class KlockConfiguration {
-
-    @Bean(name = "klockRedissonClient", destroyMethod = "shutdown")
-    @ConditionalOnMissingBean(name = "klockRedissonClient")
-    RedissonClient klockRedissonClient(KlockProperties klockProperties) throws Exception {
-        Config config = new Config();
-        if(klockProperties.getClusterServer()!=null){
-            config.useClusterServers().setPassword(klockProperties.getPassword())
-                    .addNodeAddress(klockProperties.getClusterServer().getNodeAddresses());
-        }else {
-            config.useSingleServer().setAddress(klockProperties.getAddress())
-                    .setDatabase(klockProperties.getDatabase())
-                    .setPassword(klockProperties.getPassword());
-        }
-        Codec codec=(Codec) ClassUtils.forName(klockProperties.getCodec(),ClassUtils.getDefaultClassLoader()).newInstance();
-        config.setCodec(codec);
-        config.setEventLoopGroup(new NioEventLoopGroup());
-        return Redisson.create(config);
-    }
 
     @Bean
     public LockInfoProvider lockInfoProvider(){

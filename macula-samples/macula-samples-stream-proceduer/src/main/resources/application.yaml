@@ -79,6 +79,6 @@ macula:
     macula-samples:
       url: jdbc:mysql://127.0.0.1:3306/macula-samples?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
       username: root
-      password:
+      password: mysql
   rocketmq:
     url: 192.168.1.44:9876

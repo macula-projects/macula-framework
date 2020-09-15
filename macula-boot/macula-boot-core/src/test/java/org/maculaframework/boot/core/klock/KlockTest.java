@@ -21,9 +21,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.maculaframework.boot.core.klock.support.TestKlockService;
 import org.maculaframework.boot.core.klock.support.User;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -144,5 +148,13 @@ public class KlockTest {
     public void businessKeyJvm4() throws Exception {
         String result = testKlockService.getValue(new User(3, "kl"));
         Assert.assertEquals(result, "success");
+    }
+
+    @TestConfiguration
+    class TestConfig {
+        @Bean(name = "klockRedissonClient")
+        public RedissonClient klockRedissonClient() {
+            return Redisson.create();
+        }
     }
 }

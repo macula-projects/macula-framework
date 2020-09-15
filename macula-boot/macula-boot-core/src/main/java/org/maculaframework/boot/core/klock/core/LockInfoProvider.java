@@ -35,7 +35,7 @@ public class LockInfoProvider {
 
 
     @Autowired
-    private KlockProperties klockConfig;
+    private KlockProperties klockProperties;
 
     @Autowired
     private BusinessKeyProvider businessKeyProvider;
@@ -61,11 +61,11 @@ public class LockInfoProvider {
 
     private long getWaitTime(Klock lock) {
         return lock.waitTime() == Long.MIN_VALUE ?
-                klockConfig.getWaitTime() : lock.waitTime();
+                klockProperties.getWaitTime() : lock.waitTime();
     }
 
     private long getLeaseTime(Klock lock) {
         return lock.leaseTime() == Long.MIN_VALUE ?
-                klockConfig.getLeaseTime() : lock.leaseTime();
+                klockProperties.getLeaseTime() : lock.leaseTime();
     }
 }
