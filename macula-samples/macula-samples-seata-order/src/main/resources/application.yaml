@@ -31,7 +31,10 @@ spring:
       # Nacos 服务发现与注册配置
       discovery:
         server-addr: ${macula.nacos.url}
-        namespace: MACULA
+        namespace: ${spring.application.group}
+        group: DUBBO_${spring.profiles.active}
+        username: ${macula.nacos.username}
+        password: ${macula.nacos.password}
     zookeeper:
       enabled: false
     consul:
@@ -132,3 +135,5 @@ macula:
       password: mysql
   nacos:
     url: 127.0.0.1:8848
+    username: macula
+    password: macula123
