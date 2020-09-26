@@ -18,7 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdkLevel>1.8</jdkLevel>
         <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
-        <spring-cloud-alibaba.version>2.2.2.RELEASE</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
         <spring-cloud-openfeign.version>2.2.5.RELEASE</spring-cloud-openfeign.version>
         <sentinel.version>1.8.0</sentinel.version>
         <commons-text.version>1.6</commons-text.version>

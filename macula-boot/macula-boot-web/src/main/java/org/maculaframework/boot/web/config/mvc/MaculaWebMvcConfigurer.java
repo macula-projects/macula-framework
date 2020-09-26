@@ -17,13 +17,11 @@
 package org.maculaframework.boot.web.config.mvc;
 
 import org.maculaframework.boot.core.utils.DateFormatUtils;
-import org.maculaframework.boot.web.filter.OrderedExceptionNegotiateFilter;
 import org.maculaframework.boot.web.mvc.i18n.TimeZoneChangeInterceptor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.BufferedImageHttpMessageConverter;
@@ -68,9 +66,13 @@ public class MaculaWebMvcConfigurer implements WebMvcConfigurer, ApplicationCont
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // 设置客户端时区拦截器
         TimeZoneChangeInterceptor interceptor = new TimeZoneChangeInterceptor();
         InterceptorRegistration i = registry.addInterceptor(interceptor);
         i.excludePathPatterns("*.gif|*.jpg|*.js|*.png");
+
+        // 设置登录后拦截器
+
     }
 
     @Override

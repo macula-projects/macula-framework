@@ -44,4 +44,6 @@ public class AuthenticationConfig extends GlobalAuthenticationConfigurerAdapter 
     public UserDetailsService userDetailsService() {
         return new JpaUserDetailsManager();
     }
+
+
 }
