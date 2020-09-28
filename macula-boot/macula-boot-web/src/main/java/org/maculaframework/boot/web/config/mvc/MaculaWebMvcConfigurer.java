@@ -33,6 +33,7 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.text.ParseException;
@@ -108,6 +109,11 @@ public class MaculaWebMvcConfigurer implements WebMvcConfigurer, ApplicationCont
         });
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        WebMvcConfigurer.super.addResourceHandlers(registry);
+    }
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {

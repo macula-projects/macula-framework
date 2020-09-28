@@ -21,6 +21,7 @@ import org.maculaframework.boot.web.config.mvc.MaculaWebMvcConfigurer;
 import org.maculaframework.boot.web.config.mvc.MaculaWebMvcRegistrations;
 import org.maculaframework.boot.web.controller.ControllerExceptionHandler;
 import org.maculaframework.boot.web.filter.OrderedExceptionNegotiateFilter;
+import org.maculaframework.boot.web.filter.RewriteFilter;
 import org.maculaframework.boot.web.mvc.bind.ConfigurableWebBindingInitializer;
 import org.maculaframework.boot.web.mvc.convert.NumberToBooleanConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -90,5 +92,23 @@ public class WebAutoConfiguration {
         initializer.setValidator(validator);
         initializer.setAutoGrowCollectionLimit(1000);
         return initializer;
+    }
+
+    /**
+ 　　 * 路由过滤，如果路径中包含‘home’关键词（前端所有路由都包含‘home’）
+ 　　 * @return
+ 　　 */
+    @Bean
+    public FilterRegistrationBean filterRegistration() {
+        FilterRegistrationBean<RewriteFilter> registration = new FilterRegistrationBean<>();
+        //注册rewrite过滤器
+        registration.setFilter(new RewriteFilter());
+        registration.addUrlPatterns("/static/*");
+        registration.addInitParameter(RewriteFilter.REWRITE_TO,"/");
+        registration.addInitParameter(RewriteFilter.ROUTER_PATTERNS, "/static/*");
+        registration.addInitParameter(RewriteFilter.STATIC_PATTERNS, "/static/js/*;/static/css/*;/static/img/*;/static/assets/*;/static/fonts/*;/static/favicon.ico");
+        registration.setName("rewriteFilter");
+        registration.setOrder(1);
+        return registration;
     }
 }
