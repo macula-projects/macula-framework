@@ -21,6 +21,7 @@
         <module>macula-boot-web</module>
         <module>macula-boot-security-oauth2</module>
         <module>macula-boot-security-web</module>
+        <module>macula-boot-doc</module>
     </modules>
 
 </project>
