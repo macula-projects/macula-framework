@@ -22,8 +22,8 @@
         <spring-cloud-openfeign.version>2.2.5.RELEASE</spring-cloud-openfeign.version>
         <sentinel.version>1.8.0</sentinel.version>
         <commons-text.version>1.6</commons-text.version>
-        <commons-beanutils.version>[1.9.4,)</commons-beanutils.version>
-        <commons-io.version>2.6</commons-io.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
+        <commons-io.version>2.7</commons-io.version>
         <poi.version>4.0.1</poi.version>
         <zxing.version>3.3.3</zxing.version>
         <kryo.version>4.0.2</kryo.version>
@@ -33,6 +33,8 @@
         <modelmapper.version>2.3.0</modelmapper.version>
         <jasypt-spring-boot.version>2.1.1</jasypt-spring-boot.version>
         <kaptcha.version>2.3.2</kaptcha.version>
+        <logstash.version>5.2</logstash.version>
+        <springdoc.version>1.4.8</springdoc.version>
     </properties>
 
     <dependencies>
@@ -282,6 +284,16 @@
                 <groupId>com.github.penggle</groupId>
                 <artifactId>kaptcha</artifactId>
                 <version>${kaptcha.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webmvc-core</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

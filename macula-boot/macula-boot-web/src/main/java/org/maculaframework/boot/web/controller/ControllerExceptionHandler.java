@@ -23,6 +23,7 @@ import org.maculaframework.boot.core.exception.ServiceException;
 import org.maculaframework.boot.vo.Response;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,6 +42,7 @@ public class ControllerExceptionHandler {
      * 处理Controller的异常
      */
     @ExceptionHandler(Exception.class)
+    @ResponseBody
     public Response handlerCoreException(Exception ex, HttpServletRequest req) {
 
         if (ex instanceof MaculaException) {

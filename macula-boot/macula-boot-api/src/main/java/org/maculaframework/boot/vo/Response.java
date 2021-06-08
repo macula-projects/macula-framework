@@ -79,6 +79,6 @@ public class Response implements Serializable {
 			this.code = ((ServiceException)exception).getCode();
 		}
 		this.message = exception.getLocalizedMessage();
-		this.exceptionStack = exception.getFullStackMessage();
+		// this.exceptionStack = exception.getFullStackMessage();
 	}
 }

@@ -34,6 +34,8 @@ public interface UserService {
 
     boolean remove(Long userId);
 
+    User getUser(String name);
+
     Collection<User> findAll();
 
 }

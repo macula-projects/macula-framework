@@ -18,6 +18,11 @@ package org.macula.samples.web;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.macula.samples.api.EchoService;
+import org.macula.samples.vo.User;
+import org.maculaframework.boot.core.exception.MaculaException;
+import org.maculaframework.boot.core.exception.ServiceException;
+import org.maculaframework.boot.vo.ExecuteResponse;
+import org.maculaframework.boot.vo.Response;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -39,12 +44,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MaculaSamplesWebApplication {
 
-    @DubboReference
-    private EchoService echoService;
+    // @DubboReference
+    // private EchoService echoService;
 
     @GetMapping("/echo/{message}")
     public String echo(@PathVariable("message") String message) {
-        return echoService.echo(message);
+       // return echoService.echo(message);
+        return "hello world";
+    }
+
+    @GetMapping("/user/{name}")
+    public Response getUser(@PathVariable("name") String name) {
+        User user = new User();
+        user.setAge(18);
+        user.setId(1L);
+        user.setName(name);
+        //throw new ServiceException("101", "ERROR MSG", null);
+        return new ExecuteResponse<User>(user);
     }
 
     public static void main(String[] args) {
