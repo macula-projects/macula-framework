@@ -97,6 +97,12 @@
 
             <dependency>
                 <groupId>org.maculaframework</groupId>
+                <artifactId>macula-boot-doc</artifactId>
+                <version>${maculaframework.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.maculaframework</groupId>
                 <artifactId>macula-boot-security-oauth2</artifactId>
                 <version>${maculaframework.version}</version>
             </dependency>

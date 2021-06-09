@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2020 the original author or authors.
+ * Copyright 2004-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,48 +14,30 @@
  * limitations under the License.
  */
 
-package org.macula.samples.web;
+package org.macula.samples.web.demo1;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.macula.samples.api.EchoService;
 import org.macula.samples.vo.User;
-import org.maculaframework.boot.core.exception.MaculaException;
-import org.maculaframework.boot.core.exception.ServiceException;
 import org.maculaframework.boot.vo.ExecuteResponse;
 import org.maculaframework.boot.vo.Response;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * <p>
- * <b>MaculaSamplesWeb</b> 启动类
+ * <b>Demo1Controller</b> Demo1
  * </p>
  *
  * @author Rain
- * @since 2020-04-28
+ * @since 2021-06-09
  */
-
-@SpringBootApplication
-@EnableDiscoveryClient
 @RestController
-@Tag(name = "user", description = "the User API")
-public class MaculaSamplesWebApplication {
+@Tag(name = "demo1", description = "the Demo API")
+public class Demo1Controller {
 
-    // @DubboReference
-    // private EchoService echoService;
-
-    @GetMapping("/echo/{message}")
-    public String echo(@PathVariable("message") String message) {
-       // return echoService.echo(message);
-        return "hello world";
-    }
-
-    @GetMapping("/user/{name}")
+    @GetMapping("/demo1/{name}")
     public Response getUser(@PathVariable("name") String name) {
         User user = new User();
         user.setAge(18);
@@ -63,9 +45,5 @@ public class MaculaSamplesWebApplication {
         user.setName(name);
         //throw new ServiceException("101", "ERROR MSG", null);
         return new ExecuteResponse<User>(user);
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(MaculaSamplesWebApplication.class);
     }
 }

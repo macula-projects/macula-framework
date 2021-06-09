@@ -126,6 +126,16 @@ dubbo:
     # dubbo 协议端口（ -1 表示自增端口，从 20880 开始）
     port: -1
 
+##########Swagger#################
+springdoc:
+  version: '@springdoc.version@'
+  api-docs:
+    groups:
+      enabled: true
+  group-configs:
+    - group: demo1
+      paths-to-match: org.macula.samples.web.demo1
+      packages-to-scan: /user/**
 ---
 spring:
   profiles: dev

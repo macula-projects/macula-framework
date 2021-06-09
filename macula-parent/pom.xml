@@ -34,7 +34,7 @@
         <jasypt-spring-boot.version>2.1.1</jasypt-spring-boot.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <logstash.version>5.2</logstash.version>
-        <springdoc.version>1.4.8</springdoc.version>
+        <springdoc.version>1.5.9</springdoc.version>
     </properties>
 
     <dependencies>

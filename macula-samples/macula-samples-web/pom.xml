@@ -20,6 +20,10 @@
         </dependency>
         <dependency>
             <groupId>org.maculaframework</groupId>
+            <artifactId>macula-boot-doc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.maculaframework</groupId>
             <artifactId>macula-cloud-nacos</artifactId>
         </dependency>
         <dependency>
