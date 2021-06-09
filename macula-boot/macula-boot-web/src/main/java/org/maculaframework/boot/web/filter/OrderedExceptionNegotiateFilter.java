@@ -129,7 +129,7 @@ public class OrderedExceptionNegotiateFilter extends OncePerRequestFilter implem
         } finally {
             if (negotiateResponse.isAbnormal() && !negotiateResponse.isCommitted()) {
                 Response result = createResponse(request, t, negotiateResponse.getStatus(), negotiateResponse.isSuccess());
-                result.setCode(MaculaConstants.ERROR_HTTP_CODE_PREFIX + "." +negotiateResponse.getStatus());
+                result.setErrCode(MaculaConstants.ERROR_HTTP_CODE_PREFIX + "." +negotiateResponse.getStatus());
                 result.setRedirection(negotiateResponse.getRedirection());
                 handleResponseBody(result, request, response);
             }
@@ -147,14 +147,14 @@ public class OrderedExceptionNegotiateFilter extends OncePerRequestFilter implem
         if (result == null) {
             result = new Response();
         }
-        if (throwable != null && result.getMessage() == null) {
-            result.setMessage(throwable.getLocalizedMessage());
+        if (throwable != null && result.getErrDesc() == null) {
+            result.setErrDesc(throwable.getLocalizedMessage());
         }
-        if (result.getCode() == null) {
-            result.setCode(MaculaConstants.ERROR_HTTP_CODE_PREFIX + '.' + status);
+        if (result.getErrCode() == null) {
+            result.setErrCode(MaculaConstants.ERROR_HTTP_CODE_PREFIX + '.' + status);
         }
-        if (result.getMessage() == null && result.getCode() != null) {
-            result.setMessage(ApplicationContext.getMessage(result.getCode(), RequestContextUtils.getLocale(request)));
+        if (result.getErrDesc() == null && result.getErrCode() != null) {
+            result.setErrDesc(ApplicationContext.getMessage(result.getErrCode(), RequestContextUtils.getLocale(request)));
         }
         result.setSuccess(success && throwable == null);
         return result;

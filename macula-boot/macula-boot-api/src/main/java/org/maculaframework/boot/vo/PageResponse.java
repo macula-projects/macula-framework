@@ -57,7 +57,7 @@ public class PageResponse<T> extends Response {
 	private boolean lastPage;
 	
 	/** 内容列表 */
-	private List<T> content;
+	private List<T> data;
 	
 	public PageResponse() {
 	}
@@ -74,6 +74,6 @@ public class PageResponse<T> extends Response {
 		this.numberOfElements = page.getNumberOfElements();
 		this.firstPage = page.isFirst();
 		this.lastPage = page.isLast();
-		this.content = page.getContent();
+		this.data = page.getContent();
 	}
 }

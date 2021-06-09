@@ -41,9 +41,9 @@ public class Response implements Serializable {
 	private boolean success;
 
 	/** 系统级错误代码 */
-	private String code;
+	private String errCode;
 	/** 系统级错误信息 */
-	private String message;
+	private String errDesc;
 
 	/** 异常详细信息 */
 	private String exceptionStack;
@@ -60,13 +60,13 @@ public class Response implements Serializable {
 
 	/**
 	 * 构造
-	 * @param code 错误码
-	 * @param message 错误信息
+	 * @param errCode 错误码
+	 * @param errDesc 错误信息
 	 */
-	public Response(String code, String message) {
+	public Response(String errCode, String errDesc) {
 		this.success = false;
-		this.code = code;
-		this.message = message;
+		this.errCode = errCode;
+		this.errDesc = errDesc;
 	}
 
 	/**
@@ -76,9 +76,9 @@ public class Response implements Serializable {
 	public Response(MaculaException exception) {
 		this.success = false;
 		if (exception instanceof ServiceException) {
-			this.code = ((ServiceException)exception).getCode();
+			this.errCode = ((ServiceException)exception).getCode();
 		}
-		this.message = exception.getLocalizedMessage();
+		this.errDesc = exception.getLocalizedMessage();
 		// this.exceptionStack = exception.getFullStackMessage();
 	}
 }

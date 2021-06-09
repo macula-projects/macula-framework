@@ -33,9 +33,9 @@ public class ExecuteResponse<T> extends Response {
 	private static final long serialVersionUID = 1L;
 	
 	/** 结果信息 */
-	private T returnObject;
+	private T data;
 	
 	public ExecuteResponse(T result) {
-		this.returnObject = result;
+		this.data = result;
 	}
 }
