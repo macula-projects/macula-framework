@@ -134,8 +134,9 @@ springdoc:
       enabled: true
   group-configs:
     - group: demo1
-      paths-to-match: org.macula.samples.web.demo1
-      packages-to-scan: /user/**
+      packages-to-scan: org.macula.samples.web.demo1
+    - group: users
+      paths-to-match: /user/**
 ---
 spring:
   profiles: dev
