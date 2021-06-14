@@ -143,6 +143,11 @@
             <artifactId>kryo</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>de.ruedigermoeller</groupId>
+            <artifactId>fst</artifactId>
+        </dependency>
+
         <!-- xss -->
         <dependency>
             <groupId>org.jsoup</groupId>

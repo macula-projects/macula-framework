@@ -19,10 +19,11 @@ package org.maculaframework.boot.core.cache.config;
 import org.maculaframework.boot.core.cache.aspect.LayeringAspect;
 import org.maculaframework.boot.core.cache.manager.CacheManager;
 import org.maculaframework.boot.core.cache.manager.LayeringCacheManager;
+import org.maculaframework.boot.core.redis.FSTRedisSerializer;
 import org.maculaframework.boot.core.redis.KryoRedisSerializer;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
-import org.redisson.codec.KryoCodec;
+import org.redisson.codec.FstCodec;
 import org.redisson.config.Config;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,7 +53,7 @@ public class CacheConfiguration {
         config.useSingleServer()
             .setTimeout(1000000)
             .setAddress("redis://127.0.0.1:6379");
-        config.setCodec(new KryoCodec());
+        config.setCodec(new FstCodec());
         return Redisson.create(config);
     }
 
@@ -65,14 +66,16 @@ public class CacheConfiguration {
     @Bean(name = "cacheRedisTemplate")
     @ConditionalOnMissingBean(name = "cacheRedisTemplate")
     public RedisTemplate<String, Object> cacheRedisTemplate(@Qualifier("cacheRedisConnectionFactory") RedisConnectionFactory cacheRedisConnectionFactory) {
+
         // TODO 建议采用配置方式
-        KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(new Class<?>[] {Object.class});
+        // RedisSerializer<Object> redisSerializer = new KryoRedisSerializer<>(new Class<?>[] {Object.class});
+        RedisSerializer<Object> redisSerializer = new FSTRedisSerializer<>();
 
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(cacheRedisConnectionFactory);
         // 设置值（value）的序列化采用FastJsonRedisSerializer。
-        template.setValueSerializer(kryoRedisSerializer);
-        template.setHashValueSerializer(kryoRedisSerializer);
+        template.setValueSerializer(redisSerializer);
+        template.setHashValueSerializer(redisSerializer);
         // 设置键（key）的序列化采用StringRedisSerializer。
         template.setKeySerializer(RedisSerializer.string());
         template.setHashKeySerializer(RedisSerializer.string());

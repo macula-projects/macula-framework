@@ -16,10 +16,13 @@
 
 package org.maculaframework.boot.security.web.config;
 
+import org.maculaframework.boot.security.web.userdetails.JpaUserDetailsManager;
 import org.maculaframework.boot.web.config.WebAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * <p>
@@ -31,7 +34,11 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @AutoConfigureAfter({WebAutoConfiguration.class})
-@Import({ RedisHttpSessionConfig.class, KaptchaConfig.class,
-    AuthenticationConfig.class, MethodSecurityConfig.class, WebSecurityConfig.class})
+@Import({ RedisHttpSessionConfig.class, KaptchaConfig.class, MethodSecurityConfig.class, WebSecurityConfig.class})
 public class SecurityWebAutoConfiguration {
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new JpaUserDetailsManager();
+    }
 }

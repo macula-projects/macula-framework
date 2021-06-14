@@ -20,6 +20,7 @@ import org.maculaframework.boot.security.web.filter.KaptchaAuthenticationFilter;
 import org.maculaframework.boot.security.web.interceptor.DelegatingFilterInvocationSecurityMetadataSource;
 import org.maculaframework.boot.security.web.interceptor.UrlRegexFilterInvocationSecurityMetadataSource;
 import org.maculaframework.boot.web.config.WebConfigProperties;
+import org.redisson.spring.session.RedissonSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -112,7 +113,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SessionRegistry springSessionBackedSessionRegistry(RedisIndexedSessionRepository sessionRepository) {
+    public SessionRegistry springSessionBackedSessionRegistry(RedissonSessionRepository sessionRepository) {
         return new SpringSessionBackedSessionRegistry(sessionRepository);
     }
 

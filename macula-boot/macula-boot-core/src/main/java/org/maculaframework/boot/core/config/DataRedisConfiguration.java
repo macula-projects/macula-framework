@@ -16,7 +16,7 @@
 
 package org.maculaframework.boot.core.config;
 
-import org.maculaframework.boot.core.redis.KryoRedisSerializer;
+import org.maculaframework.boot.core.redis.FSTRedisSerializer;
 import org.redisson.api.RedissonClient;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,14 +52,15 @@ public class DataRedisConfiguration {
     @ConditionalOnMissingBean(name = "dataRedisTemplate")
     public RedisTemplate<String, Object> dataRedisTemplate(@Qualifier("dataRedisConnectionFactory") RedisConnectionFactory dataRedisConnectionFactory) {
         // TODO 读取配置好点（Class）kryo.register
-        KryoRedisSerializer<Object> kryoRedisSerializer = new KryoRedisSerializer<>(new Class<?> [] { Object.class});
+        // RedisSerializer<Object> redisSerializer = new KryoRedisSerializer<>(new Class<?>[] {Object.class});
+        RedisSerializer<Object> redisSerializer = new FSTRedisSerializer<>();
 
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(dataRedisConnectionFactory);
 
         // 设置值（value）的序列化采用FastJsonRedisSerializer。
-        template.setValueSerializer(kryoRedisSerializer);
-        template.setHashValueSerializer(kryoRedisSerializer);
+        template.setValueSerializer(redisSerializer);
+        template.setHashValueSerializer(redisSerializer);
         // 设置键（key）的序列化采用StringRedisSerializer。
         template.setKeySerializer(RedisSerializer.string());
         template.setHashKeySerializer(RedisSerializer.string());

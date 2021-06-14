@@ -39,10 +39,10 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = KyroRedisSerializerTests.class)
+@SpringBootTest(classes = RedisSerializerTests.class)
 @SpringBootConfiguration
 @ComponentScan
-public class KyroRedisSerializerTests {
+public class RedisSerializerTests {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
