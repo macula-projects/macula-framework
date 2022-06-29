@@ -24,7 +24,7 @@
         <commons-text.version>1.6</commons-text.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-io.version>2.7</commons-io.version>
-        <poi.version>4.0.1</poi.version>
+        <poi.version>4.1.1</poi.version>
         <zxing.version>3.3.3</zxing.version>
         <kryo.version>5.1.1</kryo.version>
         <fst.version>2.57</fst.version>
