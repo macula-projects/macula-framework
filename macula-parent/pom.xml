@@ -28,7 +28,7 @@
         <zxing.version>3.3.3</zxing.version>
         <kryo.version>5.1.1</kryo.version>
         <fst.version>2.57</fst.version>
-        <jsoup.version>1.11.3</jsoup.version>
+        <jsoup.version>1.15.3</jsoup.version>
         <druid.version>1.1.14</druid.version>
         <redisson.version>3.15.6</redisson.version>
         <modelmapper.version>2.3.0</modelmapper.version>
